@@ -10,10 +10,10 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav space-evenly align-items-center" style="font-family: 'Dancing Script', cursive;">
             <li class="nav-item">
-              <a class="nav-link" href="#">Accueil</a>
+              <a class="nav-link" href="/">Accueil</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">A propos</a>
+              <a class="nav-link" href="/about">A propos</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Magasin</a>
