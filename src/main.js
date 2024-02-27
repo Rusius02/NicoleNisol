@@ -11,6 +11,7 @@ import ShopView from './components/Shop.vue';
 import { createVuetify } from 'vuetify';
 import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
+import { mdiAccount } from '@mdi/js'
 
 const routes = [
   { path: '/', component: AccueilPage },
@@ -31,7 +32,13 @@ app.use(router);
 // Create Vuetify instance and use it with the app
 const vuetify = createVuetify({
   components,
-  directives
+  directives,
+  icons: {
+    iconfont: 'mdiSvg',
+    values: {
+      ...mdiAccount,
+    },
+  },
 });
 
 // Mount the app with Vuetify
