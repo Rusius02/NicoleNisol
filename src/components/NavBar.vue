@@ -16,7 +16,7 @@
               <a class="nav-link" href="/about">A propos</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Magasin</a>
+              <a class="nav-link" href="/shop">Magasin</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Contact</a>

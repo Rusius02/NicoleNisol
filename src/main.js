@@ -1,5 +1,3 @@
-// main.js
-
 import { createApp } from 'vue'; // Import createApp from Vue
 import App from './App.vue';
 import { createRouter, createWebHistory } from 'vue-router'; // Import createRouter and createWebHistory from Vue Router
@@ -7,10 +5,17 @@ import { createRouter, createWebHistory } from 'vue-router'; // Import createRou
 // Import components
 import AccueilPage from './components/Welcome.vue';
 import APropos from './components/About.vue';
+import ShopView from './components/Shop.vue';
+
+// Vuetify
+import { createVuetify } from 'vuetify';
+import * as components from 'vuetify/components';
+import * as directives from 'vuetify/directives';
 
 const routes = [
   { path: '/', component: AccueilPage },
-  { path: '/about', component: APropos }
+  { path: '/about', component: APropos },
+  { path: '/shop', component: ShopView }
 ];
 
 const router = createRouter({
@@ -20,6 +25,14 @@ const router = createRouter({
 
 const app = createApp(App);
 
-app.use(router); // Use the router instance
+// Use the router instance
+app.use(router);
 
-app.mount('#app');
+// Create Vuetify instance and use it with the app
+const vuetify = createVuetify({
+  components,
+  directives
+});
+
+// Mount the app with Vuetify
+app.use(vuetify).mount('#app');
