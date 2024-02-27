@@ -1,22 +1,22 @@
 <!-- App.vue -->
 
 <template>
-  <div id="app">
-     <!-- Navbar component -->
-     <NavigationBar />
-
-      <!-- Router view -->
-      <router-view></router-view>
-  </div>
+ <v-app>
+    <NavigationBar /> <!-- Votre composant NavigationBar -->
+    <router-view /> <!-- Le contenu de chaque page -->
+    <FooterApp /> <!-- Votre composant Footer -->
+  </v-app>
 </template>
 
 <script>
 import NavigationBar from './components/NavBar.vue';
+import FooterApp from './components/Footer.vue';
 import 'bootstrap/dist/css/bootstrap.css';
 export default {
   name: 'App',
   components: {
-    NavigationBar
+    NavigationBar,
+    FooterApp
   },
 };
 </script>
