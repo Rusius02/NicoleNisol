@@ -11,7 +11,7 @@ import ShopView from './components/Shop.vue';
 import { createVuetify } from 'vuetify';
 import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
-import { mdiAccount } from '@mdi/js'
+import '@mdi/font/css/materialdesignicons.css'; 
 
 const routes = [
   { path: '/', component: AccueilPage },
@@ -34,10 +34,7 @@ const vuetify = createVuetify({
   components,
   directives,
   icons: {
-    iconfont: 'mdiSvg',
-    values: {
-      ...mdiAccount,
-    },
+    iconfont: 'mdiSvg', // Ensure you configure Vuetify to use MDI iconfont
   },
 });
 

@@ -1,11 +1,11 @@
 <template>
   <v-footer style="background-color: #E6E6FA; border-top: 1px solid #ccc;" app>
     <v-spacer></v-spacer>
-    <v-label> Rejoignez-moi sur mes réseaux </v-label>
-    <v-btn icon href="https://www.instagram.com/nicole_4202/">
+    <v-label style="padding-right: 2%;"> Rejoignez-moi sur mes réseaux </v-label>
+    <v-btn class="social" icon href="https://www.instagram.com/nicole_4202/" target="_blank">
       <v-icon>mdi-instagram</v-icon>
     </v-btn>
-    <v-btn icon href="https://www.facebook.com/nisol1402/">
+    <v-btn class="social" icon href="https://www.facebook.com/nisol1402/" target="_blank">
       <v-icon>mdi-facebook</v-icon>
     </v-btn>
   </v-footer>
@@ -19,4 +19,7 @@ export default {
 
 <style scoped>
 /* Ajoutez des styles supplémentaires selon vos besoins */
+.social{
+  margin: 5px;
+}
 </style>
