@@ -20,6 +20,6 @@ export default {
 <style scoped>
 /* Ajoutez des styles supplémentaires selon vos besoins */
 .social{
-  margin: 5px;
+  margin: 3px;
 }
 </style>

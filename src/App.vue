@@ -3,7 +3,9 @@
 <template>
  <v-app>
     <NavigationBar /> <!-- Votre composant NavigationBar -->
-    <router-view /> <!-- Le contenu de chaque page -->
+    <div class="content">
+      <router-view /> 
+    </div>
     <FooterApp /> <!-- Votre composant Footer -->
   </v-app>
 </template>
@@ -23,4 +25,7 @@ export default {
 
 <style>
 /* Add your global styles here */
+.content {
+  padding-bottom: 80px; /* Adjust the value as needed */
+}
 </style>
