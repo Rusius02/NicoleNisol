@@ -37,10 +37,11 @@
   text-align: center; /* Alignement du texte au centre */
   height: 100vh; /* Utilise toute la hauteur de la fenêtre */
   margin: 1% 10% 1%;
-    border: solid 1px rgb(209, 73, 255);
+    border: solid 1px rgb(137, 137, 204);
     opacity: 0.9;
     background-color: rgb(230, 230, 250);
     border-radius: 25px;
+    padding: 0 5%;
 }
 
 .author-thumbnail img {
