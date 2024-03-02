@@ -6,6 +6,7 @@ import { createRouter, createWebHistory } from 'vue-router'; // Import createRou
 import AccueilPage from './components/Welcome.vue';
 import APropos from './components/About.vue';
 import ShopView from './components/Shop.vue';
+import ContactPage from './components/ContactPage.vue';
 
 // Vuetify
 import { createVuetify } from 'vuetify';
@@ -16,7 +17,8 @@ import '@mdi/font/css/materialdesignicons.css';
 const routes = [
   { path: '/', component: AccueilPage },
   { path: '/about', component: APropos },
-  { path: '/shop', component: ShopView }
+  { path: '/shop', component: ShopView },
+  { path: '/contact', component: ContactPage }
 ];
 
 const router = createRouter({

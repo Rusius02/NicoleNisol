@@ -19,7 +19,7 @@
               <a class="nav-link" href="/shop">Boutique</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Contact</a>
+              <a class="nav-link" href="/contact">Contact</a>
             </li>
           </ul>
         </div>
