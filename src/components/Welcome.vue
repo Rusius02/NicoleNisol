@@ -35,13 +35,13 @@
   align-items: center; /* Centrage horizontal */
   justify-content: center; /* Centrage vertical */
   text-align: center; /* Alignement du texte au centre */
-  height: 100vh; /* Utilise toute la hauteur de la fenêtre */
-  margin: 1% 10% 1%;
+  height: 100%; /* Utilise toute la hauteur de la fenêtre */
+  margin: 1% 10% 2%;
     border: solid 1px rgb(137, 137, 204);
     opacity: 0.9;
     background-color: rgb(230, 230, 250);
     border-radius: 25px;
-    padding: 0 5%;
+    padding: 1% 5%;
 }
 
 .author-thumbnail img {
