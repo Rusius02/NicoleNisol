@@ -8,7 +8,7 @@
       <v-card-text>{{ description }}</v-card-text>
       <v-card-text>{{ prix }}€</v-card-text>
       <v-card-actions>
-        <v-btn color="primary">
+        <v-btn color="#6A5ACD" class="btn-buy" dark>
           <v-icon left>mdi-cart</v-icon> Acheter
         </v-btn>
       </v-card-actions>
@@ -60,6 +60,9 @@
 
 .card-details {
   margin-left: 20px; /* Add space between image and details */
+}
+.btn-buy:hover{
+color: white;
 }
   </style>
   

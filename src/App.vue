@@ -14,6 +14,7 @@
 import NavigationBar from './components/NavBar.vue';
 import FooterApp from './components/Footer.vue';
 import 'bootstrap/dist/css/bootstrap.css';
+import 'vuetify/styles';
 export default {
   name: 'App',
   components: {
