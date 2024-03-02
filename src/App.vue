@@ -28,5 +28,15 @@ export default {
 /* Add your global styles here */
 .content {
   padding-bottom: 80px; /* Adjust the value as needed */
+  /* Add background image */
+  background-image: url('./assets/img/backgroundLavande.jpeg');
+  /* Set background size and position */
+  background-size: cover;
+  background-position: center;
+}
+.content * {
+  /* Reset background for all child elements */
+  background: none; /* Remove background for all child elements */
+  /* Add other styles for child elements if needed */
 }
 </style>

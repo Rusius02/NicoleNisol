@@ -28,6 +28,7 @@
   <style scoped>
   /* Styles specific to the Accueil component */
   .welcome-section {
+    padding-top: -10%;
   font-family: 'Dancing Script', cursive;
   display: flex;
   flex-direction: column; /* Met les éléments en colonne */
@@ -35,6 +36,11 @@
   justify-content: center; /* Centrage vertical */
   text-align: center; /* Alignement du texte au centre */
   height: 100vh; /* Utilise toute la hauteur de la fenêtre */
+  margin: 1% 10% 1%;
+    border: solid 1px rgb(209, 73, 255);
+    opacity: 0.9;
+    background-color: rgb(230, 230, 250);
+    border-radius: 25px;
 }
 
 .author-thumbnail img {
