@@ -1,10 +1,10 @@
 <template>
     <div class="card-container">
-        <v-card class="book-card" :elevation="elevation" style="font-family: 'Dancing Script', cursive;">
+        <v-card class="book-card" :elevation="elevation">
   <div class="card-content">
     <v-img class="book-image" :src="imageUrl" alt="Book Cover"></v-img>
     <div class="card-details">
-      <v-card-title>{{ title }}</v-card-title>
+      <v-card-title style="font-family: 'Dancing Script', cursive;">{{ title }}</v-card-title>
       <v-card-text>{{ description }}</v-card-text>
       <v-card-text>{{ prix }}€</v-card-text>
       <v-card-actions>
@@ -41,13 +41,11 @@
   <style scoped>
   .card-container {
     padding-top: 1%;
-    width: 100%;
-  display: flex;
-  justify-content: center; /* Center the cards horizontally */
-  align-items: center; /* Center the cards vertically */
 }
   .book-card {
     width: 500px; /* Adjust card width as needed */
+    height: 340px;
+    padding: 3%;
   }
   .card-content {
   display: flex;
@@ -55,7 +53,7 @@
 
 .book-image {
   width: 150px; /* Adjust as needed */
-  height: auto; /* Maintain aspect ratio */
+  height: 250px; /* Maintain aspect ratio */
 }
 
 .card-details {

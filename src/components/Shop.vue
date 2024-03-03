@@ -1,10 +1,10 @@
 <!-- Shop.vue -->
 
 <template>
-    <div>
-      <!-- Display BookItems -->
-      <BookItem v-for="(book, index) in books" :key="index" :title="book.title" :description="book.description" :imageName="book.imageName" :prix="book.prix" :isLeftAligned="index % 2 === 0" />
-    </div>
+   <div class="book-container">
+    <!-- Display BookItems -->
+    <BookItem v-for="(book, index) in books" :key="index" :title="book.title" :description="book.description" :imageName="book.imageName" :prix="book.prix" :isLeftAligned="index % 2 === 0" />
+  </div>
   </template>
   
   <script>
@@ -81,5 +81,26 @@
   
   <style scoped>
   /* Styles specific to the Shop component */
+  .book-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+    justify-content: space-around;
+}
+
+
+/* Media query for computer screens */
+@media screen and (min-width: 768px) {
+  .book-item {
+    width: 50%; /* Display two items per row */
+  }
+}
+
+/* Media query for mobile devices */
+@media screen and (max-width: 767px) {
+  .book-item {
+    width: 100%; /* Display one item per row */
+  }
+}
   </style>
   
