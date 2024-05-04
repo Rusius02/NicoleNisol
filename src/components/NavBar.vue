@@ -21,6 +21,12 @@
             <li class="nav-item">
               <a class="nav-link" href="/contact">Contact</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/cart">
+                  <v-icon>mdi-cart</v-icon> Panier
+              </a>
+          </li>
+          <LoginDialog />
           </ul>
         </div>
       </div>
@@ -28,8 +34,13 @@
   </template>
   
   <script>
+  import LoginDialog from '@/components/LoginDialog.vue';
+  
   export default {
     name: 'NavigationBar',
+    components: {
+    LoginDialog
+  }
   };
   </script>
   
