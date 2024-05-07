@@ -1,5 +1,4 @@
 // authService.js
-
 const TOKEN_KEY = 'authToken';
 const USER_KEY = 'currentUser';
 const IDLE_TIMEOUT = 10 * 60 * 1000; // 10 minutes in milliseconds
