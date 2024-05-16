@@ -5,7 +5,7 @@
         <v-list-item v-for="(item, index) in basketItems" :key="index">
           <v-list-item-content>
             <v-list-item-title>{{ item.title }}</v-list-item-title>
-            <v-list-item-subtitle>{{ item.price }}</v-list-item-subtitle>
+            <v-list-item-subtitle>{{ item.prix }}€ </v-list-item-subtitle>
           </v-list-item-content>
           <v-list-item-action>
             <v-btn icon @click="removeItem(index)">
@@ -22,11 +22,19 @@
   
   export default {
     computed: {
-      ...mapState('basket', ['items']) // Map basket items state from Vuex store
-    },
-    methods: {
-      ...mapMutations('basket', ['removeItem']), // Map removeItem mutation from Vuex store
+    ...mapState({
+      basketItems: state => state.basket.items // Map basket/items state to basketItems computed property
+    })
+  },
+  methods: {
+    ...mapMutations({
+      removeFromBasketMutation: 'removeFromBasket' // Map removeFromBasket mutation to removeFromBasketMutation method
+    }),
+    removeItem(index) {
+      // Call removeFromBasket mutation to remove item from basket
+      this.removeFromBasketMutation(index);
     }
+  }
   };
   </script>
   
