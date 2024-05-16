@@ -2,7 +2,7 @@
     <v-card>
       <v-card-title>Panier</v-card-title>
       <v-list>
-        <v-list-item v-for="(item, index) in items" :key="index">
+        <v-list-item v-for="(item, index) in basketItems" :key="index">
           <v-list-item-content>
             <v-list-item-title>{{ item.title }}</v-list-item-title>
             <v-list-item-subtitle>{{ item.price }}</v-list-item-subtitle>
@@ -18,17 +18,14 @@
   </template>
   
   <script>
+  import { mapState, mapMutations } from 'vuex';
+  
   export default {
-    props: {
-      items: {
-        type: Array,
-        default: () => []
-      }
+    computed: {
+      ...mapState('basket', ['items']) // Map basket items state from Vuex store
     },
     methods: {
-      removeItem(index) {
-        this.$emit('remove', index);
-      }
+      ...mapMutations('basket', ['removeItem']), // Map removeItem mutation from Vuex store
     }
   };
   </script>

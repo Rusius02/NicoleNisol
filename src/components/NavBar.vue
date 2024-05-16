@@ -22,7 +22,7 @@
           <li class="nav-item">
             <a class="nav-link" @click="toggleBasketPanel">
               <v-icon>mdi-cart</v-icon> 
-              <v-badge :content="basketItemCount" color="green" overlap></v-badge> Panier
+              <v-badge :content="basketItemCount" v-if="basketItemCount" color="green" overlap></v-badge> Panier
             </a>
           </li>
           <template v-if="!isLoggedIn">
