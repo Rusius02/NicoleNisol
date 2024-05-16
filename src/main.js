@@ -1,5 +1,6 @@
 import { createApp } from 'vue'; // Import createApp from Vue
 import App from './App.vue';
+import store from './vuex/store';
 import { createRouter, createWebHistory } from 'vue-router'; // Import createRouter and createWebHistory from Vue Router
 
 // Import components
@@ -30,6 +31,8 @@ const app = createApp(App);
 
 // Use the router instance
 app.use(router);
+//Use the store
+app.use(store); 
 
 // Create Vuetify instance and use it with the app
 const vuetify = createVuetify({
