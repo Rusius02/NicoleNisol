@@ -8,6 +8,7 @@ import AccueilPage from './components/Welcome.vue';
 import APropos from './components/About.vue';
 import ShopView from './components/Shop.vue';
 import ContactPage from './components/ContactPage.vue';
+import CheckoutPage from '@/components/Checkout.vue'; 
 
 // Vuetify
 import { createVuetify } from 'vuetify';
@@ -19,7 +20,8 @@ const routes = [
   { path: '/', component: AccueilPage },
   { path: '/about', component: APropos },
   { path: '/shop', component: ShopView },
-  { path: '/contact', component: ContactPage }
+  { path: '/contact', component: ContactPage },
+  { path: '/checkout', component: CheckoutPage },
 ];
 
 const router = createRouter({

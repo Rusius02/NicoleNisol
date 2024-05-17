@@ -15,6 +15,9 @@
           </v-list-item-action>
         </v-list-item>
       </v-list>
+      <v-card-actions>
+      <v-btn color="primary" @click="validateBasket">Valider mon panier</v-btn>
+    </v-card-actions>
     </v-card>
   </template>
   
@@ -51,7 +54,10 @@
           // Call removeFromBasket mutation to remove item from basket
           this.removeFromBasketMutation(index);
         }
-      }
+      },
+      validateBasket() {
+      this.$router.push('/checkout'); // Navigate to BasketPage
+    }
     }
   };
   </script>
