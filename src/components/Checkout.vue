@@ -12,19 +12,19 @@
         <v-stepper-items>
           <v-stepper-content step="1" v-if="step === 1">
             <BasketPage @next="nextStep"></BasketPage>
-            <v-btn @click="nextStep" color="primary">Next</v-btn>
+            <v-btn @click="nextStep" color="primary">Suivant</v-btn>
           </v-stepper-content>
   
           <v-stepper-content step="2" v-if="step === 2">
             <AddressForm @next="nextStep" @back="prevStep"></AddressForm>
-            <v-btn @click="prevStep" color="primary">Back</v-btn>
-            <v-btn @click="nextStep" color="primary">Next</v-btn>
+            <v-btn @click="prevStep" color="primary">Retour</v-btn>
+            <v-btn @click="nextStep" color="primary">Suivant</v-btn>
           </v-stepper-content>
   
           <v-stepper-content step="3" v-if="step === 3">
             <PaymentPage @back="prevStep"></PaymentPage>
-            <v-btn @click="prevStep" color="primary">Back</v-btn>
-            <v-btn @click="handlePayment" color="primary">Pay</v-btn>
+            <v-btn @click="prevStep" color="primary">Retour</v-btn>
+            <v-btn @click="handlePayment" color="primary">Payez</v-btn>
           </v-stepper-content>
         </v-stepper-items>
       </v-stepper>

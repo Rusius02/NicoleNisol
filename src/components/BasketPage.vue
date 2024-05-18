@@ -1,6 +1,6 @@
 <template>
     <div>
-      <h1>Review Your Basket</h1>
+      <h1>Vérifiez vos articles</h1>
       <v-list>
         <v-list-item v-for="(item, title) in uniqueItems" :key="title">
           <v-list-item-content>
