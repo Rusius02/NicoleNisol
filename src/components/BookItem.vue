@@ -4,12 +4,12 @@
       <div class="card-content">
         <v-img class="book-image" :src="imageUrl" alt="Book Cover"></v-img>
         <div class="card-details">
-          <v-card-title style="font-family: 'Dancing Script', cursive;">{{ title }}</v-card-title>
-          <v-card-text>{{ description }}</v-card-text>
-          <v-card-text>{{ prix }}€</v-card-text>
+          <v-card-title class="card-title">{{ title }}</v-card-title>
+          <v-card-text class="card-description">{{ description }}</v-card-text>
+          <v-card-text class="card-price">{{ prix }}€</v-card-text>
           <v-card-actions>
             <v-btn color="#6A5ACD" class="btn-buy" dark @click="addToBasket">
-              <v-icon left>mdi-cart</v-icon> Acheter
+              <v-icon left>mdi-cart</v-icon> Ajouter
             </v-btn>
           </v-card-actions>
         </div>
@@ -70,5 +70,31 @@ export default {
 }
 .btn-buy:hover {
   color: white;
+}
+.card-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.card-title {
+  font-family: 'Dancing Script', cursive;
+}
+
+.card-description {
+  max-height: 100px; /* Adjust the max-height as needed */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-price {
+  margin-top: auto;
+}
+
+.v-card-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: auto;
 }
 </style>
