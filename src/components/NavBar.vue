@@ -52,10 +52,10 @@
       </div>
     </div>
   </nav>
-  <!-- Basket panel -->
   <v-navigation-drawer v-model="basketPanel" right absolute>
     <BasketPanel :items="basketItems" @remove="removeFromBasket"></BasketPanel>
   </v-navigation-drawer>
+  <v-overlay v-if="basketPanel" @click="closeBasketPanel"></v-overlay>
 </template>
 
 <script>
