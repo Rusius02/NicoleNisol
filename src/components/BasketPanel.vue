@@ -27,10 +27,9 @@
   export default {
     computed: {
       ...mapState({
-        basketItems: state => state.basket.items // Map basket/items state to basketItems computed property
+        basketItems: state => state.basket.items 
       }),
       uniqueItems() {
-        // Create a map to count occurrences of each item
         const itemMap = {};
         this.basketItems.forEach(item => {
           itemMap[item.title] = (itemMap[item.title] || 0) + 1;
@@ -45,18 +44,16 @@
     },
     methods: {
       ...mapMutations({
-        removeFromBasketMutation: 'removeFromBasket' // Map removeFromBasket mutation to removeFromBasketMutation method
+        removeFromBasketMutation: 'removeFromBasket' 
       }),
       removeItem(title) {
-        // Find the index of the first occurrence of the item with the given title
         const index = this.basketItems.findIndex(item => item.title === title);
         if (index !== -1) {
-          // Call removeFromBasket mutation to remove item from basket
           this.removeFromBasketMutation(index);
         }
       },
       validateBasket() {
-      this.$router.push('/checkout'); // Navigate to BasketPage
+      this.$router.push('/checkout'); 
     }
     }
   };

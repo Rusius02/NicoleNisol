@@ -22,9 +22,8 @@
     },
     methods: {
       processPayment() {
-        // Handle payment processing here
         alert('Payment processed!');
-        this.$router.push('/'); // Redirect to home or another page after payment
+        this.$router.push('/');
       }
     }
   };
