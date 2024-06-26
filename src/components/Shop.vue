@@ -3,7 +3,7 @@
 <template>
    <div class="book-container">
     <!-- Display BookItems -->
-    <BookItem v-for="(book, index) in books" :key="index" :title="book.title" :description="book.description" :imageName="book.imageName" :prix="book.prix" :isLeftAligned="index % 2 === 0" />
+    <BookItem v-for="(book, index) in books" :key="index" :title="book.title" :description="book.description" :imageName="book.imageName" :prix="book.prix" :priceIDFromStripe="book.priceIDFromStripe" :isLeftAligned="index % 2 === 0" />
   </div>
   </template>
   

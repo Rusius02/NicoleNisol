@@ -25,6 +25,7 @@ export default {
     description: String,
     imageName: String,
     prix: Number,
+    priceIDFromStripe: String,
     elevation: {
       type: [String, Number],
       default: 1
@@ -42,7 +43,8 @@ export default {
       title: this.title,
       description: this.description,
       prix: this.prix,
-      imageName: this.imageName
+      imageName: this.imageName,
+      priceIDFromStripe: this.priceIDFromStripe
     });
   }
 }

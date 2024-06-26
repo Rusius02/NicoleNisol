@@ -18,12 +18,6 @@
         <v-stepper-content step="2" v-if="step === 2">
           <AddressForm @next="nextStep" @back="prevStep"></AddressForm>
           <v-btn @click="prevStep" color="primary">Retour</v-btn>
-          <v-btn @click="nextStep" color="primary">Suivant</v-btn>
-        </v-stepper-content>
-
-        <v-stepper-content step="3" v-if="step === 3">
-          <PaymentPage @back="prevStep"></PaymentPage>
-          <v-btn @click="prevStep" color="primary">Retour</v-btn>
           <v-btn @click="handlePayment" color="primary">Payez</v-btn>
         </v-stepper-content>
       </v-stepper-items>
@@ -34,7 +28,6 @@
 <script>
 import BasketPage from '@/components/BasketPage.vue';
 import AddressForm from '@/components/AddressForm.vue';
-import PaymentPage from '@/components/PaymentPage.vue';
 import { loadStripe } from '@stripe/stripe-js';
 import { mapState } from 'vuex';
 
@@ -43,14 +36,13 @@ export default {
   components: {
     BasketPage,
     AddressForm,
-    PaymentPage,
   },
   data() {
     return {
       step: 1,
       publishableKey: process.env.VUE_APP_STRIPE_PUBLISHABLE_KEY,
-      successURL: 'your-success-url',
-      cancelURL: 'your-cancel-url',
+      successURL: 'http://localhost:8080/',
+      cancelURL: 'http://localhost:8080/',
     };
   },
   computed: {
@@ -58,15 +50,25 @@ export default {
       basketItems: state => state.basket.items,
     }),
     lineItems() {
-      return this.basketItems.map(item => ({
-        price: item.priceId, // Ensure each item has a priceId from Stripe
-        quantity: item.quantity,
-      }));
-    },
+      console.log('basketItems:', this.basketItems);
+    const itemMap = this.basketItems.reduce((acc, item) => {
+      if (acc[item.title]) {
+        acc[item.title].quantity += 1;
+      } else {
+        acc[item.title] = {
+          price: item.priceIDFromStripe, // Ensure each item has a priceID from Stripe
+          quantity: 1,
+        };
+      }
+      return acc;
+    }, {});
+
+    return Object.values(itemMap);
+  },
   },
   methods: {
     nextStep() {
-      if (this.step < 3) this.step++;
+      if (this.step < 2) this.step++;
     },
     prevStep() {
       if (this.step > 1) this.step--;
