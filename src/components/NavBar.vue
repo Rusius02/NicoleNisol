@@ -38,16 +38,26 @@
           </template>
           <!-- End of conditional rendering -->
           <template v-else>
-            <!-- Dropdown for authenticated user -->
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {{ username }} <!-- Display the username -->
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#" @click="logout">Déconnexion</a> <!-- Logout option -->
-              </div>
-            </li>
-          </template>
+  <!-- Dropdown for authenticated user -->
+  <li class="nav-item dropdown">
+    <a 
+      class="nav-link dropdown-toggle" 
+      href="#" 
+      id="navbarDropdown" 
+      role="button" 
+      data-bs-toggle="dropdown" 
+      aria-haspopup="true" 
+      aria-expanded="false">
+      {{ username }} <!-- Display the username -->
+    </a>
+    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+      <!-- New "Gestion" menu item -->
+      <a class="dropdown-item" href="/admin">Gestion</a> <!-- Link to /manage -->
+      <div class="dropdown-divider"></div> <!-- Optional: Divider line -->
+      <a class="dropdown-item" href="#" @click="logout">Déconnexion</a> <!-- Logout option -->
+    </div>
+  </li>
+</template>
         </ul>
       </div>
     </div>

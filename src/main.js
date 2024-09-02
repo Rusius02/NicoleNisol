@@ -9,6 +9,7 @@ import APropos from './components/About.vue';
 import ShopView from './components/Shop.vue';
 import ContactPage from './components/ContactPage.vue';
 import CheckoutPage from '@/components/Checkout.vue'; 
+import AdminPage from '@/components/Admin.vue'; 
 
 // Vuetify
 import { createVuetify } from 'vuetify';
@@ -22,6 +23,7 @@ const routes = [
   { path: '/shop', component: ShopView },
   { path: '/contact', component: ContactPage },
   { path: '/checkout', component: CheckoutPage },
+  { path: '/admin', component: AdminPage },
 ];
 
 const router = createRouter({
