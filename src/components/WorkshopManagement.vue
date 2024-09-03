@@ -1,8 +1,8 @@
 <template>
     <div>
-      <v-btn @click="openAddWorkshopDialog">Ajouter un livre</v-btn>
+      <v-btn @click="openAddWorkshopDialog">Ajouter un atelier d'écriture</v-btn>
   
-      <!-- Liste des livres -->
+      <!-- Liste des Atelier d'écritures -->
       <v-data-table :items="Workshops" :headers="headers">
         <template v-slot:[`item.actions`]="{ item }">
           <v-btn icon @click="edit(item)">
@@ -14,17 +14,16 @@
         </template>
       </v-data-table>
   
-      <!-- Dialog pour ajouter/modifier un livre -->
+      <!-- Dialog pour ajouter/modifier un Atelier d'écriture -->
       <v-dialog v-model="dialog" max-width="500px">
         <v-card>
           <v-card-title>
-            <span v-if="!editMode">Ajouter un livre</span>
-            <span v-else>Modifier le livre</span>
+            <span v-if="!editMode">Ajouter un atelier d'écriture</span>
+            <span v-else>Modifier le atelier d'écriture</span>
           </v-card-title>
           <v-card-text>
             <v-text-field v-model="Workshop.title" label="Titre"></v-text-field>
             <v-text-field v-model="Workshop.description" label="Description"></v-text-field>
-            <v-text-field v-model="Workshop.price" label="Prix"></v-text-field>
           </v-card-text>
           <v-card-actions>
             <v-btn @click="dialog = false">Annuler</v-btn>
@@ -40,7 +39,7 @@
     name: 'WorkshopManagement',
     data() {
       return {
-        Workshops: [], // Liste des livres
+        Workshops: [], // Liste des Atelier d'écritures
         headers: [
           { text: 'Titre', value: 'title' },
           { text: 'Description', value: 'description' },
@@ -49,7 +48,7 @@
         ],
         dialog: false,
         editMode: false,
-        Workshop: {}, // Livre en cours d'ajout ou de modification
+        Workshop: {}, // Atelier d'écriture en cours d'ajout ou de modification
       };
     },
     methods: {
@@ -65,15 +64,15 @@
       },
       saveWorkshop() {
         if (this.editMode) {
-          // Modifier le livre
+          // Modifier le Atelier d'écriture
         } else {
-          // Ajouter un nouveau livre
+          // Ajouter un nouveau Atelier d'écriture
         }
         this.dialog = false;
       },
       // eslint-disable-next-line no-unused-vars
       deleteWorkshop(_Workshop) {
-        // Supprimer le livre
+        // Supprimer le Atelier d'écriture
       },
     },
   };

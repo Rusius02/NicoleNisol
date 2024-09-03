@@ -5,8 +5,11 @@
           <!-- Sidebar with navigation links -->
           <v-navigation-drawer app permanent>
             <v-list dense>
-              <v-list-item-group v-model="selectedItem" active-class="primary--text">
-                <v-list-item>
+              <v-list-item-group
+                v-model="selectedItem"
+                active-class="primary--text"
+              >
+                <v-list-item @click="changePage(0)">
                   <v-list-item-icon>
                     <v-icon>mdi-book</v-icon>
                   </v-list-item-icon>
@@ -15,7 +18,7 @@
                   </v-list-item-content>
                 </v-list-item>
   
-                <v-list-item>
+                <v-list-item @click="changePage(1)">
                   <v-list-item-icon>
                     <v-icon>mdi-pencil</v-icon>
                   </v-list-item-icon>
@@ -24,7 +27,7 @@
                   </v-list-item-content>
                 </v-list-item>
   
-                <v-list-item>
+                <v-list-item @click="changePage(2)">
                   <v-list-item-icon>
                     <v-icon>mdi-chart-bar</v-icon>
                   </v-list-item-icon>
@@ -33,7 +36,7 @@
                   </v-list-item-content>
                 </v-list-item>
   
-                <v-list-item>
+                <v-list-item @click="changePage(3)">
                   <v-list-item-icon>
                     <v-icon>mdi-account-group</v-icon>
                   </v-list-item-icon>
@@ -72,28 +75,35 @@
     </v-container>
   </template>
   
+  
   <script>
-  import BookManagement from "@/components/BookManagement.vue";
-  import WorkshopManagement from "@/components/WorkshopManagement.vue";
-  import SiteStatistics from "@/components/SiteStatistics.vue";
-  import UserManagement from "@/components/UserManagement.vue";
-  
-  export default {
-    name: "AdminPage",
-    components: {
-      BookManagement,
-      WorkshopManagement,
-      SiteStatistics,
-      UserManagement,
+import BookManagement from "@/components/BookManagement.vue";
+import WorkshopManagement from "@/components/WorkshopManagement.vue";
+import SiteStatistics from "@/components/SiteStatistics.vue";
+import UserManagement from "@/components/UserManagement.vue";
+
+export default {
+  name: "ManagePage",
+  components: {
+    BookManagement,
+    WorkshopManagement,
+    SiteStatistics,
+    UserManagement,
+  },
+  data() {
+    return {
+      selectedItem: 0, // Default to "Gestion des livres"
+    };
+  },
+  methods: {
+    // Method to change page
+    changePage(pageIndex) {
+      this.selectedItem = pageIndex;
     },
-    data() {
-      return {
-        selectedItem: 0, // Default to "Gestion des livres"
-      };
-    },
-  };
-  </script>
-  
+  },
+};
+</script>
+
   <style scoped>
   /* Add custom styles here */
   </style>

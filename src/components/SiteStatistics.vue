@@ -1,83 +1,110 @@
 <template>
-    <v-container>
-      <v-row>
-        <!-- Statistiques des visites -->
-        <v-col cols="12" md="6">
-          <v-card>
-            <v-card-title>Visites du site</v-card-title>
-            <v-card-text>
-              <line-chart :chart-data="visitsData" />
-            </v-card-text>
-          </v-card>
-        </v-col>
-  
-        <!-- Statistiques des ventes -->
-        <v-col cols="12" md="6">
-          <v-card>
-            <v-card-title>Livres vendus</v-card-title>
-            <v-card-text>
-              <bar-chart :chart-data="salesData" />
-            </v-card-text>
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-container>
+    <v-card>
+      <v-card-title>Statistiques du site</v-card-title>
+      <v-card-text>
+        <div v-if="!chartData.labels.length">
+          <v-progress-circular indeterminate color="primary"></v-progress-circular>
+        </div>
+        <canvas id="siteChart" width="400" height="200"></canvas>
+      </v-card-text>
+    </v-card>
   </template>
   
   <script>
-  import { Line, Bar } from 'vue-chartjs';
   import { Chart, registerables } from 'chart.js';
+  
+  // Register required components
   Chart.register(...registerables);
   
   export default {
     name: 'SiteStatistics',
-    components: {
-      LineChart: {
-        extends: Line,
-        props: ['chartData'],
-        mounted() {
-          this.renderChart(this.chartData, { responsive: true, maintainAspectRatio: false });
-        },
-      },
-      BarChart: {
-        extends: Bar,
-        props: ['chartData'],
-        mounted() {
-          this.renderChart(this.chartData, { responsive: true, maintainAspectRatio: false });
-        },
-      },
-    },
     data() {
       return {
-        visitsData: {
-          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        chart: null,
+        chartData: {
+          labels: [], // Empty initially
           datasets: [
             {
               label: 'Visites',
-              backgroundColor: '#42A5F5',
-              data: [500, 600, 800, 700, 900, 1200, 1500, 2000, 1800, 1600, 1400, 1300],
-            },
-          ],
-        },
-        salesData: {
-          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-          datasets: [
-            {
-              label: 'Livres vendus',
-              backgroundColor: '#66BB6A',
-              data: [20, 30, 50, 40, 60, 80, 90, 120, 110, 100, 90, 85],
-            },
-          ],
+              backgroundColor: 'rgba(75, 192, 192, 0.2)',
+              borderColor: 'rgba(75, 192, 192, 1)',
+              data: [], // Empty initially
+              fill: true
+            }
+          ]
         },
       };
     },
+    methods: {
+      async fetchChartData() {
+        try {
+          // Simulated data fetch
+          const data = await this.simulateDataFetch();
+  
+          if (data && Array.isArray(data.labels) && Array.isArray(data.values)) {
+            this.chartData.labels = data.labels;
+            this.chartData.datasets[0].data = data.values;
+  
+            this.renderChart();
+          } else {
+            console.error('Invalid data format:', data);
+          }
+        } catch (error) {
+          console.error('Error fetching chart data:', error);
+        }
+      },
+      simulateDataFetch() {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            resolve({
+              labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+              values: [30, 20, 50, 40, 60, 70, 90]
+            });
+          }, 1000);
+        });
+      },
+      renderChart() {
+        if (this.chart) {
+          this.chart.destroy(); // Destroy previous chart instance if it exists
+        }
+  
+        this.chart = new Chart(document.getElementById('siteChart'), {
+          type: 'line',
+          data: this.chartData,
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                position: 'top'
+              },
+              tooltip: {
+                callbacks: {
+                  label: function(context) {
+                    return `${context.dataset.label}: ${context.raw}`;
+                  }
+                }
+              }
+            },
+            scales: {
+              x: {
+                beginAtZero: true
+              },
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+      }
+    },
+    mounted() {
+      this.fetchChartData();
+    }
   };
   </script>
   
   <style scoped>
-  /* Custom styling for your charts and cards */
-  .v-card {
-    min-height: 300px;
-  }
+  /* Add any custom styles here */
   </style>
   
