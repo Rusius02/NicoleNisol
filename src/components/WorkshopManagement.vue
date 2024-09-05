@@ -3,7 +3,7 @@
       <v-btn @click="openAddWorkshopDialog">Ajouter un atelier d'écriture</v-btn>
   
       <!-- Liste des Atelier d'écritures -->
-      <v-data-table :items="Workshops" :headers="headers">
+      <v-data-table :items="workshops" :headers="headers">
         <template v-slot:[`item.actions`]="{ item }">
           <v-btn icon @click="edit(item)">
             <v-icon>mdi-pencil</v-icon>
@@ -35,23 +35,44 @@
   </template>
   
   <script>
+  import axios from 'axios';
+  import moment from 'moment';
+
   export default {
     name: 'WorkshopManagement',
     data() {
       return {
-        Workshops: [], // Liste des Atelier d'écritures
         headers: [
-          { text: 'Titre', value: 'title' },
-          { text: 'Description', value: 'description' },
-          { text: 'Prix', value: 'price' },
-          { text: 'Actions', value: 'actions', sortable: false },
-        ],
+        { text: 'Title', value: 'name' },
+        { text: 'Theme', value: 'theme' },
+        { text: 'Description', value: 'description' },
+        { text: 'Start Date', value: 'startDate' },
+        { text: 'End Date', value: 'endDate' },
+        { text: 'Actions', value: 'actions', sortable: false }, 
+      ],
+      workshops: [],
         dialog: false,
         editMode: false,
         Workshop: {}, // Atelier d'écriture en cours d'ajout ou de modification
       };
     },
+    mounted() {
+    this.fetchWorkshops();
+  },
     methods: {
+        async fetchWorkshops() {
+      try {
+        const response = await axios.get('https://localhost:5001/api/WritingEvent/GetAll');
+        console.log('Fetched Data:', response.data);  // Log the data to inspect the structure
+        this.workshops = response.data.map(workshop => ({
+          ...workshop,
+          startDate: moment(workshop.startDate).format('YYYY-MM-DD'),
+          endDate: moment(workshop.endDate).format('YYYY-MM-DD'),
+        }));
+      } catch (error) {
+        console.error('Error fetching workshops:', error);
+      }
+    },
       openAddWorkshopDialog() {
         this.Workshop = {};
         this.editMode = false;
