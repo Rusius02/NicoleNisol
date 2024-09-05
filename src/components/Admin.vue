@@ -1,7 +1,7 @@
 <template>
     <v-container fluid>
       <v-row>
-        <v-col cols="12" md="3">
+        <v-col cols="12" md="2">
           <!-- Sidebar with navigation links -->
           <v-navigation-drawer app permanent>
             <v-list dense>
