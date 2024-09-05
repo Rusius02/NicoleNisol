@@ -36,23 +36,38 @@
   </template>
   
   <script>
+  import axios from 'axios';
+  
   export default {
     name: 'BookManagement',
     data() {
       return {
-        books: [], // Liste des livres
         headers: [
-          { text: 'Titre', value: 'title' },
-          { text: 'Description', value: 'description' },
-          { text: 'Prix', value: 'price' },
-          { text: 'Actions', value: 'actions', sortable: false },
-        ],
+        { text: 'Title', value: 'name' },
+        { text: 'Description', value: 'description' },
+        { text: 'Price (€)', value: 'price' },
+        { text: 'ISBN', value: 'isbn' },
+        { text: 'Actions', value: 'actions', sortable: false },
+      ],
+      books: [],
         dialog: false,
         editMode: false,
         book: {}, // Livre en cours d'ajout ou de modification
       };
     },
+    mounted() {
+    this.fetchBooks();
+  },
     methods: {
+        async fetchBooks() {
+      try {
+        const response = await axios.get('https://localhost:5001/api/Books/GetAll');
+        console.log('Fetched Data:', response.data);  // Log the data to inspect the structure
+        this.books = response.data;
+      } catch (error) {
+        console.error('Error fetching books:', error);
+      }
+    },
       openAddBookDialog() {
         this.book = {};
         this.editMode = false;
