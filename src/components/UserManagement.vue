@@ -42,25 +42,38 @@
   </template>
   
   <script>
+  import axios from 'axios';
+
   export default {
     name: 'UserManagement',
     data() {
       return {
         dialog: false,
         headers: [
-          { text: 'Nom', value: 'name' },
-          { text: 'Email', value: 'email' },
-          { text: 'Actions', value: 'actions', sortable: false },
-        ],
-        users: [
-          { id: 1, name: 'Alice', email: 'alice@example.com' },
-          { id: 2, name: 'Bob', email: 'bob@example.com' },
-          // Ajoutez plus d'utilisateurs ici
-        ],
+        { text: 'First Name', value: 'firstName' },
+        { text: 'Last Name', value: 'lastName' },
+        { text: 'Pseudo', value: 'pseudo' },
+        { text: 'Email', value: 'mail' },
+        { text: 'Sexe', value: 'sexe' },
+        { text: 'Role', value: 'role' },
+        { text: 'Actions', value: 'actions', sortable: false },
+      ],
+        users: [],
         editedUser: {},
       };
     },
+    mounted() {
+    this.fetchUsers();
+  },
     methods: {
+        async fetchUsers() {
+      try {
+        const response = await axios.get('https://localhost:5001/api/Users/GetAll');
+        this.users = response.data;
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
+    },
       editUser(user) {
         this.editedUser = { ...user };
         this.dialog = true;
