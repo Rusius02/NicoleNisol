@@ -46,7 +46,7 @@ export default {
   data() {
     return {
       headers: [
-        { text: 'Title', value: 'name' },
+        { text: 'Title', value: 'title' },
         { text: 'Description', value: 'description' },
         { text: 'Price (€)', value: 'price' },
         { text: 'ISBN', value: 'isbn' },
@@ -102,7 +102,7 @@ export default {
       try {
         if (this.editMode) {
           // Modify the book (you will need to adjust the endpoint for updates)
-          await axios.put('https://localhost:5001/api/Books/Update', formData, {
+          await axios.put('https://localhost:5001/api/Books/updateBook', formData, {
             headers: {
               'Content-Type': 'multipart/form-data',
             },
@@ -122,9 +122,30 @@ export default {
       }
     },
     // eslint-disable-next-line no-unused-vars
-    deleteBook(_book) {
-      // Supprimer le livre (you can implement this if needed)
-    },
+    deleteBook(book) {
+  try {
+    axios
+      .delete(`https://localhost:5001/api/Books/Delete`, {
+        params: {
+          id: book.id,  // Pass the book ID as a query parameter
+        },
+      })
+      .then((response) => {
+        if (response.status === 200 && response.data) {
+          console.log('Book deleted successfully');
+          // After deletion, refresh the list of books
+          this.fetchBooks();
+        } else {
+          console.error('Failed to delete book');
+        }
+      })
+      .catch((error) => {
+        console.error('Error deleting book:', error);
+      });
+  } catch (error) {
+    console.error('Error deleting book:', error);
+  }
+},
   },
 };
 </script>
