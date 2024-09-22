@@ -14,23 +14,76 @@
         </template>
       </v-data-table>
   
-      <!-- Dialog pour ajouter/modifier un Atelier d'écriture -->
       <v-dialog v-model="dialog" max-width="500px">
-        <v-card>
-          <v-card-title>
-            <span v-if="!editMode">Ajouter un atelier d'écriture</span>
-            <span v-else>Modifier le atelier d'écriture</span>
-          </v-card-title>
-          <v-card-text>
-            <v-text-field v-model="Workshop.title" label="Titre"></v-text-field>
-            <v-text-field v-model="Workshop.description" label="Description"></v-text-field>
-          </v-card-text>
-          <v-card-actions>
-            <v-btn @click="dialog = false">Annuler</v-btn>
-            <v-btn @click="saveWorkshop">Enregistrer</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
+  <v-card>
+    <v-card-title>
+      <span v-if="!editMode">Ajouter un atelier d'écriture</span>
+      <span v-else>Modifier l'atelier d'écriture</span>
+    </v-card-title>
+    <v-card-text>
+      <v-text-field v-model="Workshop.title" label="Titre"></v-text-field>
+      <v-text-field v-model="Workshop.description" label="Description"></v-text-field>
+  <div>
+    <!-- Date de début -->
+    <v-menu
+      v-model="menuStartDate"
+      :close-on-content-click="false"
+      transition="scale-transition"
+      offset-y
+      min-width="290px"
+    >
+      <template v-slot:activator>
+        <v-text-field
+          v-model="Workshop.startDate"
+          label="Date de début"
+          prepend-icon="mdi-calendar"
+          readonly
+          @click="menuStartDate = true"
+        ></v-text-field>
+      </template>
+      <v-date-picker
+        v-model="Workshop.startDate"
+        no-title
+        scrollable
+        @input="menuStartDate = false"
+      ></v-date-picker>
+    </v-menu>
+
+    <!-- Date de fin -->
+    <v-menu
+      v-model="menuEndDate"
+      :close-on-content-click="false"
+      transition="scale-transition"
+      offset-y
+      min-width="290px"
+    >
+      <template v-slot:activator>
+        <v-text-field
+          v-model="Workshop.endDate"
+          label="Date de fin"
+          prepend-icon="mdi-calendar"
+          readonly
+          @click="menuEndDate = true" 
+        ></v-text-field>
+      </template>
+      <v-date-picker
+        v-model="Workshop.endDate"
+        no-title
+        scrollable
+        :min="Workshop.startDate"
+        @input="menuEndDate = false"
+      ></v-date-picker>
+    </v-menu>
+  </div>
+    </v-card-text>
+
+    <v-card-actions>
+      <v-btn @click="dialog = false">Annuler</v-btn>
+      <v-btn @click="saveWorkshop">Enregistrer</v-btn>
+    </v-card-actions>
+  </v-card>
+</v-dialog>
+
     </div>
   </template>
   
@@ -42,6 +95,8 @@
     name: 'WorkshopManagement',
     data() {
       return {
+        menuStartDate: false, // Controls the start date picker menu
+      menuEndDate: false, // Controls the end date picker menu
         headers: [
         { text: 'Title', value: 'name' },
         { text: 'Theme', value: 'theme' },
