@@ -26,7 +26,6 @@
           <v-text-field v-model="book.description" label="Description"></v-text-field>
           <v-text-field v-model="book.price" label="Prix" type="number"></v-text-field>
           <v-text-field v-model="book.isbn" label="ISBN"></v-text-field>
-          <!-- Field for the cover image -->
           <v-file-input label="Image de couverture" @change="handleFileUpload"></v-file-input>
         </v-card-text>
         <v-card-actions>
@@ -55,8 +54,8 @@ export default {
       books: [],
       dialog: false,
       editMode: false,
-      book: {}, // Livre en cours d'ajout ou de modification
-      selectedFile: null, // For storing the selected cover image
+      book: {}, 
+      selectedFile: null, 
     };
   },
   mounted() {
@@ -74,7 +73,7 @@ export default {
     openAddBookDialog() {
       this.book = {};
       this.editMode = false;
-      this.selectedFile = null; // Reset file input
+      this.selectedFile = null; 
       this.dialog = true;
     },
     editBook(book) {
@@ -83,57 +82,51 @@ export default {
       this.dialog = true;
     },
     handleFileUpload(event) {
-      this.selectedFile = event.target.files[0]; // Store the selected file
+      this.selectedFile = event.target.files[0]; 
     },
     async saveBook() {
       const formData = new FormData();
       
-      // Append book data to the formData object
       formData.append('Title', this.book.title);
       formData.append('Description', this.book.description);
       formData.append('Price', this.book.price);
       formData.append('ISBN', this.book.isbn);
       
-      // Append the selected cover image file if available
       if (this.selectedFile) {
         formData.append('coverImage', this.selectedFile);
       }
 
       try {
         if (this.editMode) {
-          // Modify the book (you will need to adjust the endpoint for updates)
           await axios.put('https://localhost:5001/api/Books/updateBook', formData, {
             headers: {
               'Content-Type': 'multipart/form-data',
             },
           });
         } else {
-          // Ajouter un nouveau livre
           await axios.post('https://localhost:5001/api/Books/Create', formData, {
             headers: {
               'Content-Type': 'multipart/form-data',
             },
           });
         }
-        this.fetchBooks(); // Refresh the book list
-        this.dialog = false; // Close the dialog
+        this.fetchBooks(); 
+        this.dialog = false; 
       } catch (error) {
         console.error('Error saving book:', error);
       }
     },
-    // eslint-disable-next-line no-unused-vars
     deleteBook(book) {
   try {
     axios
       .delete(`https://localhost:5001/api/Books/Delete`, {
         params: {
-          id: book.id,  // Pass the book ID as a query parameter
+          id: book.id,  
         },
       })
       .then((response) => {
         if (response.status === 200 && response.data) {
           console.log('Book deleted successfully');
-          // After deletion, refresh the list of books
           this.fetchBooks();
         } else {
           console.error('Failed to delete book');
