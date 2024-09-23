@@ -1,4 +1,5 @@
 import { createStore } from 'vuex';
+import createPersistedState from 'vuex-persistedstate';
 
 const store = createStore({
   state: {
@@ -16,7 +17,12 @@ const store = createStore({
       state.basket.items.splice(index, 1);
     }
     // Add more mutations as needed
-  }
+  },
+  plugins: [
+    createPersistedState({
+      storage: window.localStorage, // Use localStorage to persist
+    }),
+  ],
 });
 
 export default store;
