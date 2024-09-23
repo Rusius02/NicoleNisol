@@ -21,7 +21,7 @@
       <span v-else>Modifier l'atelier d'écriture</span>
     </v-card-title>
     <v-card-text>
-      <v-text-field v-model="Workshop.title" label="Titre"></v-text-field>
+      <v-text-field v-model="Workshop.name" label="Nom"></v-text-field>
       <v-text-field v-model="Workshop.description" label="Description"></v-text-field>
   <div>
     <!-- Date de début -->
@@ -98,7 +98,7 @@
         menuStartDate: false, // Controls the start date picker menu
       menuEndDate: false, // Controls the end date picker menu
         headers: [
-        { text: 'Title', value: 'name' },
+        { text: 'Name', value: 'name' },
         { text: 'Theme', value: 'theme' },
         { text: 'Description', value: 'description' },
         { text: 'Start Date', value: 'startDate' },
@@ -118,7 +118,6 @@
         async fetchWorkshops() {
       try {
         const response = await axios.get('https://localhost:5001/api/WritingEvent/GetAll');
-        console.log('Fetched Data:', response.data);  // Log the data to inspect the structure
         this.workshops = response.data.map(workshop => ({
           ...workshop,
           startDate: moment(workshop.startDate).format('YYYY-MM-DD'),
@@ -138,14 +137,31 @@
         this.editMode = true;
         this.dialog = true;
       },
-      saveWorkshop() {
-        if (this.editMode) {
-          // Modifier le Atelier d'écriture
-        } else {
-          // Ajouter un nouveau Atelier d'écriture
-        }
+      async saveWorkshop() {
+      // Convert startDate and endDate to ISO strings for the API
+      const InputDtoCreateWritingEvent = {
+        name: this.Workshop.name,
+        theme: this.Workshop.theme,
+        description: this.Workshop.description,
+        startDate: this.Workshop.startDate ? this.Workshop.startDate.toISOString() : null,
+        endDate: this.Workshop.endDate ? this.Workshop.endDate.toISOString() : null
+      };
+
+      try {
+        console.log("Workshop data to be sent:", InputDtoCreateWritingEvent);
+
+        await axios.post('https://localhost:5001/api/WritingEvent/Create', InputDtoCreateWritingEvent, 
+    {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+        this.fetchWorkshops();  // Optionally refresh the workshops list after creation
         this.dialog = false;
-      },
+      } catch (error) {
+        console.error('Error creating workshop:', error);
+      }
+    },
       // eslint-disable-next-line no-unused-vars
       deleteWorkshop(_Workshop) {
         // Supprimer le Atelier d'écriture
