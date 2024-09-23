@@ -63,9 +63,9 @@
     </div>
   </nav>
   <v-navigation-drawer v-model="basketPanel" right absolute>
-    <BasketPanel :items="basketItems" @remove="removeFromBasket"></BasketPanel>
+    <BasketPanel :items="basketItems"></BasketPanel>
   </v-navigation-drawer>
-  <v-overlay v-if="basketPanel" @click="closeBasketPanel"></v-overlay>
+  <v-overlay v-if="basketPanel" @click="toggleBasketPanel"></v-overlay>
 </template>
 
 <script>
@@ -73,6 +73,7 @@ import BasketPanel from '@/components/BasketPanel.vue';
 import LoginDialog from '@/components/LoginDialog.vue';
 import SignInDialog from '@/components/SignInDialog.vue';
 import authService from '@/services/authService';
+import { mapState } from 'vuex';
 export default {
   name: 'NavigationBar',
   components: {
@@ -88,6 +89,9 @@ export default {
     };
   },
   computed: {
+    ...mapState({
+      basketItems: state => state.basket.items,
+    }),
     basketItemCount() {
       return this.$store.state.basket.items.length; // Access basketItems computed property
     }
