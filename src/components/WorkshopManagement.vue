@@ -5,7 +5,7 @@
       <!-- Liste des Atelier d'écritures -->
       <v-data-table :items="workshops" :headers="headers">
         <template v-slot:[`item.actions`]="{ item }">
-          <v-btn icon @click="edit(item)">
+          <v-btn icon @click="editWorkshop(item)">
             <v-icon>mdi-pencil</v-icon>
           </v-btn>
           <v-btn icon @click="deleteWorkshop(item)">
@@ -151,11 +151,11 @@
         console.log("Workshop data to be sent:", InputDtoCreateWritingEvent);
 
         await axios.post('https://localhost:5001/api/WritingEvent/Create', InputDtoCreateWritingEvent, 
-    {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
         this.fetchWorkshops();  // Optionally refresh the workshops list after creation
         this.dialog = false;
       } catch (error) {
@@ -163,9 +163,30 @@
       }
     },
       // eslint-disable-next-line no-unused-vars
-      deleteWorkshop(_Workshop) {
-        // Supprimer le Atelier d'écriture
+      deleteWorkshop(workshop) {
+        if (confirm(`Voulez-vous vraiment supprimer l'atelier: ${workshop.name} ?`)) {
+          axios
+            .delete(`https://localhost:5001/api/WritingEvent/Delete`, {
+              params: {
+                id: workshop.id,  // Envoie l'ID de l'atelier à supprimer dans les paramètres de la requête
+              },
+            })
+            .then(response => {
+              if (response.status === 200 && response.data) {
+                // Si la suppression a réussi, supprime l'atelier de la liste locale
+                this.workshops = this.workshops.filter(w => w.id !== workshop.id);
+                alert('Atelier supprimé avec succès');
+              } else {
+                alert('La suppression a échoué');
+              }
+            })
+            .catch(error => {
+              console.error('Erreur lors de la suppression de l\'atelier:', error);
+              alert('Une erreur est survenue lors de la suppression de l\'atelier.');
+            });
+        }
       },
+
     },
   };
   </script>

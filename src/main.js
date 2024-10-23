@@ -10,6 +10,7 @@ import ShopView from './components/Shop.vue';
 import ContactPage from './components/ContactPage.vue';
 import CheckoutPage from '@/components/Checkout.vue'; 
 import AdminPage from '@/components/Admin.vue'; 
+import WorkshopPage from '@/components/Workshop.vue'; 
 
 // Vuetify
 import { createVuetify } from 'vuetify';
@@ -24,6 +25,7 @@ const routes = [
   { path: '/contact', component: ContactPage },
   { path: '/checkout', component: CheckoutPage },
   { path: '/admin', component: AdminPage },
+  { path: '/workshop', component: WorkshopPage },
 ];
 
 const router = createRouter({

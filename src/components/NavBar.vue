@@ -14,7 +14,7 @@
             <a class="nav-link" href="/about">Actualités</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/about">Ateliers d'écriture</a>
+            <a class="nav-link" href="/workshop">Ateliers d'écriture</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/shop">Boutique</a>
