@@ -138,30 +138,45 @@
         this.dialog = true;
       },
       async saveWorkshop() {
-      // Convert startDate and endDate to ISO strings for the API
-      const InputDtoCreateWritingEvent = {
-        name: this.Workshop.name,
-        theme: this.Workshop.theme,
-        description: this.Workshop.description,
-        startDate: this.Workshop.startDate ? this.Workshop.startDate.toISOString() : null,
-        endDate: this.Workshop.endDate ? this.Workshop.endDate.toISOString() : null
-      };
+  // Convert startDate and endDate to ISO strings for the API
+  const InputDtoCreateWritingEvent = {
+    id: this.Workshop.id,  // Add id for update requests
+    name: this.Workshop.name,
+    theme: this.Workshop.theme,
+    description: this.Workshop.description,
+    startDate: this.Workshop.startDate instanceof Date 
+      ? this.Workshop.startDate.toISOString() 
+      : new Date(this.Workshop.startDate).toISOString(),
+    endDate: this.Workshop.endDate instanceof Date 
+      ? this.Workshop.endDate.toISOString() 
+      : new Date(this.Workshop.endDate).toISOString()
+  };
 
-      try {
-        console.log("Workshop data to be sent:", InputDtoCreateWritingEvent);
+  try {
+    if (this.editMode) {
+      // If in edit mode, send a PUT request to update the workshop
+      await axios.put('https://localhost:5001/api/WritingEvent/Update', InputDtoCreateWritingEvent, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      console.log('Workshop updated:', InputDtoCreateWritingEvent);
+    } else {
+      // If not in edit mode, send a POST request to create a new workshop
+      await axios.post('https://localhost:5001/api/WritingEvent/Create', InputDtoCreateWritingEvent, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      console.log('Workshop created:', InputDtoCreateWritingEvent);
+    }
 
-        await axios.post('https://localhost:5001/api/WritingEvent/Create', InputDtoCreateWritingEvent, 
-        {
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
-        this.fetchWorkshops();  // Optionally refresh the workshops list after creation
-        this.dialog = false;
-      } catch (error) {
-        console.error('Error creating workshop:', error);
-      }
-    },
+    this.fetchWorkshops();  // Optionally refresh the workshops list after creation or update
+    this.dialog = false;
+  } catch (error) {
+    console.error('Error saving workshop:', error);
+  }
+},
       // eslint-disable-next-line no-unused-vars
       deleteWorkshop(workshop) {
         if (confirm(`Voulez-vous vraiment supprimer l'atelier: ${workshop.name} ?`)) {
