@@ -4,6 +4,9 @@
 
     <!-- Liste des livres -->
     <v-data-table :items="books" :headers="headers">
+      <template v-slot:[`item.coverImagePath`]="{ item }">
+        <v-img :src="getFullImageUrl(item.coverImagePath)" max-width="100" />
+      </template>
       <template v-slot:[`item.actions`]="{ item }">
         <v-btn icon @click="editBook(item)">
           <v-icon>mdi-pencil</v-icon>
@@ -45,10 +48,12 @@ export default {
   data() {
     return {
       headers: [
+        { text: 'Id', value: 'id' },
         { text: 'Title', value: 'title' },
         { text: 'Description', value: 'description' },
         { text: 'Price (€)', value: 'price' },
         { text: 'ISBN', value: 'isbn' },
+        { text: 'Cover', value: 'coverImagePath' }, // Added for the cover image
         { text: 'Actions', value: 'actions', sortable: false },
       ],
       books: [],
@@ -56,6 +61,7 @@ export default {
       editMode: false,
       book: {}, 
       selectedFile: null, 
+      baseUrl: 'https://localhost:5001', // Add your backend base URL here
     };
   },
   mounted() {
@@ -84,18 +90,29 @@ export default {
     handleFileUpload(event) {
       this.selectedFile = event.target.files[0]; 
     },
+    getFullImageUrl(path) {
+      return `${this.baseUrl}${path}`;
+    },
     async saveBook() {
       const formData = new FormData();
-      
+      formData.append('Id', this.book.id);
       formData.append('Title', this.book.title);
       formData.append('Description', this.book.description);
       formData.append('Price', this.book.price);
       formData.append('ISBN', this.book.isbn);
       
+      if (this.book.coverImagePath) {
+        formData.append('CoverImagePath', this.book.coverImagePath);
+      }
+
+      // Ajouter la nouvelle image si une image est sélectionnée
       if (this.selectedFile) {
         formData.append('coverImage', this.selectedFile);
       }
-
+      console.log("Contenu du FormData avant l'envoi :");
+      formData.forEach((value, key) => {
+        console.log(`${key}: ${value}`);
+      });
       try {
         if (this.editMode) {
           await axios.put('https://localhost:5001/api/Books/updateBook', formData, {
@@ -117,28 +134,25 @@ export default {
       }
     },
     deleteBook(book) {
-  try {
-    axios
-      .delete(`https://localhost:5001/api/Books/Delete`, {
-        params: {
-          id: book.id,  
-        },
-      })
-      .then((response) => {
-        if (response.status === 200 && response.data) {
-          console.log('Book deleted successfully');
-          this.fetchBooks();
-        } else {
-          console.error('Failed to delete book');
-        }
-      })
-      .catch((error) => {
-        console.error('Error deleting book:', error);
-      });
-  } catch (error) {
-    console.error('Error deleting book:', error);
-  }
-},
+      if (confirm(`Voulez-vous vraiment supprimer le livre: ${book.title} ?`)) {
+        axios
+          .delete(`https://localhost:5001/api/Books/Delete`, {
+            params: {
+              id: book.id,
+            },
+          })
+          .then((response) => {
+            if (response.status === 200 && response.data) {
+              this.fetchBooks();
+            } else {
+              console.error('Failed to delete book');
+            }
+          })
+          .catch((error) => {
+            console.error('Error deleting book:', error);
+          });
+      }
+    },
   },
 };
 </script>
