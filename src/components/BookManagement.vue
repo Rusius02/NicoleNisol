@@ -37,7 +37,7 @@
     </v-data-table>
 
     <!-- Dialog pour ajouter/modifier un livre -->
-    <v-dialog v-model="dialog" max-width="500px">
+    <v-dialog v-model="dialog" max-width="500px"  @close="resetForm">
       <v-card>
         <v-card-title>
           <span v-if="!editMode">Ajouter un livre</span>
@@ -48,6 +48,9 @@
           <v-text-field v-model="book.description" label="Description"></v-text-field>
           <v-text-field v-model="book.price" label="Prix" type="number"></v-text-field>
           <v-text-field v-model="book.isbn" label="ISBN"></v-text-field>
+          <div v-if="previewImage" class="preview-container">
+            <v-img :src="previewImage" max-width="100" class="image-preview" />
+          </div>
           <v-file-input label="Image de couverture" @change="handleFileUpload"></v-file-input>
         </v-card-text>
         <v-card-actions>
@@ -81,9 +84,23 @@ export default {
       book: {}, 
       imageDialog: false,     // Controls the visibility of the dialog
       selectedImage: null, 
+      previewImage: null, 
       selectedFile: null, 
       baseUrl: 'https://localhost:5001', // Add your backend base URL here
     };
+  },
+  watch: {
+    book(newBook) {
+      if (this.editMode && newBook.coverImagePath) {
+        this.previewImage = this.getFullImageUrl(newBook.coverImagePath);
+      }
+    },
+    dialog(newValue) {
+      // Reset the form only when dialog is closed
+      if (!newValue) {
+        this.resetForm();
+      }
+    },
   },
   mounted() {
     this.fetchBooks();
@@ -112,8 +129,17 @@ export default {
       this.editMode = true;
       this.dialog = true;
     },
+    resetForm() {
+      this.book = {};
+      this.selectedFile = null;
+      this.previewImage = null;  
+      this.editMode = false;
+    },
     handleFileUpload(event) {
       this.selectedFile = event.target.files[0]; 
+      if (this.selectedFile) {
+        this.previewImage = URL.createObjectURL(this.selectedFile); 
+      }
     },
     getFullImageUrl(path) {
       return `${this.baseUrl}${path}`;
@@ -184,4 +210,10 @@ export default {
 
 <style scoped>
 /* Add custom styles here */
+.preview-container {
+  margin-bottom: 10px;
+}
+.image-preview {
+  cursor: pointer;
+}
 </style>
