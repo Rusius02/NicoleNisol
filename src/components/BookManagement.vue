@@ -5,8 +5,27 @@
     <!-- Liste des livres -->
     <v-data-table :items="books" :headers="headers">
       <template v-slot:[`item.coverImagePath`]="{ item }">
-        <v-img :src="getFullImageUrl(item.coverImagePath)" max-width="100" />
-      </template>
+      <!-- Wrap the image in a button to trigger the dialog -->
+      <v-img 
+        :src="getFullImageUrl(item.coverImagePath)" 
+        max-width="100" 
+        eager 
+        @click="openImageDialog(item.coverImagePath)" 
+        class="thumbnail-image" />
+
+      <!-- Full-size image dialog -->
+      <v-dialog v-model="imageDialog" max-width="600px">
+        <v-card>
+          <v-card-title>Image de couverture</v-card-title>
+          <v-card-text>
+            <v-img :src="getFullImageUrl(selectedImage)" max-width="100%" />
+          </v-card-text>
+          <v-card-actions>
+            <v-btn text @click="imageDialog = false">Fermer</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </template>
       <template v-slot:[`item.actions`]="{ item }">
         <v-btn icon @click="editBook(item)">
           <v-icon>mdi-pencil</v-icon>
@@ -60,6 +79,8 @@ export default {
       dialog: false,
       editMode: false,
       book: {}, 
+      imageDialog: false,     // Controls the visibility of the dialog
+      selectedImage: null, 
       selectedFile: null, 
       baseUrl: 'https://localhost:5001', // Add your backend base URL here
     };
@@ -81,6 +102,10 @@ export default {
       this.editMode = false;
       this.selectedFile = null; 
       this.dialog = true;
+    },
+    openImageDialog(imagePath) {
+      this.selectedImage = imagePath;
+      this.imageDialog = true;
     },
     editBook(book) {
       this.book = { ...book };
