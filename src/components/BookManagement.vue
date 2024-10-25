@@ -3,7 +3,12 @@
     <v-btn @click="openAddBookDialog">Ajouter un livre</v-btn>
 
     <!-- Liste des livres -->
-    <v-data-table :items="books" :headers="headers">
+    <v-data-table :items="books" :headers="headers" :hide-default-header="true">
+      <template v-slot:header>
+        <tr>
+          <th v-for="header in headers" :key="header.value">{{ header.text }}</th>
+        </tr>
+      </template>
       <template v-slot:[`item.coverImagePath`]="{ item }">
       <!-- Wrap the image in a button to trigger the dialog -->
       <v-img 
@@ -70,13 +75,13 @@ export default {
   data() {
     return {
       headers: [
-        { text: 'Id', value: 'id' },
-        { text: 'Title', value: 'title' },
-        { text: 'Description', value: 'description' },
-        { text: 'Price (€)', value: 'price' },
-        { text: 'ISBN', value: 'isbn' },
-        { text: 'Cover', value: 'coverImagePath' }, // Added for the cover image
-        { text: 'Actions', value: 'actions', sortable: false },
+        { text: 'Id', value: 'id', key: 'id' },
+        { text: 'Titre', value: 'title', key: 'title' },
+        { text: 'Description', value: 'description', key: 'description' },
+        { text: 'Prix (€)', value: 'price', key: 'price' },
+        { text: 'ISBN', value: 'isbn', key: 'isbn' },
+        { text: 'Couverture', value: 'coverImagePath', key: 'coverImagePath' }, 
+        { text: 'Actions', value: 'actions', key: 'actions' }
       ],
       books: [],
       dialog: false,
