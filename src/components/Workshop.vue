@@ -18,7 +18,10 @@
               class="workshop-item"
             >
               <v-card outlined>
-                <v-card-title>{{ workshop.name }}</v-card-title>
+                <v-col>
+              <v-img class="writing-pencil-image" :src="imageUrl" alt="Book Cover"></v-img>
+            </v-col>
+                <v-card-title style="white-space: normal; word-break: break-word">{{ workshop.name }}</v-card-title>
                 <v-card-subtitle>{{ workshop.startDate }} - {{ workshop.endDate }}</v-card-subtitle>
                 <v-card-text>{{ workshop.description }}</v-card-text>
   
@@ -53,6 +56,11 @@
     },
     mounted() {
       this.fetchWorkshops();
+    },
+    computed: {
+      imageUrl() {
+      return require(`@/assets/img/writing_pencil.png`);
+    }
     },
     methods: {
       // Méthode pour récupérer les ateliers d'écriture depuis l'API

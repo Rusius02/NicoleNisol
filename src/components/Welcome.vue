@@ -77,7 +77,7 @@
 }
 
 .author-thumbnail img {
-  width: 100px; /* Ajustez la taille selon vos besoins */
+  width: 180px; /* Ajustez la taille selon vos besoins */
   height: auto;
   border-radius: 50%;
   margin-bottom: 20px; /* Ajoute de l'espace entre l'image et le texte */
