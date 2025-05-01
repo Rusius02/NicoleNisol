@@ -66,14 +66,14 @@
     this.fetchUsers();
   },
     methods: {
-        async fetchUsers() {
-      try {
-        const response = await axios.get('https://localhost:5001/api/Users/GetAll');
-        this.users = response.data;
-      } catch (error) {
-        console.error('Error fetching users:', error);
-      }
-    },
+      async fetchUsers() {
+        try {
+          const response = await axios.get('https://localhost:5001/api/Users/GetAll');
+          this.users = response.data;
+        } catch (error) {
+          console.error('Error fetching users:', error);
+        }
+      },
       editUser(user) {
         this.editedUser = { ...user };
         this.dialog = true;

@@ -9,11 +9,22 @@
   
   <script>
   import BookItem from './BookItem.vue';
+  import axios from 'axios';
   
   export default {
     name: 'ShopView',
     components: {
       BookItem,
+    },
+    methods: {
+      async fetchBooks() {
+        try {
+          const response = await axios.get('https://localhost:5001/api/Books/GetAll');
+          this.users = response.data;
+        } catch (error) {
+          console.error('Error fetching users:', error);
+        }
+      },
     },
     data() {
       return {
