@@ -2,7 +2,7 @@
   <div class="card-container">
     <v-card class="book-card" :elevation="elevation">
       <div class="card-content">
-        <v-img class="book-image" :src="imageUrl" alt="Book Cover"></v-img>
+        <v-img class="book-image" :src="getFullImageUrl(coverImagePath)" alt="Book Cover"></v-img>
         <div class="card-details">
           <v-card-title class="card-title">{{ title }}</v-card-title>
           <v-card-text class="card-description">{{ description }}</v-card-text>
@@ -23,7 +23,7 @@ export default {
   props: {
     title: String,
     description: String,
-    imageName: String,
+    coverImagePath: String,
     prix: Number,
     priceIDFromStripe: String,
     elevation: {
@@ -31,9 +31,9 @@ export default {
       default: 1
     }
   },
-  computed: {
-    imageUrl() {
-      return require(`@/assets/img/${this.imageName}`);
+  data() {
+    return {
+      baseUrl: 'https://localhost:5001', 
     }
   },
   methods: {
@@ -43,10 +43,13 @@ export default {
       title: this.title,
       description: this.description,
       prix: this.prix,
-      imageName: this.imageName,
+      coverImagePath: this.coverImagePath,
       priceIDFromStripe: this.priceIDFromStripe
     });
-  }
+  },
+  getFullImageUrl(coverImagePath) {
+    return `${this.baseUrl}${coverImagePath}`;
+  },
 }
 };
 </script>
