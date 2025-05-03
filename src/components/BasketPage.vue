@@ -34,38 +34,40 @@
   
   <script>
   import { mapState } from 'vuex';
+  import { groupBasketItems } from '@/utils/basketHelper.js';
   
   export default {
-    computed: {
-      ...mapState({
-        basketItems: state => state.basket.items // Map basket/items state to basketItems computed property
-      }),
-      uniqueItems() {
-      const itemMap = {};
-      this.basketItems.forEach(item => {
-        if (!itemMap[item.title]) {
-          itemMap[item.title] = {
-            count: 0,
-            totalPrice: 0,
-            imageUrl: require(`@/assets/img/${item.imageName}`),
-            description: item.description,
-            prix: item.prix
-          };
-        }
-        itemMap[item.title].count++;
-        itemMap[item.title].totalPrice += item.prix;
-      });
-      return itemMap;
-    },
-    totalPrice() {
-      return this.basketItems.reduce((total, item) => total += item.prix, 0);
-    }
-    },
     methods: {
       goToAddress() {
         this.$router.push('/address');
+      },
+    },
+    computed: {
+      ...mapState({
+        basketItems: state => state.basket.items 
+      }),
+      uniqueItems() {
+        const grouped = groupBasketItems(this.basketItems);
+        return grouped.reduce((map, item) => {
+          map[item.title] = {
+            count: item.quantity,
+            totalPrice: item.totalPrice,
+            imageUrl: `${this.baseUrl}${item.coverImagePath}`,
+            description: item.description
+          };
+          return map;
+        }, {});
+      },
+      totalPrice() {
+        return Object.values(this.uniqueItems)
+          .reduce((sum, item) => sum + item.totalPrice, 0);
       }
-    }
+    },
+    data() {
+    return {
+        baseUrl: 'https://localhost:5001', 
+      }
+    },
   };
   </script>
   

@@ -11,7 +11,7 @@ export default {
     localStorage.setItem(TOKEN_KEY, userProxy.token);
     localStorage.setItem(USER_KEY, JSON.stringify(userProxy));
     // Start idle timeout countdown
-    this.startIdleTimeout();
+    //this.startIdleTimeout();
   },
 
   // Logout function to clear user info and token

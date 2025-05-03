@@ -6,7 +6,7 @@
         <div class="card-details">
           <v-card-title class="card-title">{{ title }}</v-card-title>
           <v-card-text class="card-description">{{ description }}</v-card-text>
-          <v-card-text class="card-price">{{ prix }}€</v-card-text>
+          <v-card-text class="card-price">{{ price }}€</v-card-text>
           <v-card-actions>
             <v-btn color="#6A5ACD" class="btn-buy" dark @click="addToBasket">
               <v-icon left>mdi-cart</v-icon> Ajouter
@@ -24,7 +24,7 @@ export default {
     title: String,
     description: String,
     coverImagePath: String,
-    prix: Number,
+    price: Number,
     priceIDFromStripe: String,
     elevation: {
       type: [String, Number],
@@ -42,7 +42,7 @@ export default {
     this.$store.commit('addToBasket', {
       title: this.title,
       description: this.description,
-      prix: this.prix,
+      price: this.price,
       coverImagePath: this.coverImagePath,
       priceIDFromStripe: this.priceIDFromStripe
     });

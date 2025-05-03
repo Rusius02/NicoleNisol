@@ -11,6 +11,7 @@ import ContactPage from './components/ContactPage.vue';
 import CheckoutPage from '@/components/Checkout.vue'; 
 import AdminPage from '@/components/Admin.vue'; 
 import WorkshopPage from '@/components/Workshop.vue'; 
+import ConfirmationPage from './pages/ConfirmationPage.vue';
 
 // Vuetify
 import { createVuetify } from 'vuetify';
@@ -26,6 +27,7 @@ const routes = [
   { path: '/checkout', component: CheckoutPage },
   { path: '/admin', component: AdminPage },
   { path: '/workshop', component: WorkshopPage },
+  { path: '/confirmation', component: ConfirmationPage},
 ];
 
 const router = createRouter({
