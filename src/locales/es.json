@@ -14,7 +14,17 @@
     "cancel": "Cancelar",
     "management": "Administración",
     "logout": "Cerrar sesión",
-    "welcome_message": "Queridos lectores y lectoras,",
-    "button_text": "Descubrir mis escritos"
+    "join_me_on_social_media": "Follow-me on my social media",
+    "welcome.line1": "Queridos lectores, queridas lectoras,",
+    "welcome.line2": "Gracias por visitar mi sitio web.",
+    "welcome.line3": "Aquí algunas indicaciones para navegar:",
+    "welcome.line4": "En la sección \"Talleres de escritura\" encontrarán ejercicios sobre temas diversos.",
+    "welcome.line5": "En la sección \"Tienda\" podrán comprar mis libros.",
+    "welcome.line6": "Si desean escribirme, pueden hacerlo desde la sección \"Contacto\".",
+    "welcome.line7": "Siempre les responderé personalmente.",
+    "welcome.line8": "Gracias por sus lecturas.",
+    "welcome.line9": "Les envío un cordial saludo,",
+    "welcome.signature": "Nicole Nisol",
+    "button.shop": "Descubrir mis escritos"
   }
   

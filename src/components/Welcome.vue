@@ -9,19 +9,20 @@
             </div>
             <div class="welcome-text">
               <p>
-                Chers lecteurs, chères lectrices,<br>
-                Merci de votre visite sur mon site. <br>
-                Voici quelques précisions pour y naviguer : <br><br>
-                L'onglet "Ateliers d'écriture" me permet de vous délivrer des exercices d'écriture sur des thèmes divers et variés. <br>
-                La rubrique "Boutique" vous permettra d'acheter mes livres. <br>
-                Si vous voulez correspondre avec moi, vous pouvez le faire via l'onglet "Contact".<br>
-                Soyez assurés que je vous répondrai toujours personnellement.<br><br>
-                Merci de vos lectures.<br>
-                Je vous adresse toutes mes amitiés,<br>
-                <strong>Nicole Nisol</strong>
+                {{ $t('welcome.line1') }}<br>
+                {{ $t('welcome.line2') }}<br>
+                {{ $t('welcome.line3') }}<br><br>
+                {{ $t('welcome.line4') }}<br>
+                {{ $t('welcome.line5') }}<br>
+                {{ $t('welcome.line6') }}<br>
+                {{ $t('welcome.line7') }}<br><br>
+                {{ $t('welcome.line8') }}<br>
+                {{ $t('welcome.line9') }}<br>
+                <strong>{{ $t('welcome.signature') }}</strong>
               </p>
+
               <v-btn color="primary" class="mt-4" @click="$router.push('/shop')">
-                Découvrir mes écrits
+                {{ $t('button.shop') }}
               </v-btn>
             </div>
           </div>
@@ -52,7 +53,7 @@ export default {
 .overlay {
   background-color: rgba(255, 255, 255, 0.75);
   width: 100%;
-  height: 100%;
+  height: 88%;
 }
 
 .welcome-card {
@@ -73,7 +74,8 @@ export default {
 }
 
 .welcome-text p {
-  font-size: 16px;
-  line-height: 1.7;
+  font-size: 20px;
+  line-height: 1.5;
+  font-family: 'Arial';
 }
 </style>

@@ -14,7 +14,18 @@
     "cancel": "Abbrechen",
     "management": "Verwaltung",
     "logout": "Abmelden",
-    "welcome_message": "Liebe Leserinnen und Leser,",
-    "button_text": "Entdecke meine Schriften"
+    "join_me_on_social_media": "Follow-me on my social media",
+    "welcome.line1": "Liebe Leserinnen und Leser,",
+    "welcome.line2": "Vielen Dank für Ihren Besuch auf meiner Website.",
+    "welcome.line3": "Hier einige Hinweise zur Navigation:",
+    "welcome.line4": "Der Bereich \"Schreibworkshops\" bietet Ihnen Schreibübungen zu verschiedenen Themen.",
+    "welcome.line5": "Im Abschnitt \"Shop\" können Sie meine Bücher kaufen.",
+    "welcome.line6": "Wenn Sie mit mir korrespondieren möchten, können Sie dies über den Abschnitt \"Kontakt\" tun.",
+    "welcome.line7": "Ich antworte Ihnen stets persönlich.",
+    "welcome.line8": "Vielen Dank für Ihre Lektüren.",
+    "welcome.line9": "Mit herzlichen Grüßen,",
+    "welcome.signature": "Nicole Nisol",
+    "button.shop": "Meine Werke entdecken"
+      
   }
   

@@ -14,7 +14,17 @@
     "cancel": "Annuler",
     "management": "Gestion",
     "logout": "Déconnexion",
-    "welcome_message": "Chers lecteurs, chères lectrices,",
-    "button_text": "Découvrir mes écrits"
+    "join_me_on_social_media": "Rejoingnez-moi sur mes réseaux",
+    "welcome.line1": "Chers lecteurs, chères lectrices,",
+    "welcome.line2": "Merci de votre visite sur mon site.",
+    "welcome.line3": "Voici quelques précisions pour y naviguer :",
+    "welcome.line4": "L'onglet \"Ateliers d'écriture\" me permet de vous délivrer des exercices d'écriture sur des thèmes divers et variés.",
+    "welcome.line5": "La rubrique \"Boutique\" vous permettra d'acheter mes livres.",
+    "welcome.line6": "Si vous voulez correspondre avec moi, vous pouvez le faire via l'onglet \"Contact\".",
+    "welcome.line7": "Soyez assurés que je vous répondrai toujours personnellement.",
+    "welcome.line8": "Merci de vos lectures.",
+    "welcome.line9": "Je vous adresse toutes mes amitiés,",
+    "welcome.signature": "Nicole Nisol",
+    "button.shop": "Découvrir mes écrits"
   }
   
