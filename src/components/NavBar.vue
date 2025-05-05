@@ -8,30 +8,30 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav space-evenly align-items-center" style="font-family: 'Dancing Script', cursive;">
           <li class="nav-item">
-            <a class="nav-link" href="/">Accueil</a>
+            <a class="nav-link" href="/">{{ $t('home') }}</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/about">Actualités</a>
+            <a class="nav-link" href="/about">{{ $t('news') }}</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/workshop">Ateliers d'écriture</a>
+            <a class="nav-link" href="/workshop">{{ $t('writing_workshops') }}</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/shop">Boutique</a>
+            <a class="nav-link" href="/shop">{{ $t('shop') }}</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/contact">Contact</a>
+            <a class="nav-link" href="/contact">{{ $t('contact') }}</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" @click="toggleBasketPanel">
               <v-icon>mdi-cart</v-icon> 
-              <v-badge :content="basketItemCount" v-if="basketItemCount" color="green" overlap></v-badge> Panier
+              <v-badge :content="basketItemCount" v-if="basketItemCount" color="green" overlap></v-badge> {{ $t('basket') }}
             </a>
           </li>
           <template v-if="!isLoggedIn">
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="authDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Authentification
+                {{ $t('authentification') }}
               </a>
               <div class="dropdown-menu" aria-labelledby="authDropdown">
                 <LoginDialog ref="loginDialog" />
@@ -55,11 +55,24 @@
     </a>
     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
       <!-- New "Gestion" menu item -->
-      <a class="dropdown-item" href="/admin">Gestion</a> <!-- Link to /manage -->
+      <a class="dropdown-item" href="/admin">{{ $t('management') }}</a> <!-- Link to /manage -->
       <div class="dropdown-divider"></div> <!-- Optional: Divider line -->
-      <a class="dropdown-item" href="#" @click="logout">Déconnexion</a> <!-- Logout option -->
+      <a class="dropdown-item" href="#" @click="logout">{{ $t('logout') }}</a> <!-- Logout option -->
     </div>
   </li>
+  <div class="dropdown">
+    <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+      <img :src="currentFlag" class="flag-icon me-2" /> {{ currentLangText }}
+    </button>
+    <ul class="dropdown-menu">
+      <li v-for="lang in languages" :key="lang.value">
+        <a class="dropdown-item d-flex align-items-center" href="#" @click.prevent="setLanguage(lang.value)">
+          <img :src="lang.flag" class="flag-icon me-2" /> {{ lang.text }}
+        </a>
+      </li>
+    </ul>
+  </div>
+
 </template>
         </ul>
       </div>
@@ -88,7 +101,15 @@ export default {
     return {
       isLoggedIn: false, // Flag to track user's authentication status
       username: '', // Store the username of the authenticated user
-      basketPanel: false
+      basketPanel: false,
+      currentLocale: this.$i18n.locale,
+      languages: [
+        { value: 'fr', text: 'Français', flag: require('@/assets/flags/fr.png') },
+        { value: 'en', text: 'English', flag: require('@/assets/flags/en.png') },
+        { value: 'nl', text: 'Nederlands', flag: require('@/assets/flags/nl.png') },
+        { value: 'es', text: 'Español', flag: require('@/assets/flags/es.png') },
+        { value: 'de', text: 'Deutsch', flag: require('@/assets/flags/de.png') }
+      ]
     };
   },
   computed: {
@@ -97,11 +118,24 @@ export default {
     }),
     basketItemCount() {
       return this.$store.state.basket.items.length; // Access basketItems computed property
+    },
+    currentLangText() {
+      const lang = this.languages.find(l => l.value === this.currentLocale);
+      return lang ? lang.text : '';
+    },
+    currentFlag() {
+      const lang = this.languages.find(l => l.value === this.currentLocale);
+      return lang ? lang.flag : '';
     }
   },
   methods: {
     toggleBasketPanel() {
       this.basketPanel = !this.basketPanel;
+    },
+    setLanguage(lang) {
+      this.currentLocale = lang;
+      this.$i18n.locale = lang;
+      localStorage.setItem('lang', lang);
     },
     logout() {
       // Perform logout action
@@ -124,6 +158,8 @@ export default {
   mounted() {
     // Check authentication status on component mount
     this.updateAuthenticationStatus();
+    const saved = localStorage.getItem('lang');
+    if (saved) this.$i18n.locale = saved;
   },
   created() {
     // Watch for changes to authentication status
@@ -148,6 +184,11 @@ export default {
   display: flex;
   justify-content: space-evenly;
   width: 100%; /* Ensure the navbar items take up the full width */
+}
+.flag-icon {
+  width: 24px;
+  height: 16px;
+  object-fit: cover;
 }
 .navbar-nav .nav-item .nav-link {
   transition: color 0.3s ease; /* Smooth transition effect */
