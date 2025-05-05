@@ -54,7 +54,6 @@ export default {
         axios.post(url, requestBody, { headers })
         .then(response => {
           // Handle successful response
-          console.log('Response:', response);
           const { userProxy } = response.data;
           authService.login(userProxy);
           this.dialog = false;

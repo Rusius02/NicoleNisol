@@ -165,10 +165,6 @@ export default {
       if (this.selectedFile) {
         formData.append('coverImage', this.selectedFile);
       }
-      console.log("Contenu du FormData avant l'envoi :");
-      formData.forEach((value, key) => {
-        console.log(`${key}: ${value}`);
-      });
       try {
         if (this.editMode) {
           await axios.put('https://localhost:5001/api/Books/updateBook', formData, {

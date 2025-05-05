@@ -26,10 +26,7 @@
   methods: {
     submitForm() {
       // Here you can handle form submission, like sending data to backend or displaying a success message
-      console.log('Form submitted');
-      console.log('Name:', this.name);
-      console.log('Email:', this.email);
-      console.log('Message:', this.message);
+      
     }
   }
 };
