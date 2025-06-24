@@ -1,12 +1,24 @@
 <template>
-    <v-container class="text-center">
-      <h1 class="text-h4">✅ Paiement confirmé</h1>
-      <p class="text-subtitle-1 mt-2">
+  <v-container
+    class="d-flex align-center justify-center"
+    fluid
+    style="min-height: 100vh"
+  >
+    <v-card
+      class="pa-6 text-center"
+      max-width="500"
+      elevation="10"
+      style="background-color: white"
+    >
+      <h1 class="text-h5 mb-4">✅ Paiement confirmé</h1>
+      <p class="text-subtitle-1 mb-6">
         Merci pour votre commande ! Une confirmation vous a été envoyée par e-mail.
       </p>
       <v-btn color="primary" @click="$router.push('/')">Retour à l'accueil</v-btn>
-    </v-container>
-  </template>
+    </v-card>
+  </v-container>
+</template>
+
   
   <script>
   export default {

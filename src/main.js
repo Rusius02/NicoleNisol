@@ -20,6 +20,7 @@ import CheckoutPage from '@/components/Checkout.vue';
 import AdminPage from '@/components/Admin.vue'; 
 import WorkshopPage from '@/components/Workshop.vue'; 
 import ConfirmationPage from './pages/ConfirmationPage.vue';
+import CGU from './pages/CGU.vue';
 
 // Vuetify
 import { createVuetify } from 'vuetify';
@@ -36,6 +37,7 @@ const routes = [
   { path: '/admin', component: AdminPage },
   { path: '/workshop', component: WorkshopPage },
   { path: '/confirmation', component: ConfirmationPage},
+  { path: '/cgu', component: CGU}
 ];
 
 const router = createRouter({

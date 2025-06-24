@@ -1,7 +1,6 @@
 <template>
   <v-container fluid class="pa-0">
     <div class="hero-section">
-      <v-img :src="penImage" class="hero-background" cover>
         <div class="overlay d-flex align-center justify-center">
           <div class="welcome-card">
             <div class="author-thumbnail">
@@ -27,7 +26,6 @@
             </div>
           </div>
         </div>
-      </v-img>
     </div>
   </v-container>
 </template>
