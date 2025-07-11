@@ -1,14 +1,26 @@
 <template>
   <v-container>
-    <v-stepper v-model="step">
+    <v-stepper  style="padding: 8px;" v-model="step">
       <v-stepper-header>
-        <v-stepper-step :complete="step > 1" step="1">Panier</v-stepper-step>
-        <v-divider></v-divider>
-        <v-stepper-step :complete="step > 2" step="2">Adresse</v-stepper-step>
-        <v-divider></v-divider>
-        <v-stepper-step step="3">Paiement</v-stepper-step>
-      </v-stepper-header>
+  <v-stepper-step :complete="step > 1" step="1" editable>
+    <v-icon left class="mr-2">mdi-cart</v-icon>
+    Panier
+  </v-stepper-step>
 
+  <v-divider></v-divider>
+
+  <v-stepper-step :complete="step > 2" step="2" editable>
+    <v-icon left class="mr-2">mdi-home-map-marker</v-icon>
+    Adresse
+  </v-stepper-step>
+
+  <v-divider></v-divider>
+
+  <v-stepper-step step="3">
+    <v-icon left class="mr-2">mdi-credit-card-outline</v-icon>
+    Paiement
+  </v-stepper-step>
+</v-stepper-header>
       <v-stepper-items>
         <!-- ÉTAPE 1 -->
         <v-stepper-content step="1" v-if="step === 1">
