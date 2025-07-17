@@ -30,9 +30,7 @@
 
         <!-- ÉTAPE 2 -->
         <v-stepper-content step="2" v-if="step === 2">
-          <AddressForm @next="nextStep" @back="prevStep"></AddressForm>
-          <v-btn @click="prevStep" color="primary">Retour</v-btn>
-          <v-btn @click="nextStep" color="primary">Continuer au paiement</v-btn>
+          <AddressForm @next="handleAddressSubmit" @back="prevStep"></AddressForm>
         </v-stepper-content>
 
         <!-- ÉTAPE 3 -->
@@ -71,6 +69,7 @@ export default {
       cardElement: null,
       paymentError: null,
       publishableKey: process.env.VUE_APP_STRIPE_PUBLISHABLE_KEY,
+      shippingInfos: null
     };
   },
   computed: {
@@ -83,6 +82,19 @@ export default {
     totalPrice() {
       return this.groupedBooks.reduce((total, item) => total + item.totalPrice, 0);
     }
+  },
+  methods: {
+    nextStep() {
+      if (this.step < 3) this.step++;
+    },
+    handleAddressSubmit(data) {
+    this.shippingInfos = data;
+     console.log("Réception des infos :", data);
+    this.nextStep();
+  },
+    prevStep() {
+      if (this.step > 1) this.step--;
+    },
   },
   watch: {
     async step(newStep) {
@@ -99,6 +111,7 @@ export default {
           quantity: book.quantity
         }));
         const amount = calculateTotalAmount(this.basketItems); // en centimes
+       
         const response = await fetch('https://localhost:5001/api/Payments/create-payment-intent', {
           method: 'POST',
           headers: {
@@ -109,7 +122,8 @@ export default {
             userId: userConnected.id,
             books: booksDto,
             currency: 'eur',
-            amount: amount
+            amount: amount,
+            ...this.shippingInfos
           })
         });
 
@@ -119,14 +133,6 @@ export default {
         this.elements = this.stripe.elements({ clientSecret: this.clientSecret });
       }
     }
-  },
-  methods: {
-    nextStep() {
-      if (this.step < 3) this.step++;
-    },
-    prevStep() {
-      if (this.step > 1) this.step--;
-    },
   }
 };
 </script>

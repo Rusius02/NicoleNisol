@@ -1,15 +1,28 @@
 <template>
   <form @submit.prevent="submit">
     <v-text-field
-      v-model="first_name"
-      label="Prénom"
+      v-model="fullName"
+      label="Nom complet"
       required
     ></v-text-field>
+
     <v-text-field
-      v-model="last_name"
-      label="Nom"
+      v-model="addressLine1"
+      label="Rue"
       required
     ></v-text-field>
+
+    <v-text-field
+      v-model="addressLine2"
+      label="Numéro"
+    ></v-text-field>
+
+    <v-text-field
+      v-model="city"
+      label="Ville"
+      required
+    ></v-text-field>
+
     <v-text-field
       v-model="postalCode"
       label="Code postal"
@@ -26,19 +39,36 @@
       required
     ></v-select>
 
+    <v-text-field
+      v-model="phoneNumber"
+      label="Numéro de téléphone"
+      required
+    ></v-text-field>
+
+    <v-text-field
+      v-model="email"
+      label="Adresse e-mail"
+      type="email"
+      required
+    ></v-text-field>
     <v-btn type="submit" color="primary" :disabled="postalCodeError !== ''">Continuer</v-btn>
     <v-btn @click="$emit('back')" color="primary">Retour</v-btn>
   </form>
 </template>
+
   
   <script>
 export default {
   data() {
     return {
-      first_name: '',
-      last_name: '',
+      fullName: '',
+      addressLine1: '',
+      addressLine2: '',
+      city: '',
       postalCode: '',
       country: 'BE',
+      phoneNumber: '',
+      email: '',
       postalCodeError: ''
     };
   },
@@ -73,9 +103,14 @@ export default {
       if (this.postalCodeError) return;
 
       this.$emit('next', {
-        name: this.name,
+        fullName: this.fullName,
+        addressLine1: this.addressLine1,
+        addressLine2: this.addressLine2,
+        city: this.city,
         postalCode: this.postalCode,
         country: this.country,
+        phoneNumber: this.phoneNumber,
+        email: this.email
       });
     }
   }
