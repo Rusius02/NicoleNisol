@@ -79,7 +79,7 @@
       </div>
     </div>
   </nav>
-  <v-navigation-drawer v-model="basketPanel" right absolute>
+  <v-navigation-drawer style="min-width: 300px;" v-model="basketPanel" right absolute>
     <BasketPanel :items="basketItems"></BasketPanel>
   </v-navigation-drawer>
   <v-overlay v-if="basketPanel" @click="toggleBasketPanel"></v-overlay>

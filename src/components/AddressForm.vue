@@ -39,6 +39,11 @@
       required
     ></v-select>
 
+    <div v-if="shippingCost !== null" class="my-2">
+      <strong>Frais de port estimés :</strong> {{ (shippingCost / 100).toFixed(2) }} €
+    </div>
+    <div v-if="shippingCostError" class="error red--text">{{ shippingCostError }}</div>
+
     <v-text-field
       v-model="phoneNumber"
       label="Numéro de téléphone"
@@ -69,8 +74,14 @@ export default {
       country: 'BE',
       phoneNumber: '',
       email: '',
-      postalCodeError: ''
+      postalCodeError: '',
+      shippingCost: null,
+      shippingCostError: ''
     };
+  },
+  watch: {
+    postalCode: 'maybeEstimateShippingCost',
+    country: 'maybeEstimateShippingCost'
   },
   methods: {
     validatePostalCode() {
@@ -96,6 +107,38 @@ export default {
       this.postalCodeError = regex.test(zip)
         ? ''
         : `Code postal invalide pour le pays ${country}`;
+    },
+    maybeEstimateShippingCost() {
+      this.validatePostalCode();
+      if (this.postalCodeError || !this.country || !this.postalCode) {
+        this.shippingCost = null;
+        return;
+      }
+
+      this.estimateShippingCost();
+    },
+    async estimateShippingCost() {
+      try {
+        const response = await fetch('/api/shipping/estimate', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            country: this.country,
+            postalCode: this.postalCode
+          })
+        });
+
+        if (!response.ok) throw new Error('Erreur estimation');
+
+        const data = await response.json();
+        this.shippingCost = data.amount; // suppose que le back renvoie `{ amount: 500 }`
+        this.shippingCostError = '';
+      } catch (err) {
+        this.shippingCost = null;
+        this.shippingCostError = 'Impossible d\'estimer les frais de port';
+      }
     },
     submit() {
       this.validatePostalCode();
