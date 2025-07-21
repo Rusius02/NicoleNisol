@@ -17,6 +17,7 @@
 <script>
 import NavigationBar from './components/NavBar.vue';
 import FooterApp from './components/Footer.vue';
+import { registerVisit } from '@/services/visitService';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap';
 import 'vuetify/styles';
@@ -37,7 +38,7 @@ export default {
       this.isLoading = true; // Set loading state to true when navigation starts
       next();
     });
-
+    registerVisit();
     this.$router.afterEach(() => {
       this.isLoading = false; // Set loading state to false when navigation ends
     });
