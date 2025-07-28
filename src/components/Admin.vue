@@ -44,6 +44,14 @@
                     <v-list-item-title>Gestion des utilisateurs</v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
+                 <v-list-item @click="changePage(4)">
+                  <v-list-item-icon>
+                    <v-icon>mdi mdi-package-variant</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-content>
+                    <v-list-item-title>Gestion des commandes</v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
               </v-list-item-group>
             </v-list>
           </v-navigation-drawer>
@@ -69,6 +77,10 @@
           <v-card v-else-if="selectedItem === 3" class="pa-4">
             <h2>Gestion des utilisateurs</h2>
             <UserManagement />
+          </v-card>
+          <v-card v-else-if="selectedItem === 4" class="pa-4">
+            <h2>Gestion des commandes</h2>
+            <OrderManagement />
           </v-card>
         </v-col>
       </v-row>

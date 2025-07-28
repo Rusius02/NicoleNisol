@@ -3,9 +3,6 @@
       <v-row>
         <v-col cols="12">
           <v-card>
-            <v-card-title>
-              <h2>Gestion des utilisateurs</h2>
-            </v-card-title>
             <v-card-text>
               <v-data-table :headers="headers" :items="users" item-key="id">
                 <template v-slot:[`item.actions`]="{ item }">
