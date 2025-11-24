@@ -10,94 +10,35 @@
           <li class="nav-item">
             <a class="nav-link" href="/">{{ $t('home') }}</a>
           </li>
-          <!-- TODO : à implémenter plus tard
-          <li class="nav-item">
-            <a class="nav-link" href="/about">{{ $t('news') }}</a>
-          </li>-->
-          <li class="nav-item">
-            <a class="nav-link" href="/workshop">{{ $t('writing_workshops') }}</a>
-          </li>
           <li class="nav-item">
             <a class="nav-link" href="/shop">{{ $t('shop') }}</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/contact">{{ $t('contact') }}</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" @click="toggleBasketPanel">
-              <v-icon>mdi-cart</v-icon> 
-              <v-badge :content="basketItemCount" v-if="basketItemCount" color="green" overlap></v-badge> {{ $t('basket') }}
-            </a>
-          </li>
-          <template v-if="!isLoggedIn">
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="authDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {{ $t('authentification') }}
-              </a>
-              <div class="dropdown-menu" aria-labelledby="authDropdown">
-                <LoginDialog ref="loginDialog" />
-                <SignInDialog ref="signInDialog" />
-              </div>
-            </li>
-          </template>
-          <!-- End of conditional rendering -->
-          <template v-else>
-  <!-- Dropdown for authenticated user -->
-  <li class="nav-item dropdown">
-    <a 
-      class="nav-link dropdown-toggle" 
-      href="#" 
-      id="navbarDropdown" 
-      role="button" 
-      data-bs-toggle="dropdown" 
-      aria-haspopup="true" 
-      aria-expanded="false">
-      {{ username }} <!-- Display the username -->
-    </a>
-    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-      <!-- New "Gestion" menu item -->
-      <a class="dropdown-item" href="/admin">{{ $t('management') }}</a> <!-- Link to /manage -->
-      <div class="dropdown-divider"></div> <!-- Optional: Divider line -->
-      <a class="dropdown-item" href="#" @click="logout">{{ $t('logout') }}</a> <!-- Logout option -->
-    </div>
-  </li>
-  <div class="dropdown">
-    <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-      <img :src="currentFlag" class="flag-icon me-2" /> {{ currentLangText }}
-    </button>
-    <ul class="dropdown-menu">
-      <li v-for="lang in languages" :key="lang.value">
-        <a class="dropdown-item d-flex align-items-center" href="#" @click.prevent="setLanguage(lang.value)">
-          <img :src="lang.flag" class="flag-icon me-2" /> {{ lang.text }}
-        </a>
-      </li>
-    </ul>
-  </div>
-
-</template>
+          <div class="dropdown">
+            <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <img :src="currentFlag" class="flag-icon me-2" /> {{ currentLangText }}
+            </button>
+            <ul class="dropdown-menu">
+              <li v-for="lang in languages" :key="lang.value">
+                <a class="dropdown-item d-flex align-items-center" href="#" @click.prevent="setLanguage(lang.value)">
+                  <img :src="lang.flag" class="flag-icon me-2" /> {{ lang.text }}
+                </a>
+              </li>
+            </ul>
+          </div>
         </ul>
       </div>
     </div>
   </nav>
-  <v-navigation-drawer style="min-width: 300px;" v-model="basketPanel" right absolute>
-    <BasketPanel :items="basketItems"></BasketPanel>
-  </v-navigation-drawer>
-  <v-overlay v-if="basketPanel" @click="toggleBasketPanel"></v-overlay>
 </template>
 
 <script>
-import BasketPanel from '@/components/BasketPanel.vue';
-import LoginDialog from '@/components/LoginDialog.vue';
-import SignInDialog from '@/components/SignInDialog.vue';
 import authService from '@/services/authService';
 import { mapState } from 'vuex';
 export default {
   name: 'NavigationBar',
-  components: {
-    BasketPanel,
-    LoginDialog,
-    SignInDialog
-  },
   data() {
     return {
       isLoggedIn: false, // Flag to track user's authentication status
