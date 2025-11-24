@@ -91,7 +91,7 @@ export default {
       selectedImage: null, 
       previewImage: null, 
       selectedFile: null, 
-      baseUrl: 'https://localhost:5001', // Add your backend base URL here
+      baseUrl : process.env.VUE_APP_API_URL,
     };
   },
   watch: {
@@ -113,7 +113,7 @@ export default {
   methods: {
     async fetchBooks() {
       try {
-        const response = await axios.get('https://localhost:5001/api/Books/GetAll');
+        const response = await axios.get(`${this.baseUrl}/api/Books/GetAll`);
         this.books = response.data;
       } catch (error) {
         console.error('Error fetching books:', error);
@@ -167,20 +167,20 @@ export default {
       }
       try {
         if (this.editMode) {
-          await axios.put('https://localhost:5001/api/Books/updateBook', formData, {
+          await axios.put(`${this.baseUrl}/api/Books/updateBook`, formData, { 
             headers: {
               'Content-Type': 'multipart/form-data',
             },
           });
         } else {
-          await axios.post('https://localhost:5001/api/Books/Create', formData, {
+          await axios.post(`${this.baseUrl}/api/Books/Create`, formData, { 
             headers: {
               'Content-Type': 'multipart/form-data',
             },
           });
         }
-        this.fetchBooks(); 
-        this.dialog = false; 
+        this.fetchBooks();
+        this.dialog = false;
       } catch (error) {
         console.error('Error saving book:', error);
       }
@@ -188,7 +188,7 @@ export default {
     deleteBook(book) {
       if (confirm(`Voulez-vous vraiment supprimer le livre: ${book.title} ?`)) {
         axios
-          .delete(`https://localhost:5001/api/Books/Delete`, {
+          .delete(`${this.baseUrl}/api/Books/Delete`, {
             params: {
               id: book.id,
             },
