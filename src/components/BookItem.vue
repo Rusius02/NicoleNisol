@@ -9,7 +9,7 @@
           <v-card-text class="card-price">{{ price }}€</v-card-text>
           <v-card-actions>
             <v-btn color="#6A5ACD" class="btn-buy" dark @click="addToBasket">
-              <v-icon left>mdi-cart</v-icon> Ajouter
+              <v-icon left>mdi-cart</v-icon> {{ $t('add_to_basket') }}
             </v-btn>
           </v-card-actions>
         </div>
@@ -33,7 +33,7 @@ export default {
   },
   data() {
     return {
-      baseUrl: 'https://localhost:5001', 
+      baseUrl : process.env.VUE_APP_API_URL,
     }
   },
   methods: {
