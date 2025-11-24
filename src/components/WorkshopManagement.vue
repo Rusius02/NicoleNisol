@@ -96,7 +96,7 @@
     data() {
       return {
         menuStartDate: false, // Controls the start date picker menu
-      menuEndDate: false, // Controls the end date picker menu
+        menuEndDate: false, // Controls the end date picker menu
         headers: [
         { text: 'Name', value: 'name' },
         { text: 'Theme', value: 'theme' },
@@ -108,25 +108,26 @@
       workshops: [],
         dialog: false,
         editMode: false,
-        Workshop: {}, // Atelier d'écriture en cours d'ajout ou de modification
+        Workshop: {}, 
+        baseUrl : process.env.VUE_APP_API_URL,
       };
     },
     mounted() {
     this.fetchWorkshops();
   },
     methods: {
-        async fetchWorkshops() {
+      async fetchWorkshops() {
       try {
-        const response = await axios.get('https://localhost:5001/api/WritingEvent/GetAll');
+        const response = await axios.get(`${this.baseUrl}/api/WritingEvent/GetAll`);
         this.workshops = response.data.map(workshop => ({
           ...workshop,
           startDate: moment(workshop.startDate).format('YYYY-MM-DD'),
           endDate: moment(workshop.endDate).format('YYYY-MM-DD'),
         }));
-      } catch (error) {
-        console.error('Error fetching workshops:', error);
-      }
-    },
+        } catch (error) {
+          console.error('Error fetching workshops:', error);
+        }
+      },
       openAddWorkshopDialog() {
         this.Workshop = {};
         this.editMode = false;
@@ -154,16 +155,14 @@
 
   try {
     if (this.editMode) {
-      // If in edit mode, send a PUT request to update the workshop
-      await axios.put('https://localhost:5001/api/WritingEvent/Update', InputDtoCreateWritingEvent, {
+      await axios.put(`${this.baseUrl}/api/WritingEvent/Update`, InputDtoCreateWritingEvent, {
         headers: {
           'Content-Type': 'application/json'
         }
       });
       console.log('Workshop updated:', InputDtoCreateWritingEvent);
     } else {
-      // If not in edit mode, send a POST request to create a new workshop
-      await axios.post('https://localhost:5001/api/WritingEvent/Create', InputDtoCreateWritingEvent, {
+      await axios.post(`${this.baseUrl}/api/WritingEvent/Create`, InputDtoCreateWritingEvent, {
         headers: {
           'Content-Type': 'application/json'
         }
@@ -181,14 +180,13 @@
       deleteWorkshop(workshop) {
         if (confirm(`Voulez-vous vraiment supprimer l'atelier: ${workshop.name} ?`)) {
           axios
-            .delete(`https://localhost:5001/api/WritingEvent/Delete`, {
+           .delete(`${this.baseUrl}/api/WritingEvent/Delete`, {
               params: {
-                id: workshop.id,  // Envoie l'ID de l'atelier à supprimer dans les paramètres de la requête
+                id: workshop.id, 
               },
             })
             .then(response => {
               if (response.status === 200 && response.data) {
-                // Si la suppression a réussi, supprime l'atelier de la liste locale
                 this.workshops = this.workshops.filter(w => w.id !== workshop.id);
                 alert('Atelier supprimé avec succès');
               } else {
