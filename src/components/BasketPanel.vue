@@ -35,7 +35,7 @@
   export default {
     data() {
     return {
-        baseUrl: 'https://localhost:5001', 
+        baseUrl : process.env.VUE_APP_API_URL,
       }
     },
     computed: {
