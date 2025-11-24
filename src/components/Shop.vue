@@ -22,7 +22,7 @@
     methods: {
       async fetchBooks() {
         try {
-          const response = await axios.get('https://localhost:5001/api/Books/GetAll');
+          const response = await axios.get(`${this.baseUrl}/api/Books/GetAll`);
           this.books = response.data;
         } catch (error) {
           console.error('Error fetching users:', error);
@@ -34,6 +34,7 @@
         books: [
          
         ],
+        baseUrl : process.env.VUE_APP_API_URL,
       };
     },
   };
