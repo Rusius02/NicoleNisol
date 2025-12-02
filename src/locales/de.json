@@ -7,6 +7,7 @@
     "basket": "Warenkorb",
     "authentification": "Authentifizierung",
     "login": "Anmelden",
+    "add_to_basket": "Ajouter au panier",
     "signup": "Registrieren",
     "connexion": "Verbindung",
     "username": "Benutzername",
@@ -25,7 +26,39 @@
     "welcome.line8": "Vielen Dank für Ihre Lektüren.",
     "welcome.line9": "Mit herzlichen Grüßen,",
     "welcome.signature": "Nicole Nisol",
-    "button.shop": "Meine Werke entdecken"
-      
+    "button.shop": "Meine Werke entdecken",
+    "button_user_conditions": "Nutzungsbedingungen",
+      "cgu": {
+      "page_title": "Nutzungsbedingungen – Nicole Nisol",
+      "last_update": "Letzte Aktualisierung: Juni 2025",
+      "intro_message": "Bitte lesen Sie diese Nutzungsbedingungen sorgfältig, bevor Sie die Website nutzen.",
+
+      "article_1_title": "1. Beschreibung und Zweck der Website",
+      "article_1_text": "nicolenisol.com ist eine Website, die der literarischen Tätigkeit von Nicole Nisol, einer Autorin von Kurzgeschichten, gewidmet ist. Sie präsentiert ihre Werke, Neuigkeiten, Artikel und enthält einen Shop, in dem ihre Bücher in gedruckter oder digitaler Form erworben werden können.",
+
+      "article_2_title": "2. Zugriff auf die Website und Annahme der Bedingungen",
+      "article_2_text_1": "Der Zugriff auf die Website setzt die volle Annahme dieser Nutzungsbedingungen durch den Nutzer voraus. Durch den Zugriff auf die Website versichert der Nutzer, volljährig zu sein und korrekte Angaben zu machen.",
+      "article_2_text_2": "Die Bedingungen können jederzeit geändert werden. Nutzer werden gebeten, diese regelmäßig zu prüfen.",
+
+      "article_3_title": "3. Nutzungsbedingungen",
+      "article_3_text_1": "Der Nutzer verpflichtet sich, keine rechtswidrigen, verleumderischen, beleidigenden oder gegen die öffentliche Ordnung verstoßenden Inhalte zu veröffentlichen.",
+      "article_3_text_2": "Er muss außerdem sicherstellen, einen modernen Browser zu verwenden, der Cookies und JavaScript unterstützt.",
+
+      "article_4_title": "4. Verantwortung des Nutzers",
+      "article_4_text_1": "Jeder Nutzer ist allein verantwortlich für die Inhalte, die er auf der Website veröffentlicht, insbesondere in Kommentarbereichen.",
+      "article_4_text_2": "nicolenisol.com kann nicht für Äußerungen Dritter haftbar gemacht werden.",
+
+      "article_5_title": "5. Geistiges Eigentum",
+      "article_5_text": "Alle Inhalte der Website (Texte, Bilder, Videos, Marken...) sind urheberrechtlich geschützt. Jede Vervielfältigung, auch teilweise, ist ohne vorherige schriftliche Genehmigung strengstens untersagt.",
+
+      "article_6_title": "6. Personenbezogene Daten & Cookies",
+      "article_6_text": "Personenbezogene Daten werden in Übereinstimmung mit der Datenschutzrichtlinie verarbeitet. Die Website verwendet Cookies, um die Benutzererfahrung zu verbessern. Weitere Informationen finden Sie im Bereich „Datenschutz“. ",
+
+      "article_7_title": "7. Online-Verkauf & Shop",
+      "article_7_text": "Der Shop ermöglicht den direkten Kauf der Bücher von Nicole Nisol. Die Transaktionen sind gesichert. Jede Bestellung impliziert die Annahme der spezifischen Verkaufsbedingungen, die im Bereich „Shop“ einsehbar sind.",
+
+      "article_8_title": "8. Anwendbares Recht",
+      "article_8_text": "Diese Nutzungsbedingungen unterliegen französischem Recht. Im Streitfall sind die zuständigen Gerichte in Paris."
+    }
   }
   

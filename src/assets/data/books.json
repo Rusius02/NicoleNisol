@@ -1,0 +1,101 @@
+[
+  {
+    "name": "Les dames du bois d'Angre",
+    "description": "En 1244,Isabault quitte le sud de la France pour partir vers le nord afin de tourner une page douloureuse de sa vie. En effet son compagnon Guilhem est mort sur le bûcher, condamné sans jugement, ni procès pour hérésie. A une autre époque, Cassiopée quitte Bruxelles pour le petit village de Angre dans le Hainaut où elle espère retrouver ses racines.",
+    "price": 18.0,
+    "isbn": "978-2-8083-3751-9",
+    "coverImagePath": "LesDamesDuBoisDAngre.jpeg",
+    "stripeProductId": null,
+    "link_buy": "https://www.publier-un-livre.com/fr/le-livre-en-papier/4908-les-dames-du-bois-d-angre"
+  },
+  {
+    "name": "Au bord de l'estran",
+    "description": "Ces six histoires vous emmènent au bord de la mer. Là où des choses un peu étranges vous surprendront.",
+    "price": 10.0,
+    "isbn": "978-2-8083-3065-7",
+    "coverImagePath": "AuBordDeLestran.jpeg",
+    "stripeProductId": null,
+    "link_buy": "https://www.publier-un-livre.com/fr/le-livre-en-papier/4091-au-bord-de-l-estran"
+  },
+  {
+    "name": "Henriette noire gaillette",
+    "description": "En vidant la maison de sa grand-mère partie au home, une dame découvre un cahier d'enfant. Il lui apprendra bien des secrets...",
+    "price": 5.0,
+    "isbn": "978-2-8083-2660-5",
+    "coverImagePath": "Henriette.jpeg",
+    "stripeProductId": "price_1PVTfKLttUxb3ZIRn6nfsl6y",
+    "link_buy": "https://www.publier-un-livre.com/fr/le-livre-en-papier/3622-henriette-noire-gaillette"
+  },
+  {
+    "name": "Sur le fil ténu de la vie",
+    "description": "Sur le fil ténu de la vie, nous avançons tels des funambules. Dans le jardin des libellules, Lilly découvre que parfois on gomme une partie de sa vie, que l'on préfère oublier. La mémoire serait-elle sélective? Les cicatrices, parfois visibles, parfois cachées; si elles guérissent, laissent néanmoins des empreintes éternelles comme les floraisons des marronniers dans les cours d'école.",
+    "price": 7.0,
+    "isbn": "978-2-8083-2042-9",
+    "coverImagePath": "SurLeFilTenuDeLaVie.jpeg",
+    "stripeProductId": "price_1PVTpRLttUxb3ZIR0ZlPkORT",
+    "link_buy": "https://www.publier-un-livre.com/fr/le-livre-en-papier/2916-sur-le-fil-tenu-de-la-vie"
+  },
+  {
+    "name": "L'eau de là",
+    "description": "Un recueil de trois nouvelles qui ont pour décor un cours d'eau. Tantôt stagnante, près d'un marais, tantôt près de l'océan où un phare éteint ne guide plus les marins et une autre fois près d'un ruisseau qui peut surprendre par son cours tumultueux",
+    "price": 14.0,
+    "isbn": "978-2-8083-1465-7",
+    "coverImagePath": "LeauDeLa.jpeg",
+    "stripeProductId": "price_1PVTr2LttUxb3ZIRXjwpenQq",
+    "link_buy": "https://www.publier-un-livre.com/fr/le-livre-en-papier/2268-l-eau-de-la"
+  },
+  {
+    "name": "Kaléidoscope",
+    "description": "L'autrice belge Claire Lussac retourne dans le village de son enfance. Elle a rendez-vous avec le notaire pour la vente de sa maison. En se promenant, elle revoit sa vie comme dans un kaléidoscope, images floues du passé.",
+    "price": 7.0,
+    "isbn": "978-2-8083-1107-6",
+    "coverImagePath": "Kaleidoscope.jpeg",
+    "stripeProductId": "price_1PVTtrLttUxb3ZIRpWj8i6WH",
+    "link_buy": "https://www.publier-un-livre.com/fr/le-livre-en-papier/1851-kaleidoscope"
+  },
+  {
+    "name": "Un pommier sur la rive",
+    "description": "Normandie dans les années 1950, Julia revient au village pour enseigner. Elle retrouve sa mère, qui n'a pas changé toujours en proie à la mélancolie, à la dépression. En même temps, sur les bords du Rhin, Emma coule des jours paisibles dans sa petite librairie. Des destins de femme liés par l'Histoire.",
+    "price": 12.0,
+    "isbn": "978-2-8083-1095-6",
+    "coverImagePath": "UnPommierSurLaRive.jpeg",
+    "stripeProductId": "price_1PVTwdLttUxb3ZIR9ctLtFjt",
+    "link_buy": "https://www.publier-un-livre.com/fr/le-livre-en-papier/1836-un-pommier-sur-la-rive"
+  },
+  {
+    "name": "L'anagramme",
+    "description": "Marie quitte un jour son village pour aller travailler à Bruxelles, elle n'a que treize ans. Elle y rencontre l'amour, mais cet amour est impossible. Le destin cruel va la marier au veuf de sa soeur pour élever les enfants. Ce qu'elle fera avec courage, avec tout l'amour qu'elle porte en elle.",
+    "price": 12.0,
+    "isbn": "978-2-8083-0747-5",
+    "coverImagePath": "Anagramme.jpeg",
+    "stripeProductId": "price_1PVU2tLttUxb3ZIR1qWeMO1F",
+    "link_buy": "https://www.publier-un-livre.com/fr/le-livre-en-papier/1444-l-anagramme"
+  },
+  {
+    "name": "La balançoire",
+    "description": "Manon a quarante ans, elle se regarde dans le miroir. Elle se dit qu'elle n'a pas d'attache, plus de famille...Elle va partir avec médecin sans frontière. Mais elle reçoit une enveloppe qui va bouleverser sa vie.",
+    "price": 7.0,
+    "isbn": "978-2-8083-0752-9",
+    "coverImagePath": "LaBalancoire.jpeg",
+    "stripeProductId": "price_1PVU4mLttUxb3ZIRRVOWVv6Q",
+    "link_buy": "https://www.publier-un-livre.com/fr/le-livre-en-papier/1449-la-balancoire"
+  },
+  {
+    "name": "Alex",
+    "description": "Découvrir Alex Ses différences, ses renaissances, son absolu... Et si Alex n'était pas celui que l'on croit...",
+    "price": 7.0,
+    "isbn": "978-2-8083-0729-1",
+    "coverImagePath": "Alex.jpeg",
+    "stripeProductId": "price_1PT5BHLttUxb3ZIRtkpZ1zuF",
+    "link_buy": "https://www.publier-un-livre.com/fr/le-livre-en-papier/1425-alex"
+  },
+  {
+    "name": "Comme un vieux télégramme",
+    "description": "Laura et Tom, une histoire d'amour d'adolescents, celui qui reste sage, on s'effleure du bout des lèvres, on se donne la main. Un jour la vie les éloigne. Ils continuent leur chemin, jusqu'à ce que Laura envoie un sms aux allures de vieux télégramme à Tom pour l'inviter à son mariage dans une vieille chapelle provençale.",
+    "price": 10.0,
+    "isbn": "978-2-8083-0599-0",
+    "coverImagePath": "Telegramme.jpeg",
+    "stripeProductId": "price_1PVU6hLttUxb3ZIRxJdy7nL6",
+    "link_buy": "https://www.publier-un-livre.com/fr/le-livre-en-papier/1284-comme-un-vieux-telegramme"
+  }
+]

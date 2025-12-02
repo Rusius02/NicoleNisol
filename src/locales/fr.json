@@ -5,6 +5,7 @@
     "shop": "Boutique",
     "contact": "Contact",
     "basket": "Panier",
+    "add_to_basket": "Acheter",
     "authentification": "Authentification",
     "login": "Se connecter",
     "signup": "S'inscrire",
@@ -25,6 +26,39 @@
     "welcome.line8": "Merci de vos lectures.",
     "welcome.line9": "Je vous adresse toutes mes amitiés,",
     "welcome.signature": "Nicole Nisol",
-    "button.shop": "Découvrir mes écrits"
+    "button.shop": "Découvrir mes écrits",
+    "button_user_conditions": "Conditions d'utilisation",
+    "cgu": {
+      "page_title": "Conditions Générales d’Utilisation – Nicole Nisol",
+      "last_update": "Dernière mise à jour : Juin 2025",
+      "intro_message": "Merci de lire attentivement les présentes Conditions Générales d’Utilisation avant de naviguer sur le site.",
+
+      "article_1_title": "1. Description et finalité du site",
+      "article_1_text": "nicolenisol.com est un site dédié à l’activité littéraire de Nicole Nisol, autrice de nouvelles. Il présente ses œuvres, actualités, articles, ainsi qu'une boutique permettant l’achat de ses livres au format papier ou numérique.",
+
+      "article_2_title": "2. Accès au site et acceptation des CGU",
+      "article_2_text_1": "L’accès au site implique l’acceptation pleine et entière des présentes CGU par l’utilisateur. En accédant au site, l’utilisateur garantit être majeur et utiliser des informations exactes.",
+      "article_2_text_2": "Les CGU peuvent être modifiées à tout moment. L’utilisateur est invité à les consulter régulièrement.",
+
+      "article_3_title": "3. Conditions d’utilisation",
+      "article_3_text_1": "L’utilisateur s’engage à ne pas publier de contenu illégal, diffamatoire, offensant ou contraire à l’ordre public.",
+      "article_3_text_2": "Il doit également veiller à utiliser un navigateur moderne acceptant les cookies et le JavaScript.",
+
+      "article_4_title": "4. Responsabilité de l’utilisateur",
+      "article_4_text_1": "Chaque utilisateur est seul responsable du contenu qu’il publie sur le site, notamment dans les zones de commentaires.",
+      "article_4_text_2": "nicolenisol.com ne pourra être tenue responsable des propos tenus par des tiers.",
+
+      "article_5_title": "5. Propriété intellectuelle",
+      "article_5_text": "Tous les contenus du site (textes, images, vidéos, marques...) sont protégés par le droit d’auteur. Toute reproduction, même partielle, est strictement interdite sans autorisation écrite préalable.",
+
+      "article_6_title": "6. Données personnelles & cookies",
+      "article_6_text": "Les données personnelles sont traitées conformément à la politique de confidentialité. Le site utilise des cookies pour améliorer l’expérience utilisateur. Voir la section « Confidentialité » pour plus d’informations.",
+
+      "article_7_title": "7. Vente en ligne & boutique",
+      "article_7_text": "La boutique du site permet d’acheter directement les ouvrages de Nicole Nisol. Les transactions sont sécurisées. Toute commande implique l’acceptation des conditions de vente spécifiques visibles dans la rubrique « Boutique ».",
+
+      "article_8_title": "8. Droit applicable",
+      "article_8_text": "Les présentes CGU sont soumises au droit français. En cas de litige, les tribunaux compétents seront ceux de Paris."
+    }
   }
   

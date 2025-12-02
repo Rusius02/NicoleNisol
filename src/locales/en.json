@@ -7,6 +7,7 @@
     "basket": "Basket",
     "authentification": "Authentification",
     "login": "Login",
+    "add_to_basket": "Add to basket",
     "signup": "Sign up",
     "connexion": "Connection",
     "username": "Username",
@@ -25,6 +26,39 @@
     "welcome.line8": "Thanks for reading me.",
     "welcome.line9": "Kind regards,",
     "welcome.signature": "Nicole Nisol",
-    "button.shop": "Discover my books"
+    "button.shop": "Discover my books",
+    "button_user_conditions": "Terms of Use",
+      "cgu": {
+        "page_title": "Terms of Use – Nicole Nisol",
+        "last_update": "Last update: June 2025",
+        "intro_message": "Please read these Terms of Use carefully before browsing the site.",
+
+        "article_1_title": "1. Description and purpose of the website",
+        "article_1_text": "nicolenisol.com is a website dedicated to the literary activity of Nicole Nisol, an author of short stories. It presents her works, news, articles, and includes a shop allowing the purchase of her books in paper or digital format.",
+
+        "article_2_title": "2. Access to the site and acceptance of the Terms",
+        "article_2_text_1": "Access to the site implies full acceptance of these Terms of Use by the user. By accessing the site, the user certifies being of legal age and providing accurate information.",
+        "article_2_text_2": "The Terms may be modified at any time. Users are encouraged to consult them regularly.",
+
+        "article_3_title": "3. Conditions of use",
+        "article_3_text_1": "The user agrees not to publish any illegal, defamatory, offensive, or otherwise unlawful content.",
+        "article_3_text_2": "The user must also ensure the use of a modern browser supporting cookies and JavaScript.",
+
+        "article_4_title": "4. User responsibility",
+        "article_4_text_1": "Each user is solely responsible for the content they publish on the site, particularly in comment areas.",
+        "article_4_text_2": "nicolenisol.com cannot be held responsible for statements made by third parties.",
+
+        "article_5_title": "5. Intellectual property",
+        "article_5_text": "All content on the site (texts, images, videos, trademarks...) is protected by copyright. Any reproduction, even partial, is strictly prohibited without prior written permission.",
+
+        "article_6_title": "6. Personal data & cookies",
+        "article_6_text": "Personal data is processed in accordance with the Privacy Policy. The site uses cookies to improve user experience. See the ‘Privacy’ section for more information.",
+
+        "article_7_title": "7. Online sales & shop",
+        "article_7_text": "The shop allows the direct purchase of Nicole Nisol’s books. Transactions are secure. Any order implies acceptance of the specific sales conditions available in the ‘Shop’ section.",
+
+        "article_8_title": "8. Applicable law",
+        "article_8_text": "These Terms of Use are governed by French law. In case of dispute, the competent courts will be those of Paris."
+      }
   }
   

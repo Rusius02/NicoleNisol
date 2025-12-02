@@ -9,7 +9,7 @@
           <v-card-text class="card-price">{{ price }}€</v-card-text>
           <v-card-actions>
             <v-btn color="#6A5ACD" class="btn-buy" dark @click="addToBasket">
-              <v-icon left>mdi-cart</v-icon> Ajouter
+              <v-icon left>mdi-cart</v-icon> {{ $t('add_to_basket') }}
             </v-btn>
           </v-card-actions>
         </div>
@@ -23,7 +23,8 @@ export default {
   props: {
     title: String,
     description: String,
-    coverImagePath: String,
+    coverImagePath: String, 
+    linkBuy: String,
     price: Number,
     priceIDFromStripe: String,
     elevation: {
@@ -31,26 +32,25 @@ export default {
       default: 1
     }
   },
-  data() {
-    return {
-      baseUrl: 'https://localhost:5001', 
-    }
-  },
+
   methods: {
-  addToBasket() {
-    // Dispatch Vuex action to add the book to the basket
-    this.$store.commit('addToBasket', {
-      title: this.title,
-      description: this.description,
-      price: this.price,
-      coverImagePath: this.coverImagePath,
-      priceIDFromStripe: this.priceIDFromStripe
-    });
-  },
-  getFullImageUrl(coverImagePath) {
-    return `${this.baseUrl}${coverImagePath}`;
-  },
-}
+    addToBasket() {
+      if (this.linkBuy) {
+        window.open(this.linkBuy, '_blank');
+      } else {
+        console.error("Le lien d'achat (linkBuy) n'est pas défini.");
+      }
+    },
+    getFullImageUrl(fileName) {
+      try {
+        // Charge automatiquement depuis /src/assets/img/
+        return require(`@/assets/img/${fileName}`);
+      } catch (error) {
+        console.error("Image not found:", fileName);
+        return ""; // fallback vide
+      }
+    }
+  }
 };
 </script>
 
@@ -59,7 +59,7 @@ export default {
   padding-top: 1%;
 }
 .book-card {
-  width: 500px; /* Adjust card width as needed */
+  width: 500px;
   height: 340px;
   padding: 3%;
 }
@@ -67,36 +67,30 @@ export default {
   display: flex;
 }
 .book-image {
-  width: 150px; /* Adjust as needed */
-  height: 250px; /* Maintain aspect ratio */
+  width: 150px;
+  height: 250px;
 }
 .card-details {
-  margin-left: 20px; /* Add space between image and details */
-}
-.btn-buy:hover {
-  color: white;
-}
-.card-details {
+  margin-left: 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
 }
-
+.btn-buy:hover {
+  color: white;
+}
 .card-title {
   font-family: 'Dancing Script', cursive;
 }
-
 .card-description {
-  max-height: 100px; /* Adjust the max-height as needed */
+  max-height: 100px;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
 .card-price {
   margin-top: auto;
 }
-
 .v-card-actions {
   display: flex;
   justify-content: flex-end;

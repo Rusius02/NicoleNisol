@@ -37,29 +37,26 @@ export default {
     async login() {
       try {
         // Define the endpoint URL
-        const url = 'https://localhost:5001/api/Users/Login';
+        const apiUrl = process.env.VUE_APP_API_URL;
+        const url = `${apiUrl}/api/Users/Login`;
 
-        // Define the request body containing pseudo and password
         const requestBody = {
           pseudo: this.pseudo,
           password: this.password
         };
 
-        // Define the headers
         const headers = {
           'Content-Type': 'application/json',
-          'accept': '*/*' // Optional, depending on the API requirements
+          'accept': '*/*' 
         };
 
         axios.post(url, requestBody, { headers })
         .then(response => {
-          // Handle successful response
           const { userProxy } = response.data;
           authService.login(userProxy);
           this.dialog = false;
         })
         .catch(error => {
-          // Handle error
           console.error('Error:', error);
         });
     } catch (error) {
@@ -67,7 +64,6 @@ export default {
     }
 },
     closeDialog() {
-      // Close the dialog without logging in
       this.dialog = false;
     }
   }
