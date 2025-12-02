@@ -26,6 +26,39 @@
     "welcome.line8": "Gracias por sus lecturas.",
     "welcome.line9": "Les envío un cordial saludo,",
     "welcome.signature": "Nicole Nisol",
-    "button.shop": "Descubrir mis escritos"
+    "button.shop": "Descubrir mis escritos",
+    "button_user_conditions": "Condiciones de uso",
+    "cgu": {
+      "page_title": "Condiciones Generales de Uso – Nicole Nisol",
+      "last_update": "Última actualización: Junio de 2025",
+      "intro_message": "Lea atentamente estas Condiciones Generales de Uso antes de navegar por el sitio.",
+
+      "article_1_title": "1. Descripción y finalidad del sitio",
+      "article_1_text": "nicolenisol.com es un sitio dedicado a la actividad literaria de Nicole Nisol, autora de relatos. Presenta sus obras, novedades, artículos y dispone de una tienda que permite comprar sus libros en formato físico o digital.",
+
+      "article_2_title": "2. Acceso al sitio y aceptación de las Condiciones",
+      "article_2_text_1": "El acceso al sitio implica la aceptación plena de estas Condiciones por parte del usuario. Al acceder, el usuario garantiza ser mayor de edad y proporcionar información exacta.",
+      "article_2_text_2": "Las Condiciones pueden modificarse en cualquier momento. Se invita al usuario a consultarlas regularmente.",
+
+      "article_3_title": "3. Condiciones de uso",
+      "article_3_text_1": "El usuario se compromete a no publicar contenido ilegal, difamatorio, ofensivo o contrario al orden público.",
+      "article_3_text_2": "Debe también asegurarse de utilizar un navegador moderno que acepte cookies y JavaScript.",
+
+      "article_4_title": "4. Responsabilidad del usuario",
+      "article_4_text_1": "Cada usuario es el único responsable del contenido que publica en el sitio, especialmente en las zonas de comentarios.",
+      "article_4_text_2": "nicolenisol.com no podrá ser considerada responsable de las declaraciones realizadas por terceros.",
+
+      "article_5_title": "5. Propiedad intelectual",
+      "article_5_text": "Todos los contenidos del sitio (textos, imágenes, vídeos, marcas...) están protegidos por derechos de autor. Toda reproducción, incluso parcial, está estrictamente prohibida sin autorización previa por escrito.",
+
+      "article_6_title": "6. Datos personales y cookies",
+      "article_6_text": "Los datos personales se tratan de acuerdo con la política de privacidad. El sitio utiliza cookies para mejorar la experiencia del usuario. Consulte la sección «Privacidad» para más información.",
+
+      "article_7_title": "7. Venta en línea y tienda",
+      "article_7_text": "La tienda permite comprar directamente los libros de Nicole Nisol. Las transacciones son seguras. Cualquier pedido implica la aceptación de las condiciones específicas de venta disponibles en la sección «Tienda».",
+
+      "article_8_title": "8. Ley aplicable",
+      "article_8_text": "Las presentes Condiciones de Uso se rigen por la legislación francesa. En caso de litigio, los tribunales competentes serán los de París."
+    }
   }
   

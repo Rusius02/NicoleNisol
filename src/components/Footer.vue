@@ -20,7 +20,7 @@
       :to="'/CGU'"
       style="text-transform: none; font-size: 0.9rem;"
     >
-      Conditions d’utilisation
+      {{ $t('button_user_conditions') }}
     </v-btn>
 
     <v-spacer></v-spacer>
