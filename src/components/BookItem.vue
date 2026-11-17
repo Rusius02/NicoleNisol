@@ -2,7 +2,13 @@
   <div class="card-container">
     <v-card class="book-card" :elevation="elevation">
       <div class="card-content">
-        <v-img class="book-image" :src="getFullImageUrl(coverImagePath)" alt="Book Cover"></v-img>
+        <!-- Remplacement de getFullImageUrl par la prop directe, ou une image par défaut si vide -->
+        <v-img 
+          class="book-image" 
+          :src="coverImagePath || defaultFallbackImage" 
+          alt="Book Cover"
+        ></v-img>
+        
         <div class="card-details">
           <v-card-title class="card-title">{{ title }}</v-card-title>
           <v-card-text class="card-description">{{ description }}</v-card-text>
@@ -20,6 +26,7 @@
 
 <script>
 export default {
+  name: 'BookItem',
   props: {
     title: String,
     description: String,
@@ -33,21 +40,19 @@ export default {
     }
   },
 
+  data() {
+    return {
+      // Une image de couverture générique si un livre n'a pas encore d'image assignée
+      defaultFallbackImage: 'https://placehold.co/150x250/6A5ACD/white?text=Nicole+Nisol'
+    };
+  },
+
   methods: {
     addToBasket() {
       if (this.linkBuy) {
         window.open(this.linkBuy, '_blank');
       } else {
         console.error("Le lien d'achat (linkBuy) n'est pas défini.");
-      }
-    },
-    getFullImageUrl(fileName) {
-      try {
-        // Charge automatiquement depuis /src/assets/img/
-        return require(`@/assets/img/${fileName}`);
-      } catch (error) {
-        console.error("Image not found:", fileName);
-        return ""; // fallback vide
       }
     }
   }

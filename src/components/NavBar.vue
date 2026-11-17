@@ -37,20 +37,29 @@
 <script>
 import authService from '@/services/authService';
 import { mapState } from 'vuex';
+
+// 1. Importez les images de drapeaux de manière standard pour Vite
+import flagFr from '@/assets/flags/fr.png';
+import flagEn from '@/assets/flags/en.png';
+import flagNl from '@/assets/flags/nl.png';
+import flagEs from '@/assets/flags/es.png';
+import flagDe from '@/assets/flags/de.png';
+
 export default {
   name: 'NavigationBar',
   data() {
     return {
-      isLoggedIn: false, // Flag to track user's authentication status
-      username: '', // Store the username of the authenticated user
+      isLoggedIn: false,
+      username: '',
       basketPanel: false,
       currentLocale: this.$i18n.locale,
+      // 2. Utilisez les variables importées ici
       languages: [
-        { value: 'fr', text: 'Français', flag: require('@/assets/flags/fr.png') },
-        { value: 'en', text: 'English', flag: require('@/assets/flags/en.png') },
-        { value: 'nl', text: 'Nederlands', flag: require('@/assets/flags/nl.png') },
-        { value: 'es', text: 'Español', flag: require('@/assets/flags/es.png') },
-        { value: 'de', text: 'Deutsch', flag: require('@/assets/flags/de.png') }
+        { value: 'fr', text: 'Français', flag: flagFr },
+        { value: 'en', text: 'English', flag: flagEn },
+        { value: 'nl', text: 'Nederlands', flag: flagNl },
+        { value: 'es', text: 'Español', flag: flagEs },
+        { value: 'de', text: 'Deutsch', flag: flagDe }
       ]
     };
   },
@@ -59,7 +68,7 @@ export default {
       basketItems: state => state.basket.items,
     }),
     basketItemCount() {
-      return this.$store.state.basket.items.length; // Access basketItems computed property
+      return this.$store.state.basket.items.length;
     },
     currentLangText() {
       const lang = this.languages.find(l => l.value === this.currentLocale);
@@ -80,10 +89,7 @@ export default {
       localStorage.setItem('lang', lang);
     },
     logout() {
-      // Perform logout action
-      // Example: Clear authentication token from local storage
       localStorage.removeItem('token');
-      // Update authentication status
       this.isLoggedIn = false;
     },
     updateAuthenticationStatus() {
@@ -98,13 +104,11 @@ export default {
     }
   },
   mounted() {
-    // Check authentication status on component mount
     this.updateAuthenticationStatus();
     const saved = localStorage.getItem('lang');
     if (saved) this.$i18n.locale = saved;
   },
   created() {
-    // Watch for changes to authentication status
     this.$watch(
       () => authService.getToken(),
       () => {
