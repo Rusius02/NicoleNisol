@@ -2,7 +2,8 @@
     <v-card>
       <v-card-title>Statistiques du site</v-card-title>
       <v-card-text>
-        <div v-if="!chartData.labels.length">
+        <v-alert v-if="errorMessage" type="error" dense>{{ errorMessage }}</v-alert>
+        <div v-if="!chartData.labels.length && !errorMessage">
           <v-progress-circular indeterminate color="primary"></v-progress-circular>
         </div>
         <canvas id="siteChart" width="400" height="200"></canvas>
@@ -12,6 +13,7 @@
   
   <script>
   import { Chart, registerables } from 'chart.js';
+  import { adminService } from '@/services/adminService';
   
   // Register required components
   Chart.register(...registerables);
@@ -21,6 +23,7 @@
     data() {
       return {
         chart: null,
+        errorMessage: '',
         chartData: {
           labels: [], // Empty initially
           datasets: [
@@ -38,30 +41,21 @@
     methods: {
       async fetchChartData() {
         try {
-          // Simulated data fetch
-          const data = await this.simulateDataFetch();
+          const data = await adminService.getVisitStatistics();
   
           if (data && Array.isArray(data.labels) && Array.isArray(data.values)) {
+            this.errorMessage = '';
             this.chartData.labels = data.labels;
             this.chartData.datasets[0].data = data.values;
   
             this.renderChart();
           } else {
-            console.error('Invalid data format:', data);
+            throw new Error('Format de statistiques Firebase invalide.');
           }
         } catch (error) {
+          this.errorMessage = error.message || 'Impossible de charger les statistiques.';
           console.error('Error fetching chart data:', error);
         }
-      },
-      simulateDataFetch() {
-        return new Promise((resolve) => {
-          setTimeout(() => {
-            resolve({
-              labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
-              values: [30, 20, 50, 40, 60, 70, 90]
-            });
-          }, 1000);
-        });
       },
       renderChart() {
         if (this.chart) {
@@ -100,6 +94,9 @@
     },
     mounted() {
       this.fetchChartData();
+    },
+    beforeUnmount() {
+      if (this.chart) this.chart.destroy();
     }
   };
   </script>

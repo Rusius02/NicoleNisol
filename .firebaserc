@@ -1,0 +1,6 @@
+{
+  "projects": {
+    "test": "nicolenisoltest",
+    "production": "nicolenisol-67fe2"
+  }
+}

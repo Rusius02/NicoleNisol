@@ -8,13 +8,17 @@
       <p>{{ error }}</p>
     </div>
 
+    <div v-else-if="books.length === 0" class="empty-state">
+      <p>Aucun livre n’est disponible dans la collection Firestore « books ».</p>
+    </div>
+
     <div v-else class="book-container">
       <BookItem
         v-for="(book, index) in books"
         :key="book.id || index"
         :title="book.title || book.name" 
         :description="book.description"
-        :coverImagePath="book.coverImageUrl" 
+        :coverImagePath="book.coverImageUrl || book.coverImagePath"
         :price="book.price"
         :linkBuy="book.link_buy"
         :priceIDFromStripe="book.stripePriceId || book.stripeProductId"
@@ -47,7 +51,9 @@ onMounted(async () => {
     books.value = await bookService.getAll();
   } catch (err) {
     console.error('Erreur lors de la récupération des livres:', err);
-    error.value = "Impossible de charger le catalogue pour le moment. Veuillez réessayer plus tard.";
+    error.value = err.message
+      ? `Impossible de charger le catalogue : ${err.message}`
+      : 'Impossible de charger le catalogue pour le moment.';
   } finally {
     loading.value = false;
   }

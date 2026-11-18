@@ -42,7 +42,6 @@
             :clientSecret="clientSecret"
           />
           <v-btn @click="prevStep" color="primary">Retour</v-btn>
-          <v-btn @click="handlePayment" color="primary">Payez</v-btn>
           <div v-if="paymentError" class="error red--text mt-2">{{ paymentError }}</div>
         </v-stepper-content>
       </v-stepper-items>
@@ -56,7 +55,9 @@ import AddressForm from '@/components/AddressForm.vue';
 import StripeCardForm from '@/components/StripeCardForm.vue';
 import { loadStripe } from '@stripe/stripe-js';
 import { mapState } from 'vuex';
-import { groupBasketItems, calculateTotalAmount } from '@/utils/basketHelper.js';
+import { groupBasketItems } from '@/utils/basketHelper.js';
+import authService from '@/services/authService';
+import { paymentService } from '@/services/paymentService';
 
 export default {
   name: 'CheckoutPage',
@@ -68,8 +69,9 @@ export default {
       elements: null,
       cardElement: null,
       paymentError: null,
-      publishableKey: process.env.VUE_APP_STRIPE_PUBLISHABLE_KEY,
-      shippingInfos: null
+      publishableKey: import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY,
+      shippingInfos: null,
+      clientSecret: null
     };
   },
   computed: {
@@ -89,8 +91,7 @@ export default {
     },
     handleAddressSubmit(data) {
     this.shippingInfos = data;
-     console.log("Réception des infos :", data);
-    this.nextStep();
+      this.nextStep();
   },
     prevStep() {
       if (this.step > 1) this.step--;
@@ -99,38 +100,37 @@ export default {
   watch: {
     async step(newStep) {
       if (newStep === 3 && !this.clientSecret) {
-        this.stripe = await loadStripe(this.publishableKey);
-        const token = localStorage.getItem('authToken');
-        const userConnected = JSON.parse(localStorage.getItem('currentUser'));
-        if (!token || !userConnected) {
-          this.paymentError = "Utilisateur non connecté.";
-          return;
+        this.paymentError = null;
+        try {
+          const user = await authService.getCurrentUser();
+          if (!user) throw new Error('Vous devez vous connecter avant de payer.');
+          if (!this.publishableKey) throw new Error('La clé publique Stripe n’est pas configurée.');
+          const expectedStripePrefix = import.meta.env.MODE === 'production' ? 'pk_live_' : 'pk_test_';
+          if (!this.publishableKey.startsWith(expectedStripePrefix)) {
+            throw new Error(`Le mode Stripe ne correspond pas au build ${import.meta.env.MODE}.`);
+          }
+          if (!this.shippingInfos) throw new Error('Veuillez renseigner une adresse de livraison.');
+
+          this.stripe = await loadStripe(this.publishableKey);
+          if (!this.stripe) throw new Error('Impossible de charger Stripe.');
+
+          const books = this.groupedBooks.map(book => ({
+            bookId: book.id,
+            quantity: book.quantity
+          }));
+          const result = await paymentService.createPaymentIntent({
+            books,
+            shipping: this.shippingInfos
+          });
+          if (!result || !result.clientSecret) {
+            throw new Error('Le service de paiement n’a pas retourné de secret client.');
+          }
+
+          this.clientSecret = result.clientSecret;
+          this.elements = this.stripe.elements({ clientSecret: this.clientSecret });
+        } catch (error) {
+          this.paymentError = error.message || 'Impossible de préparer le paiement.';
         }
-        const booksDto = this.groupedBooks.map(book => ({
-          stripePriceId: book.priceIDFromStripe,
-          quantity: book.quantity
-        }));
-        const amount = calculateTotalAmount(this.basketItems); // en centimes
-       
-        const response = await fetch('https://localhost:5001/api/Payments/create-payment-intent', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-          },
-          body: JSON.stringify({
-            userId: userConnected.id,
-            books: booksDto,
-            currency: 'eur',
-            amount: amount,
-            ...this.shippingInfos
-          })
-        });
-
-        const data = await response.json();
-        this.clientSecret = data.clientSecret;
-
-        this.elements = this.stripe.elements({ clientSecret: this.clientSecret });
       }
     }
   }

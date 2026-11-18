@@ -1,16 +1,13 @@
 <template>
     <div>
       <v-btn @click="openAddWorkshopDialog">Ajouter un atelier d'écriture</v-btn>
+      <v-alert v-if="errorMessage" type="error" dense>{{ errorMessage }}</v-alert>
   
       <!-- Liste des Atelier d'écritures -->
-      <v-data-table :items="workshops" :headers="headers">
+      <v-data-table :items="workshops" :headers="headers" item-value="id">
         <template v-slot:[`item.actions`]="{ item }">
-          <v-btn icon @click="editWorkshop(item)">
-            <v-icon>mdi-pencil</v-icon>
-          </v-btn>
-          <v-btn icon @click="deleteWorkshop(item)">
-            <v-icon>mdi-delete</v-icon>
-          </v-btn>
+          <v-btn icon="mdi-pencil" variant="text" aria-label="Modifier l'atelier" @click="editWorkshop(item.raw)" />
+          <v-btn icon="mdi-delete" variant="text" aria-label="Supprimer l'atelier" @click="deleteWorkshop(item.raw)" />
         </template>
       </v-data-table>
   
@@ -88,8 +85,8 @@
   </template>
   
   <script>
-  import axios from 'axios';
   import moment from 'moment';
+  import { workshopService } from '@/services/workshopService';
 
   export default {
     name: 'WorkshopManagement',
@@ -98,18 +95,18 @@
         menuStartDate: false, // Controls the start date picker menu
         menuEndDate: false, // Controls the end date picker menu
         headers: [
-        { text: 'Name', value: 'name' },
-        { text: 'Theme', value: 'theme' },
-        { text: 'Description', value: 'description' },
-        { text: 'Start Date', value: 'startDate' },
-        { text: 'End Date', value: 'endDate' },
-        { text: 'Actions', value: 'actions', sortable: false }, 
+        { title: 'Nom', key: 'name' },
+        { title: 'Thème', key: 'theme' },
+        { title: 'Description', key: 'description' },
+        { title: 'Date de début', key: 'startDate' },
+        { title: 'Date de fin', key: 'endDate' },
+        { title: 'Actions', key: 'actions', sortable: false },
       ],
       workshops: [],
         dialog: false,
         editMode: false,
         Workshop: {}, 
-        baseUrl : process.env.VUE_APP_API_URL,
+        errorMessage: '',
       };
     },
     mounted() {
@@ -118,13 +115,15 @@
     methods: {
       async fetchWorkshops() {
       try {
-        const response = await axios.get(`${this.baseUrl}/api/WritingEvent/GetAll`);
-        this.workshops = response.data.map(workshop => ({
+        const workshops = await workshopService.getAll();
+        this.errorMessage = '';
+        this.workshops = workshops.map(workshop => ({
           ...workshop,
           startDate: moment(workshop.startDate).format('YYYY-MM-DD'),
           endDate: moment(workshop.endDate).format('YYYY-MM-DD'),
         }));
         } catch (error) {
+          this.errorMessage = error.message || 'Impossible de charger les ateliers.';
           console.error('Error fetching workshops:', error);
         }
       },
@@ -155,45 +154,27 @@
 
   try {
     if (this.editMode) {
-      await axios.put(`${this.baseUrl}/api/WritingEvent/Update`, InputDtoCreateWritingEvent, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-      console.log('Workshop updated:', InputDtoCreateWritingEvent);
+      await workshopService.update(this.Workshop.id, InputDtoCreateWritingEvent);
     } else {
-      await axios.post(`${this.baseUrl}/api/WritingEvent/Create`, InputDtoCreateWritingEvent, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-      console.log('Workshop created:', InputDtoCreateWritingEvent);
+      await workshopService.create(InputDtoCreateWritingEvent);
     }
 
-    this.fetchWorkshops();  // Optionally refresh the workshops list after creation or update
+    await this.fetchWorkshops();
     this.dialog = false;
   } catch (error) {
+    this.errorMessage = error.message || 'Impossible d’enregistrer l’atelier.';
     console.error('Error saving workshop:', error);
   }
 },
       // eslint-disable-next-line no-unused-vars
       deleteWorkshop(workshop) {
         if (confirm(`Voulez-vous vraiment supprimer l'atelier: ${workshop.name} ?`)) {
-          axios
-           .delete(`${this.baseUrl}/api/WritingEvent/Delete`, {
-              params: {
-                id: workshop.id, 
-              },
-            })
-            .then(response => {
-              if (response.status === 200 && response.data) {
-                this.workshops = this.workshops.filter(w => w.id !== workshop.id);
-                alert('Atelier supprimé avec succès');
-              } else {
-                alert('La suppression a échoué');
-              }
+          workshopService.delete(workshop.id)
+            .then(() => {
+              this.workshops = this.workshops.filter(w => w.id !== workshop.id);
             })
             .catch(error => {
+              this.errorMessage = error.message || 'Impossible de supprimer l’atelier.';
               console.error('Erreur lors de la suppression de l\'atelier:', error);
               alert('Une erreur est survenue lors de la suppression de l\'atelier.');
             });

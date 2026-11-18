@@ -11,8 +11,9 @@
       <v-card-title>Login</v-card-title>
       <v-card-text>
         <v-form @submit.prevent="login">
-          <v-text-field v-model="pseudo" label="Username" outlined></v-text-field>
+          <v-text-field v-model="email" label="E-mail" type="email" outlined></v-text-field>
           <v-text-field v-model="password" label="Password" outlined type="password"></v-text-field>
+          <v-alert v-if="errorMessage" type="error" dense>{{ errorMessage }}</v-alert>
           <v-btn type="submit" color="primary">Se connecter</v-btn>
           <v-btn @click="closeDialog" color="red">Annuler</v-btn>
         </v-form>
@@ -23,46 +24,26 @@
 
 <script>
 import authService from '@/services/authService';
-import axios from 'axios';
 
 export default {
   data() {
     return {
-      pseudo: '',
+      email: '',
       password: '',
+      errorMessage: '',
       dialog: false
     };
   },
   methods: {
     async login() {
       try {
-        // Define the endpoint URL
-        const apiUrl = process.env.VUE_APP_API_URL;
-        const url = `${apiUrl}/api/Users/Login`;
-
-        const requestBody = {
-          pseudo: this.pseudo,
-          password: this.password
-        };
-
-        const headers = {
-          'Content-Type': 'application/json',
-          'accept': '*/*' 
-        };
-
-        axios.post(url, requestBody, { headers })
-        .then(response => {
-          const { userProxy } = response.data;
-          authService.login(userProxy);
-          this.dialog = false;
-        })
-        .catch(error => {
-          console.error('Error:', error);
-        });
-    } catch (error) {
-      console.error('Login error:', error);
-    }
-},
+        await authService.login(this.email, this.password);
+        this.errorMessage = '';
+        this.dialog = false;
+      } catch (error) {
+        this.errorMessage = error.message || 'Connexion impossible.';
+      }
+    },
     closeDialog() {
       this.dialog = false;
     }

@@ -33,11 +33,6 @@
   import { groupBasketItems } from '@/utils/basketHelper.js';
   
   export default {
-    data() {
-    return {
-        baseUrl : process.env.VUE_APP_API_URL,
-      }
-    },
     computed: {
       ...mapState({
         basketItems: state => state.basket.items 
@@ -48,7 +43,7 @@
           map[item.title] = {
             count: item.quantity,
             totalPrice: item.totalPrice,
-            imageUrl: `${this.baseUrl}${item.coverImagePath}`,
+            imageUrl: item.coverImagePath,
             description: item.description
           };
           return map;

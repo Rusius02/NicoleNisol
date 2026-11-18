@@ -17,6 +17,7 @@
 <script>
 import NavigationBar from './components/NavBar.vue';
 import FooterApp from './components/Footer.vue';
+import { registerVisit } from '@/services/visitService';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap';
 import 'vuetify/styles';
@@ -32,6 +33,9 @@ export default {
     };
   },
   created() {
+    registerVisit().catch((error) => {
+      console.error('Erreur lors de l’enregistrement de la visite :', error);
+    });
     // Register global navigation guards or listen to router events to track loading state
     this.$router.beforeEach((to, from, next) => {
       this.isLoading = true; // Set loading state to true when navigation starts

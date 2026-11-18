@@ -7,6 +7,7 @@ export function groupBasketItems(items) {
         existing.totalPrice += item.price;
       } else {
         acc.push({
+          id: item.id,
           title: item.title,
           description: item.description,
           coverImagePath: item.coverImagePath,

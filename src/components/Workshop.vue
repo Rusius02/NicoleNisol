@@ -3,7 +3,10 @@
       <v-row justify="center">
         <v-col cols="12" md="8">
           <!-- Message quand il n'y a pas d'ateliers -->
-          <v-alert v-if="workshops.length === 0" type="info" border="left" elevation="2">
+          <v-alert v-if="errorMessage" type="error" border="left" elevation="2">
+            {{ errorMessage }}
+          </v-alert>
+          <v-alert v-else-if="workshops.length === 0" type="info" border="left" elevation="2">
             Aucun atelier disponible pour le moment.
           </v-alert>
   
@@ -44,14 +47,15 @@
   </template>
   
   <script>
-  import axios from "axios";
   import moment from "moment";
+  import { workshopService } from "@/services/workshopService";
   
   export default {
     name: "WorkshopPage",
     data() {
       return {
         workshops: [], // Stocker les ateliers récupérés
+        errorMessage: '',
       };
     },
     mounted() {
@@ -66,13 +70,15 @@
       // Méthode pour récupérer les ateliers d'écriture depuis l'API
       async fetchWorkshops() {
         try {
-          const response = await axios.get("https://localhost:5001/api/WritingEvent/GetAll");
-          this.workshops = response.data.map((workshop) => ({
+          const workshops = await workshopService.getAll();
+          this.workshops = workshops.map((workshop) => ({
             ...workshop,
             startDate: moment(workshop.startDate).format("YYYY-MM-DD"),
             endDate: moment(workshop.endDate).format("YYYY-MM-DD"),
           }));
+          this.errorMessage = '';
         } catch (error) {
+          this.errorMessage = error.message || 'Impossible de charger les ateliers.';
           console.error("Error fetching workshops:", error);
         }
       },

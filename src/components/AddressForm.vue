@@ -63,6 +63,8 @@
 
   
   <script>
+import { paymentService } from '@/services/paymentService';
+
 export default {
   data() {
     return {
@@ -76,7 +78,8 @@ export default {
       email: '',
       postalCodeError: '',
       shippingCost: null,
-      shippingCostError: ''
+      shippingCostError: '',
+      shippingRequestId: 0
     };
   },
   watch: {
@@ -111,6 +114,7 @@ export default {
     maybeEstimateShippingCost() {
       this.validatePostalCode();
       if (this.postalCodeError || !this.country || !this.postalCode) {
+        this.shippingRequestId += 1;
         this.shippingCost = null;
         return;
       }
@@ -118,26 +122,19 @@ export default {
       this.estimateShippingCost();
     },
     async estimateShippingCost() {
+      const requestId = ++this.shippingRequestId;
       try {
-        const response = await fetch('/api/shipping/estimate', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            country: this.country,
-            postalCode: this.postalCode
-          })
+        const data = await paymentService.estimateShipping({
+          country: this.country,
+          postalCode: this.postalCode
         });
-
-        if (!response.ok) throw new Error('Erreur estimation');
-
-        const data = await response.json();
-        this.shippingCost = data.amount; // suppose que le back renvoie `{ amount: 500 }`
+        if (requestId !== this.shippingRequestId) return;
+        this.shippingCost = data.amount;
         this.shippingCostError = '';
       } catch (err) {
+        if (requestId !== this.shippingRequestId) return;
         this.shippingCost = null;
-        this.shippingCostError = 'Impossible d\'estimer les frais de port';
+        this.shippingCostError = err.message || 'Impossible d\'estimer les frais de port';
       }
     },
     submit() {

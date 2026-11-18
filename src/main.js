@@ -21,6 +21,7 @@ import AdminPage from '@/components/Admin.vue';
 import WorkshopPage from '@/components/Workshop.vue'; 
 import ConfirmationPage from './pages/ConfirmationPage.vue';
 import CGU from './pages/CGU.vue';
+import authService from './services/authService';
 
 // Vuetify
 import { createVuetify } from 'vuetify';
@@ -28,13 +29,26 @@ import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
 import '@mdi/font/css/materialdesignicons.css'; 
 
+authService.clearLegacySession();
+
 const routes = [
   { path: '/', component: AccueilPage },
   { path: '/about', component: APropos },
   { path: '/shop', component: ShopView },
   { path: '/contact', component: ContactPage },
   { path: '/checkout', component: CheckoutPage },
-  { path: '/admin', component: AdminPage },
+  {
+    path: '/admin',
+    component: AdminPage,
+    beforeEnter: async () => {
+      try {
+        return await authService.isAdmin() ? true : { path: '/' };
+      } catch (error) {
+        console.error('Impossible de vérifier les droits administrateur :', error);
+        return { path: '/' };
+      }
+    }
+  },
   { path: '/workshop', component: WorkshopPage },
   { path: '/confirmation', component: ConfirmationPage},
   { path: '/cgu', component: CGU}

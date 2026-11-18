@@ -1,0 +1,17 @@
+{
+  "name": "nicole-nisol-functions",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "import:books": "node scripts/import-books.js",
+    "set-admin": "node scripts/set-admin.js"
+  },
+  "engines": {
+    "node": "22"
+  },
+  "dependencies": {
+    "firebase-admin": "^13.0.0",
+    "firebase-functions": "^6.3.0",
+    "stripe": "^17.5.0"
+  }
+}

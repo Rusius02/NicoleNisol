@@ -14,9 +14,10 @@
           <v-text-field v-model="lastName" label="Nom" outlined></v-text-field>
           <v-text-field v-model="sexe" label="Sexe" outlined></v-text-field>
           <v-text-field v-model="birthDate" label="Date de naissance" outlined></v-text-field>
-          <v-text-field v-model="mail" label="E-mail" outlined></v-text-field>
+          <v-text-field v-model="email" label="E-mail" type="email" outlined></v-text-field>
           <v-text-field v-model="pseudo" label="Pseudo" outlined></v-text-field>
           <v-text-field v-model="password" label="Mot de passe" outlined type="password"></v-text-field>
+          <v-alert v-if="errorMessage" type="error" dense>{{ errorMessage }}</v-alert>
           <v-btn type="submit" color="primary">S'inscrire</v-btn>
           <v-btn @click="closeDialog" color="red">Annuler</v-btn>
         </v-form>
@@ -27,7 +28,6 @@
 
 <script>
 import authService from '@/services/authService';
-import axios from 'axios';
 
 export default {
   data() {
@@ -36,49 +36,28 @@ export default {
       lastName: '',
       sexe: '',
       birthDate: '',
-      mail: '',
+      email: '',
       pseudo: '',
       password: '',
+      errorMessage: '',
       dialog: false
     };
   },
   methods: {
     async register() {
       try {
-        // Define the endpoint URL
-        const url = 'https://localhost:5001/api/Users/SignIn';
-
-        // Define the request body containing user information
-        const requestBody = {
+        await authService.register({
           firstName: this.firstName,
           lastName: this.lastName,
           sexe: this.sexe,
           birthDate: this.birthDate,
-          mail: this.mail,
-          pseudo: this.pseudo,
-          password: this.password
-        };
-
-        // Define the headers
-        const headers = {
-          'Content-Type': 'application/json',
-          'accept': '*/*' // Optional, depending on the API requirements
-        };
-
-        axios.post(url, requestBody, { headers })
-          .then(response => {
-            // Handle successful response
-            console.log('Response:', response);
-            const { userProxy } = response.data;
-            authService.login(userProxy);
-            this.dialog = false;
-          })
-          .catch(error => {
-            // Handle error
-            console.error('Error:', error);
-          });
+          email: this.email,
+          pseudo: this.pseudo
+        }, this.password);
+        this.errorMessage = '';
+        this.dialog = false;
       } catch (error) {
-        console.error('Registration error:', error);
+        this.errorMessage = error.message || 'Inscription impossible.';
       }
     },
     closeDialog() {

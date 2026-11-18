@@ -4,7 +4,8 @@
         <v-col cols="12">
           <v-card>
             <v-card-text>
-              <v-data-table :headers="headers" :items="orders" item-key="id">
+              <v-alert v-if="errorMessage" type="error" dense>{{ errorMessage }}</v-alert>
+              <v-data-table :headers="headers" :items="orders" item-value="id">
     
               </v-data-table>
             </v-card-text>
@@ -15,7 +16,7 @@
   </template>
   
   <script>
-  import axios from 'axios';
+  import { adminService } from '@/services/adminService';
 
   export default {
     name: 'OrderManagement',
@@ -23,12 +24,13 @@
       return {
         dialog: false,
         headers: [
-        { text: 'Order Id', value: 'orderId' },
-        { text: 'Amount', value: 'Amount' },
-        { text: 'PaymentStatus', value: 'paymentStatus' },
-        { text: 'UserId', value: 'userId' }
+        { title: 'Commande', key: 'id' },
+        { title: 'Montant (centimes)', key: 'amount' },
+        { title: 'État du paiement', key: 'paymentStatus' },
+        { title: 'Utilisateur', key: 'userId' }
       ],
         orders: [],
+        errorMessage: '',
         editedOrder: {},
       };
     },
@@ -38,10 +40,11 @@
     methods: {
       async fetchOrders() {
         try {
-          const apiUrl = process.env.VUE_APP_API_URL;
-          const response = await axios.get(`${apiUrl}/api/Orders/GetAll`);
-          this.orders = response.data;
+          const result = await adminService.getOrders();
+          this.orders = Array.isArray(result) ? result : result.orders;
+          this.errorMessage = '';
         } catch (error) {
+          this.errorMessage = error.message || 'Impossible de charger les commandes.';
           console.error('Error fetching orders:', error);
         }
       },

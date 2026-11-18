@@ -3,19 +3,20 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "npx vite",
-    "build": "npx vite build",
-    "preview": "npx vite preview"
+    "dev": "vite --mode test",
+    "build": "vite build --mode production",
+    "preview": "npx vite preview",
+    "lint": "eslint --ext .js,.vue src functions"
   },
   "dependencies": {
     "@mdi/font": "^7.4.47",
     "@mdi/js": "^7.4.47",
     "@stripe/stripe-js": "^3.4.0",
     "@vue-stripe/vue-stripe": "^4.5.0",
-    "axios": "^1.6.8",
     "bootstrap": "^5.3.3",
     "chart.js": "^4.4.4",
     "core-js": "^3.8.3",
+    "firebase": "^11.10.0",
     "mitt": "^3.0.1",
     "moment": "^2.30.1",
     "vue": "^3.2.13",
@@ -40,6 +41,8 @@
   "eslintConfig": {
     "root": true,
     "env": {
+      "browser": true,
+      "es6": true,
       "node": true
     },
     "extends": [
@@ -47,7 +50,13 @@
       "eslint:recommended"
     ],
     "parserOptions": {
-      "parser": "@babel/eslint-parser"
+      "ecmaVersion": 2020,
+      "sourceType": "module",
+      "parser": "@babel/eslint-parser",
+      "requireConfigFile": false,
+      "babelOptions": {
+        "configFile": false
+      }
     },
     "rules": {}
   },

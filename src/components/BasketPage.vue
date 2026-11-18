@@ -52,7 +52,7 @@
           map[item.title] = {
             count: item.quantity,
             totalPrice: item.totalPrice,
-            imageUrl: `${this.baseUrl}${item.coverImagePath}`,
+            imageUrl: item.coverImagePath,
             description: item.description
           };
           return map;
@@ -61,11 +61,6 @@
       totalPrice() {
         return Object.values(this.uniqueItems)
           .reduce((sum, item) => sum + item.totalPrice, 0);
-      }
-    },
-    data() {
-    return {
-        baseUrl : process.env.VUE_APP_API_URL, 
       }
     },
   };

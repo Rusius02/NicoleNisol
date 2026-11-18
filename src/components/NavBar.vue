@@ -52,6 +52,7 @@ export default {
       isLoggedIn: false,
       username: '',
       basketPanel: false,
+      unsubscribeAuth: null,
       currentLocale: this.$i18n.locale,
       // 2. Utilisez les variables importées ici
       languages: [
@@ -88,33 +89,30 @@ export default {
       this.$i18n.locale = lang;
       localStorage.setItem('lang', lang);
     },
-    logout() {
-      localStorage.removeItem('token');
-      this.isLoggedIn = false;
-    },
-    updateAuthenticationStatus() {
-      const token = authService.getToken();
-      if (token) {
-        this.isLoggedIn = true;
-        this.username = authService.getCurrentUser().pseudo;
-      } else {
-        this.isLoggedIn = false;
-        this.username = '';
+    async logout() {
+      try {
+        await authService.logout();
+      } catch (error) {
+        console.error('Erreur lors de la déconnexion :', error);
       }
+    },
+    updateAuthenticationStatus(user) {
+      this.isLoggedIn = Boolean(user);
+      this.username = user ? (user.displayName || user.email || '') : '';
     }
   },
   mounted() {
-    this.updateAuthenticationStatus();
     const saved = localStorage.getItem('lang');
     if (saved) this.$i18n.locale = saved;
   },
   created() {
-    this.$watch(
-      () => authService.getToken(),
-      () => {
-        this.updateAuthenticationStatus();
-      }
+    this.unsubscribeAuth = authService.subscribe(
+      (user) => this.updateAuthenticationStatus(user),
+      (error) => console.error('Erreur de suivi de session Firebase :', error)
     );
+  },
+  beforeUnmount() {
+    if (this.unsubscribeAuth) this.unsubscribeAuth();
   }
 };
 </script>

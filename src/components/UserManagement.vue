@@ -1,100 +1,150 @@
 <template>
-    <v-container>
-      <v-row>
-        <v-col cols="12">
-          <v-card>
-            <v-card-text>
-              <v-data-table :headers="headers" :items="users" item-key="id">
-                <template v-slot:[`item.actions`]="{ item }">
-                  <v-btn icon @click="editUser(item)">
-                    <v-icon>mdi-pencil</v-icon>
-                  </v-btn>
-                  <v-btn icon @click="deleteUser(item)">
-                    <v-icon>mdi-delete</v-icon>
-                  </v-btn>
-                </template>
-              </v-data-table>
-            </v-card-text>
-          </v-card>
-        </v-col>
-      </v-row>
-  
-      <!-- Dialog pour modifier un utilisateur -->
-      <v-dialog v-model="dialog" max-width="500px">
-        <v-card>
-          <v-card-title>
-            Modifier l'utilisateur
-          </v-card-title>
-          <v-card-text>
-            <v-text-field v-model="editedUser.name" label="Nom"></v-text-field>
-            <v-text-field v-model="editedUser.email" label="Email"></v-text-field>
-          </v-card-text>
-          <v-card-actions>
-            <v-btn @click="dialog = false">Annuler</v-btn>
-            <v-btn @click="saveUser">Enregistrer</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-    </v-container>
-  </template>
-  
-  <script>
-  import axios from 'axios';
+  <v-container>
+    <v-alert v-if="errorMessage" type="error" variant="tonal" class="mb-4">
+      {{ errorMessage }}
+    </v-alert>
 
-  export default {
-    name: 'UserManagement',
-    data() {
-      return {
-        dialog: false,
-        headers: [
-        { text: 'First Name', value: 'firstName' },
-        { text: 'Last Name', value: 'lastName' },
-        { text: 'Pseudo', value: 'pseudo' },
-        { text: 'Email', value: 'mail' },
-        { text: 'Sexe', value: 'sexe' },
-        { text: 'Role', value: 'role' },
-        { text: 'Actions', value: 'actions', sortable: false },
+    <v-data-table
+      :headers="headers"
+      :items="users"
+      item-value="uid"
+      :loading="isLoading"
+    >
+      <template v-slot:[`item.actions`]="{ item }">
+        <v-btn
+          icon="mdi-pencil"
+          variant="text"
+          aria-label="Modifier l'utilisateur"
+          @click="editUser(item.raw)"
+        />
+        <v-btn
+          icon="mdi-delete"
+          variant="text"
+          aria-label="Supprimer l'utilisateur"
+          @click="deleteUser(item.raw)"
+        />
+      </template>
+      <template #no-data>
+        <span v-if="!isLoading">Aucun utilisateur à afficher.</span>
+      </template>
+    </v-data-table>
+
+    <v-dialog v-model="dialog" max-width="500">
+      <v-card>
+        <v-card-title>Modifier l'utilisateur</v-card-title>
+        <v-card-text>
+          <v-text-field v-model="editedUser.firstName" label="Prénom" variant="outlined" />
+          <v-text-field v-model="editedUser.lastName" label="Nom" variant="outlined" />
+          <v-text-field
+            v-model="editedUser.email"
+            label="E-mail"
+            type="email"
+            variant="outlined"
+          />
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer />
+          <v-btn :disabled="isSaving" @click="dialog = false">Annuler</v-btn>
+          <v-btn color="primary" :loading="isSaving" @click="saveUser">Enregistrer</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </v-container>
+</template>
+
+<script>
+import { adminService } from '@/services/adminService';
+
+export default {
+  name: 'UserManagement',
+  data() {
+    return {
+      dialog: false,
+      headers: [
+        { title: 'Prénom', key: 'firstName' },
+        { title: 'Nom', key: 'lastName' },
+        { title: 'Pseudo', key: 'pseudo' },
+        { title: 'E-mail', key: 'email' },
+        { title: 'Sexe', key: 'sexe' },
+        { title: 'Rôle', key: 'role' },
+        { title: 'Actions', key: 'actions', sortable: false },
       ],
-        users: [],
-        editedUser: {},
-      };
-    },
-    mounted() {
+      users: [],
+      editedUser: {},
+      errorMessage: '',
+      isLoading: false,
+      isSaving: false,
+    };
+  },
+  mounted() {
     this.fetchUsers();
   },
-    methods: {
-      async fetchUsers() {
-        try {
-          const response = await axios.get('https://localhost:5001/api/Users/GetAll');
-          this.users = response.data;
-        } catch (error) {
-          console.error('Error fetching users:', error);
+  methods: {
+    async fetchUsers() {
+      this.isLoading = true;
+      try {
+        const result = await adminService.getUsers();
+        const users = Array.isArray(result) ? result : result && result.users;
+        if (!Array.isArray(users)) {
+          throw new Error('Le service utilisateurs a retourné une réponse invalide.');
         }
-      },
-      editUser(user) {
-        this.editedUser = { ...user };
-        this.dialog = true;
-      },
-      deleteUser(user) {
-        // Logique pour supprimer l'utilisateur
-        this.users = this.users.filter(u => u.id !== user.id);
-      },
-      saveUser() {
-        // Logique pour enregistrer les modifications de l'utilisateur
-        const index = this.users.findIndex(u => u.id === this.editedUser.id);
-        if (index !== -1) {
-          this.users[index] = this.editedUser;
-        }
-        this.dialog = false;
-      },
+        this.users = users;
+        this.errorMessage = '';
+      } catch (error) {
+        this.errorMessage = error.message || 'Impossible de charger les utilisateurs.';
+        console.error('Erreur lors du chargement des utilisateurs :', error);
+      } finally {
+        this.isLoading = false;
+      }
     },
-  };
-  </script>
-  
-  <style scoped>
-  /* Custom styles for your table and dialogs */
-  .v-card {
-    min-height: 400px;
-  }
-  </style>
-  
+    editUser(user) {
+      this.errorMessage = '';
+      this.editedUser = { ...user };
+      this.dialog = true;
+    },
+    async deleteUser(user) {
+      const uid = user && (user.uid || user.id);
+      if (!uid) {
+        this.errorMessage = 'Identifiant utilisateur manquant.';
+        return;
+      }
+      if (!window.confirm(`Voulez-vous vraiment supprimer le compte de ${user.email || uid} ?`)) {
+        return;
+      }
+
+      try {
+        this.errorMessage = '';
+        await adminService.deleteUser(uid);
+        await this.fetchUsers();
+      } catch (error) {
+        this.errorMessage = error.message || 'Impossible de supprimer cet utilisateur.';
+      }
+    },
+    async saveUser() {
+      const email = (this.editedUser.email || '').trim();
+      if (!this.editedUser.uid || !email) {
+        this.errorMessage = 'Un identifiant et une adresse e-mail sont requis.';
+        return;
+      }
+
+      this.isSaving = true;
+      this.errorMessage = '';
+      try {
+        await adminService.updateUser({
+          uid: this.editedUser.uid,
+          firstName: this.editedUser.firstName || '',
+          lastName: this.editedUser.lastName || '',
+          pseudo: this.editedUser.pseudo || '',
+          email,
+        });
+        this.dialog = false;
+        await this.fetchUsers();
+      } catch (error) {
+        this.errorMessage = error.message || 'Impossible de modifier cet utilisateur.';
+      } finally {
+        this.isSaving = false;
+      }
+    },
+  },
+};
+</script>

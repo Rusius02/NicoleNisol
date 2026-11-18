@@ -1,21 +1,17 @@
 <template>
   <div>
     <v-btn @click="openAddBookDialog">Ajouter un livre</v-btn>
+    <v-alert v-if="errorMessage" type="error" dense>{{ errorMessage }}</v-alert>
 
     <!-- Liste des livres -->
-    <v-data-table :items="books" :headers="headers" :hide-default-header="true">
-      <template v-slot:header>
-        <tr>
-          <th v-for="header in headers" :key="header.value">{{ header.text }}</th>
-        </tr>
-      </template>
+    <v-data-table :items="books" :headers="headers" item-value="id">
       <template v-slot:[`item.coverImagePath`]="{ item }">
       <!-- Wrap the image in a button to trigger the dialog -->
       <v-img 
-        :src="getFullImageUrl(item.coverImagePath)" 
+        :src="getFullImageUrl(item.raw.coverImagePath)"
         max-width="100" 
         eager 
-        @click="openImageDialog(item.coverImagePath)" 
+        @click="openImageDialog(item.raw.coverImagePath)"
         class="thumbnail-image" />
 
       <!-- Full-size image dialog -->
@@ -32,11 +28,9 @@
       </v-dialog>
     </template>
       <template v-slot:[`item.actions`]="{ item }">
-        <v-btn icon @click="editBook(item)">
-          <v-icon>mdi-pencil</v-icon>
+        <v-btn icon="mdi-pencil" variant="text" aria-label="Modifier le livre" @click="editBook(item.raw)">
         </v-btn>
-        <v-btn icon @click="deleteBook(item)">
-          <v-icon>mdi-delete</v-icon>
+        <v-btn icon="mdi-delete" variant="text" aria-label="Supprimer le livre" @click="deleteBook(item.raw)">
         </v-btn>
       </template>
     </v-data-table>
@@ -68,20 +62,26 @@
 </template>
 
 <script>
-import axios from 'axios';
+import { bookService } from '@/services/bookService';
+
+const localBookImages = import.meta.glob('../assets/img/*', {
+  eager: true,
+  import: 'default',
+  query: '?url'
+});
 
 export default {
   name: 'BookManagement',
   data() {
     return {
       headers: [
-        { text: 'Id', value: 'id', key: 'id' },
-        { text: 'Titre', value: 'title', key: 'title' },
-        { text: 'Description', value: 'description', key: 'description' },
-        { text: 'Prix (€)', value: 'price', key: 'price' },
-        { text: 'ISBN', value: 'isbn', key: 'isbn' },
-        { text: 'Couverture', value: 'coverImagePath', key: 'coverImagePath' }, 
-        { text: 'Actions', value: 'actions', key: 'actions' }
+        { title: 'Id', key: 'id' },
+        { title: 'Titre', key: 'title' },
+        { title: 'Description', key: 'description' },
+        { title: 'Prix (€)', key: 'price' },
+        { title: 'ISBN', key: 'isbn' },
+        { title: 'Couverture', key: 'coverImagePath' },
+        { title: 'Actions', key: 'actions', sortable: false },
       ],
       books: [],
       dialog: false,
@@ -91,7 +91,7 @@ export default {
       selectedImage: null, 
       previewImage: null, 
       selectedFile: null, 
-      baseUrl : process.env.VUE_APP_API_URL,
+      errorMessage: '',
     };
   },
   watch: {
@@ -113,9 +113,10 @@ export default {
   methods: {
     async fetchBooks() {
       try {
-        const response = await axios.get(`${this.baseUrl}/api/Books/GetAll`);
-        this.books = response.data;
+        this.books = await bookService.getAll();
+        this.errorMessage = '';
       } catch (error) {
+        this.errorMessage = error.message || 'Impossible de charger les livres.';
         console.error('Error fetching books:', error);
       }
     },
@@ -135,72 +136,62 @@ export default {
       this.dialog = true;
     },
     resetForm() {
+      if (this.previewImage && this.previewImage.startsWith('blob:')) {
+        URL.revokeObjectURL(this.previewImage);
+      }
       this.book = {};
       this.selectedFile = null;
       this.previewImage = null;  
       this.editMode = false;
     },
     handleFileUpload(event) {
-      this.selectedFile = event.target.files[0]; 
+      this.selectedFile = (event && event.target && event.target.files)
+        ? event.target.files[0]
+        : (Array.isArray(event) ? event[0] : event);
       if (this.selectedFile) {
+        if (this.previewImage && this.previewImage.startsWith('blob:')) {
+          URL.revokeObjectURL(this.previewImage);
+        }
         this.previewImage = URL.createObjectURL(this.selectedFile); 
       }
     },
     getFullImageUrl(path) {
-      return `${this.baseUrl}${path}`;
+      if (!path || /^https?:\/\//i.test(path)) return path;
+      const fileName = path.split(/[\\/]/).pop();
+      const image = Object.entries(localBookImages)
+        .find(([assetPath]) => assetPath.endsWith(`/${fileName}`));
+      return image ? image[1] : '';
     },
     async saveBook() {
-      const formData = new FormData();
-      formData.append('Id', this.book.id);
-      formData.append('Title', this.book.title);
-      formData.append('Description', this.book.description);
-      formData.append('Price', this.book.price);
-      formData.append('ISBN', this.book.isbn);
-      
-      if (this.book.coverImagePath) {
-        formData.append('CoverImagePath', this.book.coverImagePath);
-      }
-
-      // Ajouter la nouvelle image si une image est sélectionnée
-      if (this.selectedFile) {
-        formData.append('coverImage', this.selectedFile);
-      }
       try {
-        if (this.editMode) {
-          await axios.put(`${this.baseUrl}/api/Books/updateBook`, formData, { 
-            headers: {
-              'Content-Type': 'multipart/form-data',
-            },
-          });
-        } else {
-          await axios.post(`${this.baseUrl}/api/Books/Create`, formData, { 
-            headers: {
-              'Content-Type': 'multipart/form-data',
-            },
-          });
+        const bookData = {
+          ...this.book,
+          title: (this.book.title || '').trim(),
+          price: Number(this.book.price),
+        };
+        if (!bookData.title) throw new Error('Le titre du livre est obligatoire.');
+        if (!Number.isFinite(bookData.price) || bookData.price <= 0) {
+          throw new Error('Le prix doit être un nombre positif.');
         }
-        this.fetchBooks();
+        if (this.editMode) {
+          await bookService.update(bookData.id, bookData, this.selectedFile);
+        } else {
+          await bookService.create(bookData, this.selectedFile);
+        }
+        this.errorMessage = '';
+        await this.fetchBooks();
         this.dialog = false;
       } catch (error) {
+        this.errorMessage = error.message || 'Impossible d’enregistrer le livre.';
         console.error('Error saving book:', error);
       }
     },
     deleteBook(book) {
       if (confirm(`Voulez-vous vraiment supprimer le livre: ${book.title} ?`)) {
-        axios
-          .delete(`${this.baseUrl}/api/Books/Delete`, {
-            params: {
-              id: book.id,
-            },
-          })
-          .then((response) => {
-            if (response.status === 200 && response.data) {
-              this.fetchBooks();
-            } else {
-              console.error('Failed to delete book');
-            }
-          })
+        bookService.delete(book.id)
+          .then(() => this.fetchBooks())
           .catch((error) => {
+            this.errorMessage = error.message || 'Impossible de supprimer le livre.';
             console.error('Error deleting book:', error);
           });
       }
