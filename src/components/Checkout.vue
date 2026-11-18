@@ -1,50 +1,39 @@
 <template>
-  <v-container>
-    <v-stepper  style="padding: 8px;" v-model="step">
-      <v-stepper-header>
-  <v-stepper-step :complete="step > 1" step="1" editable>
-    <v-icon left class="mr-2">mdi-cart</v-icon>
-    Panier
-  </v-stepper-step>
+  <v-container class="checkout-page page-shell">
+    <header class="page-heading checkout-heading">
+      <p class="page-kicker">{{ $t('basket') }}</p>
+      <h1 class="page-title">Finaliser votre commande</h1>
+      <p class="page-intro">Quelques étapes simples pour recevoir vos livres.</p>
+    </header>
+    <v-stepper
+      v-model="step"
+      class="checkout-stepper"
+      :items="stepItems"
+      hide-actions
+    >
+      <template #item="{ value }">
+        <div v-if="value === 1" class="step-content">
+          <BasketPage />
+          <v-btn class="checkout-action" color="primary" @click="nextStep">Suivant</v-btn>
+        </div>
 
-  <v-divider></v-divider>
+        <div v-else-if="value === 2" class="step-content">
+          <AddressForm @next="handleAddressSubmit" @back="prevStep" />
+        </div>
 
-  <v-stepper-step :complete="step > 2" step="2" editable>
-    <v-icon left class="mr-2">mdi-home-map-marker</v-icon>
-    Adresse
-  </v-stepper-step>
-
-  <v-divider></v-divider>
-
-  <v-stepper-step step="3">
-    <v-icon left class="mr-2">mdi-credit-card-outline</v-icon>
-    Paiement
-  </v-stepper-step>
-</v-stepper-header>
-      <v-stepper-items>
-        <!-- ÉTAPE 1 -->
-        <v-stepper-content step="1" v-if="step === 1">
-          <BasketPage @next="nextStep"></BasketPage>
-          <v-btn @click="nextStep" color="primary">Suivant</v-btn>
-        </v-stepper-content>
-
-        <!-- ÉTAPE 2 -->
-        <v-stepper-content step="2" v-if="step === 2">
-          <AddressForm @next="handleAddressSubmit" @back="prevStep"></AddressForm>
-        </v-stepper-content>
-
-        <!-- ÉTAPE 3 -->
-        <v-stepper-content step="3" v-if="step === 3">
+        <div v-else class="step-content">
           <StripeCardForm
-            v-if="step === 3 && stripe && elements && clientSecret"
+            v-if="stripe && elements && clientSecret"
             :stripe="stripe"
             :elements="elements"
-            :clientSecret="clientSecret"
+            :client-secret="clientSecret"
           />
-          <v-btn @click="prevStep" color="primary">Retour</v-btn>
-          <div v-if="paymentError" class="error red--text mt-2">{{ paymentError }}</div>
-        </v-stepper-content>
-      </v-stepper-items>
+          <v-btn class="checkout-action checkout-action--secondary" color="primary" variant="text" @click="prevStep">
+            Retour
+          </v-btn>
+          <div v-if="paymentError" class="error mt-2" role="alert">{{ paymentError }}</div>
+        </div>
+      </template>
     </v-stepper>
   </v-container>
 </template>
@@ -65,6 +54,11 @@ export default {
   data() {
     return {
       step: 1,
+      stepItems: [
+        { title: 'Panier', value: 1, props: { editable: true } },
+        { title: 'Adresse', value: 2, props: { editable: true } },
+        { title: 'Paiement', value: 3 }
+      ],
       stripe: null,
       elements: null,
       cardElement: null,
@@ -138,7 +132,60 @@ export default {
 </script>
 
 <style scoped>
+.checkout-page {
+  min-height: 70vh;
+}
+
+.checkout-heading {
+  margin-bottom: 2rem;
+}
+
+.checkout-stepper {
+  max-width: 1000px;
+  margin: 0 auto;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-soft);
+}
+
+.step-content {
+  padding: clamp(0.75rem, 3vw, 2rem);
+}
+
+.checkout-action {
+  min-height: 46px;
+  margin: 0.5rem;
+  padding-inline: 1.3rem;
+  border-radius: 999px;
+}
+
+.checkout-action--secondary {
+  color: var(--color-plum) !important;
+}
+
 .error {
-  color: red;
+  color: #a64050;
+}
+
+@media (max-width: 480px) {
+  .checkout-stepper :deep(.v-stepper-header) {
+    padding-inline: 0.35rem;
+  }
+
+  .checkout-stepper :deep(.v-stepper-item) {
+    min-width: 0;
+    padding: 0.5rem 0.3rem;
+  }
+
+  .checkout-stepper :deep(.v-stepper-item__title) {
+    font-size: 0.68rem;
+    white-space: nowrap;
+  }
+
+  .checkout-stepper :deep(.v-divider) {
+    margin-inline: 0.2rem;
+  }
 }
 </style>

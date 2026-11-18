@@ -1,13 +1,15 @@
 <template>
-  <v-container fluid class="d-flex justify-center align-center fill-height">
+  <v-container fluid class="contact-page page-shell d-flex justify-center align-center">
     
-    <v-card class="contact-card card-postcard" elevation="10">
+    <v-card class="contact-card card-postcard" elevation="0">
       
       <div class="postcard-header">
-        <v-card-title class="headline font-weight-regular justify-center text-secondary text-center">
-          💌 Écrivez-moi
+        <p class="page-kicker">{{ $t('contact') }}</p>
+        <v-card-title class="contact-title justify-center text-center">
+          <v-icon class="mr-2">mdi-email-heart-outline</v-icon>
+          Écrivez-moi
         </v-card-title>
-        <v-card-subtitle class="text-center pb-4 text-primary">
+        <v-card-subtitle class="text-center pb-4 contact-subtitle">
           Formulaire de contact
         </v-card-subtitle>
       </div>
@@ -20,10 +22,10 @@
           <v-text-field
             v-model="name"
             label="Nom complet"
-            outlined
-            dense
+            variant="outlined"
+            density="comfortable"
             required
-            color="deep-purple accent-4"
+            color="primary"
             prepend-inner-icon="mdi-account"
             class="mb-3"
           ></v-text-field>
@@ -31,11 +33,11 @@
           <v-text-field
             v-model="email"
             label="Adresse Email (Pour vous répondre)"
-            outlined
-            dense
+            variant="outlined"
+            density="comfortable"
             required
             type="email"
-            color="deep-purple accent-4"
+            color="primary"
             prepend-inner-icon="mdi-email"
             class="mb-3"
           ></v-text-field>
@@ -43,10 +45,10 @@
           <v-textarea
             v-model="message"
             label="Votre message..."
-            outlined
+            variant="outlined"
             rows="5"
             required
-            color="deep-purple accent-4"
+            color="primary"
             prepend-inner-icon="mdi-pencil-box-multiple"
             class="mb-6"
           ></v-textarea>
@@ -55,8 +57,8 @@
             type="submit"
             block
             large
-            color="deep-purple accent-4"
-            class="white--text font-weight-bold elevation-4 postcard-button"
+            color="primary"
+            class="postcard-button"
             :disabled="!name || !email || !message"
           >
             <v-icon left>mdi-send</v-icon>
@@ -104,60 +106,53 @@ export default {
 </script>
 
 <style scoped>
-/* Conteneur principal de la carte */
+.contact-page {
+min-height: 70vh;
+}
+
 .contact-card {
   max-width: 600px;
   width: 90%;
-  /* Conserver le flou pour l'intégration au background */
-  backdrop-filter: blur(8px); 
-  /* Utiliser un blanc cassé pour l'effet "papier" */
-  background-color: rgba(255, 255, 255, 0.95);
-  border-radius: 12px;
-  padding: 1.5rem 2rem;
-  /* Ombre plus prononcée pour l'effet 3D de la carte */
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25), 0 6px 6px rgba(0, 0, 0, 0.2);
+padding: clamp(1.25rem, 4vw, 2.5rem);
+border: 1px solid var(--color-border);
+border-radius: var(--radius-card);
+background: var(--color-surface);
+box-shadow: var(--shadow-soft);
 }
 
-/* Style Carte Postale */
 .card-postcard {
-  /* Bordure dentelée ou stylisée (simple ici car CSS limité dans les frameworks) */
-  /* Nous utilisons une double bordure ou un décalage pour un effet "cadre" */
-  border: 3px solid #E6E6FA; /* Lavande très clair */
-  box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.4); /* Bordure intérieure blanche transparente */
+border-top: 4px solid var(--color-lavender-deep);
 }
 
-/* Style de l'en-tête */
 .postcard-header {
-  border-bottom: 2px dashed #9370DB; /* Trait violet pointillé pour séparer l'adresse/message */
-  padding-bottom: 10px;
-  margin-bottom: 10px;
+margin-bottom: 1rem;
+padding-bottom: 0.75rem;
+border-bottom: 1px solid var(--color-border);
 }
 
-/* Ligne de séparation dans le corps */
-.divider-style {
-  background-color: #9370DB !important; /* Couleur Lavande */
-  border-color: #9370DB !important;
-  opacity: 0.5;
+.postcard-header .page-kicker {
+margin-top: 0.5rem;
+text-align: center;
 }
 
-/* Titre stylisé */
-.text-primary {
-  color: #7B68EE !important; /* Couleur Violet foncé */
+.contact-title {
+color: var(--color-plum-dark);
+font-family: var(--font-display);
+font-size: clamp(2.2rem, 5vw, 3rem);
+font-weight: 600;
 }
 
-.text-secondary {
-    color: #483D8B !important; /* Couleur Violet très foncé */
+.contact-subtitle {
+color: var(--color-muted);
 }
 
-/* Bouton stylisé */
 .postcard-button {
-  letter-spacing: 1px;
-  text-transform: uppercase;
+min-height: 50px;
+border-radius: 999px;
+font-weight: 700;
 }
 
-/* Améliorations sur les champs de texte pour le look épuré */
-.v-text-field--outlined >>> fieldset,
-.v-textarea--outlined >>> fieldset {
-  border-color: #DDA0DD !important; /* Bordures des champs plus douces (Prune) */
+:deep(.v-field--variant-outlined .v-field__outline) {
+color: var(--color-lavender-deep);
 }
 </style>

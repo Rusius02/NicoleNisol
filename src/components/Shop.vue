@@ -1,37 +1,46 @@
 <template>
-  <div class="shop-wrapper">
-    <div v-if="loading" class="loading-state">
-      <p>Chargement des livres de Nicole...</p>
+  <section class="shop-page page-shell">
+    <header class="page-heading">
+      <p class="page-kicker">{{ $t('shop') }}</p>
+      <h1 class="page-title">La librairie de Nicole</h1>
+      <p class="page-intro">{{ $t('welcome.line5') }}</p>
+    </header>
+
+    <div v-if="loading" class="shop-state">
+      <v-progress-circular indeterminate color="primary" />
+      <p>Chargement des livres...</p>
     </div>
 
-    <div v-else-if="error" class="error-state">
+    <div v-else-if="error" class="shop-state shop-state--error" role="alert">
+      <v-icon size="32">mdi-alert-circle-outline</v-icon>
       <p>{{ error }}</p>
     </div>
 
-    <div v-else-if="books.length === 0" class="empty-state">
-      <p>Aucun livre n’est disponible dans la collection Firestore « books ».</p>
+    <div v-else-if="books.length === 0" class="shop-state">
+      <v-icon size="32">mdi-book-open-page-variant-outline</v-icon>
+      <p>Aucun livre n’est disponible pour le moment.</p>
     </div>
 
-    <div v-else class="book-container">
+    <div v-else class="book-grid">
       <BookItem
         v-for="(book, index) in books"
         :key="book.id || index"
-        :title="book.title || book.name" 
+        :title="book.title || book.name"
         :description="book.description"
-        :coverImagePath="book.coverImageUrl || book.coverImagePath"
+        :cover-image-path="book.coverImageUrl || book.coverImagePath"
         :price="book.price"
-        :linkBuy="book.link_buy"
-        :priceIDFromStripe="book.stripePriceId || book.stripeProductId"
-        :isLeftAligned="index % 2 === 0"
+        :link-buy="book.link_buy"
+        :price-i-d-from-stripe="book.stripePriceId || book.stripeProductId"
+        :is-left-aligned="index % 2 === 0"
       />
     </div>
-  </div>
+  </section>
 </template>
 
 <script>
 export default {
   name: 'ShopView'
-}
+};
 </script>
 
 <script setup>
@@ -39,15 +48,12 @@ import { ref, onMounted } from 'vue';
 import BookItem from './BookItem.vue';
 import { bookService } from '@/services/bookService';
 
-// Déclaration de nos états réactifs
 const books = ref([]);
 const loading = ref(true);
 const error = ref(null);
 
-// Cycle de vie : Exécution de l'appel API dès que le composant est monté
 onMounted(async () => {
   try {
-    loading.value = true;
     books.value = await bookService.getAll();
   } catch (err) {
     console.error('Erreur lors de la récupération des livres:', err);
@@ -61,39 +67,31 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.shop-wrapper {
-  width: 100%;
-  padding: 20px 0;
+.shop-page {
+  min-height: 70vh;
 }
 
-.book-container {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-around;
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: clamp(1rem, 2.5vw, 1.75rem);
 }
 
-.loading-state, .error-state {
+.shop-state {
+  display: grid;
+  min-height: 260px;
+  place-content: center;
+  justify-items: center;
+  gap: 0.75rem;
+  color: var(--color-muted);
   text-align: center;
-  padding: 40px;
-  font-size: 1.2rem;
 }
 
-.error-state {
-  color: #e74c3c;
+.shop-state p {
+  margin: 0;
 }
 
-/* Media query for computer screens */
-@media screen and (min-width: 768px) {
-  :deep(.book-item) {
-    width: 50%; /* Display two items per row */
-  }
-}
-
-/* Media query for mobile devices */
-@media screen and (max-width: 767px) {
-  :deep(.book-item) {
-    width: 100%; /* Display one item per row */
-  }
+.shop-state--error {
+  color: #9c3d4d;
 }
 </style>

@@ -1,16 +1,15 @@
 <!-- App.vue -->
 
 <template>
- <v-app>
-    <NavigationBar /> <!-- Votre composant NavigationBar -->
-    <div class="content">
-       <!-- Loading indicator -->
-    <div v-if="isLoading" class="loading-indicator">
-      <img src="@/assets/img/icons8-pen.gif" alt="Loading Animation">
-    </div>
-      <router-view /> 
-    </div>
-    <FooterApp /> <!-- Votre composant Footer -->
+ <v-app class="site-app">
+    <NavigationBar />
+    <main class="content">
+      <div v-if="isLoading" class="loading-indicator" role="status" aria-label="Chargement">
+        <img src="@/assets/img/icons8-pen.gif" alt="">
+      </div>
+      <router-view />
+    </main>
+    <FooterApp />
   </v-app>
 </template>
 
@@ -50,35 +49,28 @@ export default {
 </script>
 
 <style>
-/* Add your global styles here */
 .content {
-  padding-bottom: 80px; /* Adjust the value as needed */
-  /* Add background image */
-  background-image: url('./assets/img/backgroundLavande.jpeg');
-  /* Set background size and position */
-  background-size: cover;
-  background-position: center;
-  height: 100%;
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  background: var(--color-paper);
 }
-.content * {
-  /* Reset background for all child elements */
-  background: none; /* Remove background for all child elements */
-  /* Add other styles for child elements if needed */
-}
+
 .loading-indicator {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+  background-color: rgba(250, 248, 243, 0.84);
+  backdrop-filter: blur(5px);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 9999; /* Ensure it appears above other content */
+  z-index: 9999;
 }
 
 .loading-indicator img {
-  width: 100px; /* Adjust the size of the loading animation as needed */
+  width: 72px;
 }
 </style>

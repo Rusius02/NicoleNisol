@@ -28,6 +28,7 @@ import { createVuetify } from 'vuetify';
 import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
 import '@mdi/font/css/materialdesignicons.css'; 
+import './assets/styles/theme.css';
 
 authService.clearLegacySession();
 
@@ -79,6 +80,21 @@ app.use(i18n);
 const vuetify = createVuetify({
   components,
   directives,
+  theme: {
+    defaultTheme: 'nicoleLight',
+    themes: {
+      nicoleLight: {
+        dark: false,
+        colors: {
+          primary: '#684f70',
+          secondary: '#8b7890',
+          background: '#faf8f3',
+          surface: '#fffefa',
+          'on-surface': '#342d38'
+        }
+      }
+    }
+  },
   icons: {
     iconfont: 'mdiSvg', // Ensure you configure Vuetify to use MDI iconfont
   },

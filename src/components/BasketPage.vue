@@ -1,14 +1,17 @@
 <template>
-    <div>
-      <h1>Vérifiez vos articles</h1>
+    <div class="basket-summary">
+      <header class="page-heading">
+        <p class="page-kicker">{{ $t('basket') }}</p>
+        <h1 class="page-title">Vérifiez vos articles</h1>
+      </header>
       <v-container>
       <v-row>
         <v-col v-for="(item, title) in uniqueItems" :key="title" cols="12" md="6" lg="4">
-          <v-card class="book-card" :elevation="1">
+          <v-card class="book-card basket-book-card" elevation="0">
             <div class="card-content">
               <v-img class="book-image" :src="item.imageUrl" alt="Book Cover"></v-img>
               <div class="card-details">
-                <v-card-title style="font-family: 'Dancing Script', cursive;">
+                <v-card-title class="basket-book-title">
                   {{ title }} ({{ item.count }}x)
                 </v-card-title>
                 <v-card-text>
@@ -23,10 +26,10 @@
         </v-col>
       </v-row>
     </v-container>
-    <v-divider></v-divider>
+    <v-divider class="basket-divider"></v-divider>
     <div class="total-price">
-      <v-card>
-        <v-card-title>Total Price: {{ totalPrice }}€</v-card-title>
+      <v-card class="basket-total-card" elevation="0">
+        <v-card-title>Total : {{ totalPrice }} €</v-card-title>
       </v-card>
     </div>
     </div>
@@ -67,26 +70,80 @@
   </script>
   
 <style scoped>
-.card-container {
-  padding-top: 1%;
+.basket-summary {
+  min-height: 60vh;
+  padding: 1rem 0 4rem;
 }
+
 .book-card {
-  width: 100%;
-  margin-bottom: 20px;
+  height: 100%;
+  margin-bottom: 1.25rem;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  box-shadow: 0 8px 26px rgba(58, 42, 63, 0.04);
 }
+
 .card-content {
   display: flex;
+  height: 100%;
 }
+
 .book-image {
-  width: 150px; /* Adjust as needed */
-  height: 250px; /* Maintain aspect ratio */
+  width: 140px;
+  min-width: 140px;
+  height: 210px;
+  margin: 1rem;
+  border-radius: 12px;
+  background: var(--color-lavender);
 }
+
 .card-details {
-  margin-left: 20px; /* Add space between image and details */
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1rem;
 }
+
+.basket-book-title {
+  color: var(--color-plum-dark);
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 600;
+  white-space: normal;
+}
+
+.basket-divider {
+  margin: 1.5rem auto;
+  border-color: var(--color-border);
+  max-width: 1120px;
+}
+
 .total-price {
-  margin-top: 20px;
-  text-align: right;
+  width: min(1120px, calc(100% - 40px));
+  margin: 0 auto;
+}
+
+.basket-total-card {
+  margin-left: auto;
+  border: 1px solid var(--color-border);
+  background: var(--color-lavender);
+  color: var(--color-plum-dark);
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+}
+
+@media (max-width: 540px) {
+  .card-content {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .book-image {
+    width: calc(100% - 2rem);
+    height: 220px;
+  }
 }
 </style>
   

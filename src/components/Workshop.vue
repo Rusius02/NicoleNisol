@@ -1,12 +1,17 @@
 <template>
-    <v-container>
+    <v-container class="workshop-page page-shell">
+      <header class="page-heading">
+        <p class="page-kicker">{{ $t('writing_workshops') }}</p>
+        <h1 class="page-title">{{ $t('writing_workshops') }}</h1>
+        <p class="page-intro">{{ $t('welcome.line4') }}</p>
+      </header>
       <v-row justify="center">
         <v-col cols="12" md="8">
           <!-- Message quand il n'y a pas d'ateliers -->
-          <v-alert v-if="errorMessage" type="error" border="left" elevation="2">
+          <v-alert v-if="errorMessage" type="error" border="start" elevation="2">
             {{ errorMessage }}
           </v-alert>
-          <v-alert v-else-if="workshops.length === 0" type="info" border="left" elevation="2">
+          <v-alert v-else-if="workshops.length === 0" type="info" border="start" elevation="2">
             Aucun atelier disponible pour le moment.
           </v-alert>
   
@@ -20,12 +25,10 @@
               md="4"
               class="workshop-item"
             >
-              <v-card outlined>
-                <v-col>
-              <v-img class="writing-pencil-image" :src="imageUrl" alt="Book Cover"></v-img>
-            </v-col>
-                <v-card-title style="white-space: normal; word-break: break-word">{{ workshop.name }}</v-card-title>
-                <v-card-subtitle>{{ workshop.startDate }} - {{ workshop.endDate }}</v-card-subtitle>
+              <v-card class="workshop-card" elevation="0">
+                <v-img class="writing-pencil-image" :src="imageUrl" alt="Illustration d’un atelier d’écriture" cover></v-img>
+                <v-card-title class="workshop-title">{{ workshop.name }}</v-card-title>
+                <v-card-subtitle class="workshop-dates">{{ workshop.startDate }} — {{ workshop.endDate }}</v-card-subtitle>
                 <v-card-text>{{ workshop.description }}</v-card-text>
   
                 <!-- Bouton "Participer" -->
@@ -33,6 +36,7 @@
                     <v-btn
                     color="primary"
                     block
+                    class="workshop-button"
                     @click="participate(workshop.name, workshop.startDate, workshop.endDate)"
                     >
                         Participer
@@ -106,7 +110,46 @@
   
   <style scoped>
   .workshop-item {
-    margin-bottom: 20px;
+    margin-bottom: 1.25rem;
+  }
+
+  .workshop-card {
+    height: 100%;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    box-shadow: 0 8px 26px rgba(58, 42, 63, 0.04);
+    transition: box-shadow 180ms ease, transform 180ms ease;
+  }
+
+  .workshop-card:hover {
+    box-shadow: var(--shadow-soft);
+    transform: translateY(-3px);
+  }
+
+  .writing-pencil-image {
+    height: 180px;
+    background: var(--color-lavender);
+  }
+
+  .workshop-title {
+    padding: 1.25rem 1.25rem 0.5rem;
+    color: var(--color-plum-dark);
+    font-family: var(--font-display);
+    font-size: 1.7rem;
+    font-weight: 600;
+    line-height: 1.1;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .workshop-dates {
+    color: var(--color-sage);
+    font-weight: 600;
+  }
+
+  .workshop-button {
+    border-radius: 999px;
   }
   </style>
   

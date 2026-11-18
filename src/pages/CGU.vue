@@ -1,7 +1,7 @@
 <template>
-  <v-container class="py-10">
-    <v-card class="pa-6" elevation="3">
-      <v-card-title class="text-h5 font-weight-bold">
+  <v-container class="terms-page page-shell">
+    <v-card class="terms-card pa-6" elevation="0">
+      <v-card-title class="terms-title">
         {{ $t('cgu.page_title') }}
       </v-card-title>
 
@@ -13,7 +13,7 @@
           {{ $t('cgu.intro_message') }}
         </p>
 
-        <v-expansion-panels multiple>
+        <v-expansion-panels class="terms-panels" multiple>
           <v-expansion-panel
             v-for="(article, index) in articles"
             :key="index"
@@ -88,5 +88,30 @@ export default {
 <style scoped>
 p {
   margin-bottom: 1em;
+}
+
+.terms-page {
+  max-width: 1040px;
+}
+
+.terms-card {
+  padding: clamp(1.25rem, 4vw, 3rem) !important;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-soft);
+}
+
+.terms-title {
+  color: var(--color-plum-dark);
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 600;
+  white-space: normal;
+}
+
+.terms-panels {
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
 }
 </style>

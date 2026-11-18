@@ -1,9 +1,9 @@
 <!-- StripeCardForm.vue -->
 <template>
-    <form @submit.prevent="submitPayment">
-      <div id="payment-element" class="my-4" />
-      <v-btn :loading="loading" color="primary" type="submit">Payer</v-btn>
-      <div v-if="errorMessage" class="error red--text mt-2">{{ errorMessage }}</div>
+    <form class="stripe-payment-form" @submit.prevent="submitPayment">
+      <div id="payment-element" class="payment-element my-4" />
+      <v-btn class="checkout-action" :loading="loading" color="primary" type="submit">Payer</v-btn>
+      <div v-if="errorMessage" class="error payment-error mt-2" role="alert">{{ errorMessage }}</div>
     </form>
   </template>
   
@@ -45,4 +45,22 @@
     }
   };
   </script>
+
+<style scoped>
+.stripe-payment-form {
+  max-width: 760px;
+  margin: 1rem auto;
+}
+
+.payment-element {
+  padding: 1.25rem;
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  background: #fff;
+}
+
+.payment-error {
+  color: #a64050;
+}
+</style>
   
