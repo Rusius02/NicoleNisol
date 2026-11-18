@@ -22,7 +22,11 @@ const COLLECTION = 'books';
 
 async function toBook(snapshot, storage) {
   const data = snapshot.data();
-  let coverImageUrl = data.coverImageUrl || data.coverImagePath || '';
+  let coverImageUrl = data.coverImageUrl
+    || data.coverImagePath
+    || data.CoverImageUrl
+    || data.CoverImagePath
+    || '';
 
   if (coverImageUrl && !/^https?:\/\//i.test(coverImageUrl) && !/^data:/i.test(coverImageUrl)) {
     try {
